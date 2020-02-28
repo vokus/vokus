@@ -1,7 +1,7 @@
 import EnvironmentVariableInterface from '../interface/environment-variable.interface';
 
 // TODO: optimize for types
-export default class EnvironmentVariableError extends Error {
+export class EnvironmentVariableError extends Error {
     constructor(environmentVariable: EnvironmentVariableInterface) {
         const parts = [`${environmentVariable.name} not set or not valid`];
         let example = environmentVariable.example;

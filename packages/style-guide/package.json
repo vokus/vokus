@@ -8,6 +8,7 @@
         "directory": "packages/style-guide"
     },
     "license": "MIT",
+    "main": "index.js",
     "publishConfig": {
         "access": "public"
     },

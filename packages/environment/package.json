@@ -1,20 +1,16 @@
 {
-    "name": "@vokus/core",
+    "name": "@vokus/environment",
     "version": "0.0.1",
-    "description": "@vokus/core",
+    "description": "@vokus/environment",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/core"
+        "directory": "packages/environment"
     },
     "license": "MIT",
     "main": "index.js",
     "dependencies": {
-        "@vokus/component": "0.0.1",
-        "dotenv": "8.2.0",
-        "express": "4.17.1",
-        "reflect-metadata": "0.1.13",
-        "typeorm": "0.2.22"
+        "dotenv": "8.2.0"
     },
     "publishConfig": {
         "access": "public"
