@@ -80,13 +80,10 @@ export default class ApplicationUtil {
         }
 
         for (const classParameter of classParameters) {
-            let instance = null;
-
-            if (isLogger && classParameter === String) {
-                instance = loggerParameters.shift();
-            } else {
-                instance = await this.createInstance(classParameter, resolvedTarget.name, resolvedType);
-            }
+            const instance =
+                isLogger && classParameter === String
+                    ? loggerParameters.shift()
+                    : await this.createInstance(classParameter, resolvedTarget.name, resolvedType);
 
             instancesToInject.push(instance);
         }

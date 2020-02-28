@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import EnvironmentVariableError from '../error/environment-variable.error';
-import FileSystem from '@vokus/component/file-system';
+import { FileSystem } from '@vokus/component';
 import EnvironmentVariableInterface from '../interface/environment-variable.interface';
 
 export default class EnvironmentUtil {
@@ -33,8 +33,12 @@ export default class EnvironmentUtil {
     }
 
     protected static _contextDotEnvLoaded: boolean = false;
-    protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
-    protected static _values: { [name: string]: string | number | boolean | undefined } = {};
+    protected static _variables: {
+        [name: string]: EnvironmentVariableInterface;
+    } = {};
+    protected static _values: {
+        [name: string]: string | number | boolean | undefined;
+    } = {};
 
     protected static _loadContextDotEnv(): void {
         const pathToContextDotEnv = this._values.NODE_ENV + '.env';
@@ -45,7 +49,9 @@ export default class EnvironmentUtil {
     }
 
     protected static _updateDotEnvFiles(): void {
-        const orderedVariables: { [name: string]: EnvironmentVariableInterface } = {};
+        const orderedVariables: {
+            [name: string]: EnvironmentVariableInterface;
+        } = {};
         Object.keys(this._variables)
             .sort()
             .forEach(key => {

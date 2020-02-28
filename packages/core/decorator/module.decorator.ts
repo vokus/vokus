@@ -1,4 +1,4 @@
-import ApplicationUtil from "../util/application.util";
+import ApplicationUtil from '../util/application.util';
 
 export default function ModuleDecorator(options?: { controllers?: any[]; services?: any[] }): ClassDecorator {
     return target => {

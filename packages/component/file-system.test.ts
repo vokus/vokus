@@ -1,114 +1,135 @@
-import FileSystem from './file-system';
+import { FileSystem } from './';
 import path from 'path';
 
-const pathToTest = path.join(process.cwd(), 'var/', 'test/');
-const testDir1 = 'file-system-1';
-const testDir2 = 'file-system-2';
-const pathToTestDir1 = path.join(pathToTest, testDir1, '/');
-const pathToTestDir2 = path.join(pathToTest, testDir2, '/');
-const testFile1 = 'test-file-1.txt';
-const testFile2 = 'test-file-2.txt';
-const pathToTestFile1 = path.join(pathToTestDir1, testFile1);
-const pathToTestFile2 = path.join(pathToTestDir2, testFile2);
-const testString = 'test-string';
+const pathToTestDir = path.join(__dirname, 'test');
 
-test('file-system', async () => {
-    // isDirectory
-    expect(await FileSystem.isDirectory(pathToTestDir1)).toBe(false);
-    expect(FileSystem.isDirectorySync(pathToTestDir1)).toBe(false);
+beforeAll(async () => {
+    await FileSystem.remove(pathToTestDir);
+    await FileSystem.ensureDirectoryExists(pathToTestDir);
+    expect(await FileSystem.isDirectory(pathToTestDir)).toBe(true);
+});
 
-    // ensureDirExists
-    await FileSystem.ensureDirExists(pathToTestDir1);
-    FileSystem.ensureDirExistsSync(pathToTestDir2);
+afterAll(async () => {
+    await FileSystem.remove(pathToTestDir);
+    expect(await FileSystem.isDirectory(pathToTestDir)).toBe(false);
+});
 
-    // isDirectory
-    expect(await FileSystem.isDirectory(pathToTestDir1)).toBe(true);
-    expect(FileSystem.isDirectorySync(pathToTestDir2)).toBe(true);
+test('appendFile', async () => {
+    const testPath = path.join(pathToTestDir, 'append-file');
 
-    // ensureFileExists
-    await FileSystem.ensureFileExists(pathToTestFile2);
+    await FileSystem.appendFile(testPath, 'append-file');
+    expect(await FileSystem.readFile(testPath)).toBe('append-file');
+    await FileSystem.appendFile(testPath, '-append-file');
+    expect(await FileSystem.readFile(testPath)).toBe('append-file-append-file');
+});
 
-    // symlink file
-    await FileSystem.symlink(
-        path.join('../', testDir2, testFile2),
-        pathToTestFile1,
-    );
+test('ensureDirectoryExists', async () => {
+    const testPath = path.join(pathToTestDir, 'ensure-directory-exists');
 
-    // isSymlink
-    expect(await FileSystem.isSymlink(pathToTestDir1)).toBe(false);
-    expect(FileSystem.isSymlinkSync(pathToTestDir1)).toBe(false);
-    expect(await FileSystem.isSymlink(pathToTestFile1)).toBe(true);
-    expect(FileSystem.isSymlinkSync(pathToTestFile1)).toBe(true);
-    expect(await FileSystem.isSymlink(pathToTestFile2)).toBe(false);
-    expect(FileSystem.isSymlinkSync(pathToTestFile2)).toBe(false);
+    await FileSystem.ensureDirectoryExists(testPath);
+    expect(await FileSystem.isDirectory(testPath)).toBe(true);
+});
 
-    // remove
-    await FileSystem.remove(pathToTestDir1);
-    FileSystem.removeSync(pathToTestDir2);
-    FileSystem.removeSync(pathToTestDir2);
+test('ensureFileExists', async () => {
+    const testPath = path.join(pathToTestDir, 'ensure-file-exists.txt');
 
-    // ensureDirExists
-    await FileSystem.ensureDirExists(pathToTestDir2);
+    await FileSystem.ensureFileExists(testPath);
+    expect(await FileSystem.isFile(testPath)).toBe(true);
+});
 
-    // symlink dir
-    await FileSystem.symlink(pathToTestDir2, path.join(pathToTest, testDir1));
+test('isDirectory', async () => {
+    const testPath = path.join(pathToTestDir, 'is-directory');
 
-    // isSymlink to dir
-    expect(await FileSystem.isSymlinkToDirectory(pathToTestDir2)).toBe(false);
-    expect(
-        await FileSystem.isSymlinkToDirectory(path.join(pathToTest, testDir1)),
-    ).toBe(true);
-    expect(await FileSystem.isSymlinkToDirectory(pathToTestFile1)).toBe(false);
+    expect(await FileSystem.isDirectory(testPath)).toBe(false);
+    await FileSystem.ensureDirectoryExists(testPath);
+    expect(await FileSystem.isDirectory(testPath)).toBe(true);
+});
 
-    // remove pathToVar
-    await FileSystem.remove(pathToTest);
+test('isFile', async () => {
+    const testPath = path.join(pathToTestDir, 'is-file');
 
-    // ensureDirExists
-    await FileSystem.ensureDirExists(pathToTestDir1);
-    await FileSystem.ensureDirExists(pathToTestDir2);
+    expect(await FileSystem.isFile(testPath)).toBe(false);
+    await FileSystem.ensureFileExists(testPath);
+    expect(await FileSystem.isFile(testPath)).toBe(true);
+});
 
-    // ensureFileExistsSync
-    FileSystem.ensureFileExistsSync(pathToTestFile1);
+test('isSymlink', async () => {
+    const sourcePath = path.join(pathToTestDir, 'is-symlink-source.txt');
+    const symlinkPath = path.join(pathToTestDir, 'is-symlink-target.txt');
 
-    // isFile
-    expect(await FileSystem.isFile(pathToTestFile1)).toBe(true);
-    expect(FileSystem.isFileSync(pathToTestFile1)).toBe(true);
+    await FileSystem.ensureFileExists(sourcePath);
 
-    // remove
-    await FileSystem.remove(pathToTestFile1);
+    expect(await FileSystem.isSymlink(sourcePath)).toBe(false);
+    expect(await FileSystem.isSymlink(symlinkPath)).toBe(false);
+    await FileSystem.symlink(sourcePath, symlinkPath);
+    expect(await FileSystem.isSymlink(symlinkPath)).toBe(true);
+});
 
-    // isFile
-    expect(await FileSystem.isFile(pathToTestFile1)).toBe(false);
-    expect(FileSystem.isFileSync(pathToTestFile1)).toBe(false);
+test('isSymlinkToDirectory', async () => {
+    const sourcePath = path.join(pathToTestDir, 'is-symlink-to-directory-source');
+    const symlinkPath = path.join(pathToTestDir, 'is-symlink-to-directory-target.txt');
 
-    // ensureFileExists
-    await FileSystem.ensureFileExists(pathToTestFile1);
+    await FileSystem.ensureDirectoryExists(sourcePath);
 
-    // appendFile
-    await FileSystem.appendFile(pathToTestFile1, testString);
+    expect(await FileSystem.isSymlinkToDirectory(symlinkPath)).toBe(false);
+    await FileSystem.symlink(sourcePath, symlinkPath);
+    expect(await FileSystem.isSymlinkToDirectory(symlinkPath)).toBe(true);
+});
 
-    // readFile
-    expect(await FileSystem.readFile(pathToTestFile1)).toBe(testString);
-    expect(FileSystem.readFileSync(pathToTestFile1)).toBe(testString);
+test('readDirectory', async () => {
+    const testPath = path.join(pathToTestDir, 'read-directory');
 
-    // rename
-    await FileSystem.rename(pathToTestFile1, pathToTestFile2);
+    await FileSystem.ensureDirectoryExists(testPath);
 
-    // isFile
-    expect(await FileSystem.isFile(pathToTestFile1)).toBe(false);
-    expect(FileSystem.isFileSync(pathToTestFile1)).toBe(false);
-    expect(await FileSystem.isFile(pathToTestFile2)).toBe(true);
-    expect(FileSystem.isFileSync(pathToTestFile2)).toBe(true);
+    for (const i of ['1', 'test', 'abc']) {
+        await FileSystem.ensureFileExists(path.join(testPath, i));
+    }
 
-    // readDir
-    expect((await FileSystem.readDirectory(pathToTestDir1)).length).toBe(0);
-    expect((await FileSystem.readDirectory(pathToTestDir2)).length).toBe(1);
+    expect(await FileSystem.readDirectory(testPath)).toContain('1');
+    expect(await FileSystem.readDirectory(testPath)).toContain('test');
+    expect(await FileSystem.readDirectory(testPath)).toContain('abc');
+});
 
-    // remove pathToVar
-    await FileSystem.remove(pathToTest);
-    await FileSystem.remove(pathToTest);
+test('readFile', async () => {
+    const testPath = path.join(pathToTestDir, 'read-file');
 
-    // isSymlink on not existing dir
-    expect(await FileSystem.isSymlink(pathToTest)).toBe(false);
-    expect(FileSystem.isSymlinkSync(pathToTest)).toBe(false);
+    await FileSystem.writeFile(testPath, 'read-file');
+    expect(await FileSystem.readFile(testPath)).toBe('read-file');
+});
+
+test('remove', async () => {
+    const testPath = path.join(pathToTestDir, 'remove');
+
+    await FileSystem.ensureFileExists(testPath);
+    expect(await FileSystem.isFile(testPath)).toBe(true);
+    await FileSystem.remove(testPath);
+    expect(await FileSystem.isFile(testPath)).toBe(false);
+});
+
+
+test('rename', async () => {
+    const sourcePath = path.join(pathToTestDir, 'rename-source.txt');
+    const targetPath = path.join(pathToTestDir, 'rename-target.txt');
+
+    await FileSystem.ensureFileExists(sourcePath);
+    await FileSystem.rename(sourcePath, targetPath);
+
+    expect(await FileSystem.isFile(targetPath)).toBe(true);
+});
+
+test('symlink', async () => {
+    const sourcePath = path.join(pathToTestDir, 'symlink-source.txt');
+    const symlinkPath = path.join(pathToTestDir, 'symlink-target.txt');
+
+    await FileSystem.ensureFileExists(sourcePath);
+
+    await FileSystem.symlink(sourcePath, symlinkPath);
+    expect(await FileSystem.isSymlink(symlinkPath)).toBe(true);
+});
+
+test('writeFile', async () => {
+    const testPath = path.join(pathToTestDir, 'write-file');
+
+    await FileSystem.writeFile(testPath, 'write-file');
+    expect(await FileSystem.readFile(testPath)).toBe('write-file');
 });

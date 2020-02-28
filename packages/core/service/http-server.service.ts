@@ -26,7 +26,7 @@ export default class HTTPServerService {
     }
 
     public async start(): Promise<boolean> {
-        return await this.listen(this._serverConfig.port);
+        return this.listen(this._serverConfig.port);
     }
 
     public async stop(): Promise<boolean> {
@@ -79,7 +79,7 @@ export default class HTTPServerService {
             });
         } catch (err) {
             await this._logger.warning(`cannot listen on port ${port} - try to start server on port ${port + 1}`);
-            return await this.listen(port + 1);
+            return this.listen(port + 1);
         }
 
         return true;

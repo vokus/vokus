@@ -3,7 +3,7 @@ import StringUtil from '../util/string.util';
 import LogEntity from '../entity/log.entity';
 import ApplicationConfig from '../config/application.config';
 import * as nodePath from 'path';
-import FileSystem from '@vokus/component/file-system';
+import { FileSystem } from '@vokus/component';
 
 @ServiceDecorator()
 export default class LoggerService {
@@ -77,7 +77,13 @@ export default class LoggerService {
 
     protected async _writeLog(log: LogEntity) {
         const logFilePaths = [
-            nodePath.join(this._applicationConfig.rootPath, 'var', this._applicationConfig.context, 'log', log.level + '.log'),
+            nodePath.join(
+                this._applicationConfig.rootPath,
+                'var',
+                this._applicationConfig.context,
+                'log',
+                log.level + '.log',
+            ),
             nodePath.join(
                 this._applicationConfig.rootPath,
                 'var',

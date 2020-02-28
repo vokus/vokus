@@ -27,10 +27,10 @@ export default class CoreModule implements ModuleInterface {
             return true;
         }*/
 
-        return await this.httpServer.start();
+        return this.httpServer.start();
     }
 
     public async stop(): Promise<boolean> {
-        return await this.httpServer.stop();
+        return this.httpServer.stop();
     }
 }

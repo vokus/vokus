@@ -23,6 +23,7 @@ class UpdateAndCleanPackages {
             packageJson.name = '@vokus/' + name;
             packageJson.description = '@vokus/' + name;
             packageJson.license = 'MIT';
+            packageJson.main = 'index.js';
             packageJson.publishConfig = {
                 access: 'public',
             };
