@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "sourceMap": false,
+        "target": "es2019",
+        "module": "commonjs",
+        "declaration": true,
+        "strict": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictPropertyInitialization": false,
+        "esModuleInterop": true
+    },
+    "include": ["packages/**/*"],
+    "exclude": ["node_modules", "**/*.test.ts"]
+}
