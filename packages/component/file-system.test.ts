@@ -106,7 +106,6 @@ test('remove', async () => {
     expect(await FileSystem.isFile(testPath)).toBe(false);
 });
 
-
 test('rename', async () => {
     const sourcePath = path.join(pathToTestDir, 'rename-source.txt');
     const targetPath = path.join(pathToTestDir, 'rename-target.txt');
