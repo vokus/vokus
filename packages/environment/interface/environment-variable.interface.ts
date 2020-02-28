@@ -1,4 +1,4 @@
-export interface IEnvironmentVariable {
+export interface EnvironmentVariableInterface {
     name: string;
     example: string | number | boolean;
     required?: boolean;

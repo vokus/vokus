@@ -33,12 +33,8 @@ export class EnvironmentComponent {
     }
 
     protected static _contextDotEnvLoaded: boolean = false;
-    protected static _variables: {
-        [name: string]: EnvironmentVariableInterface;
-    } = {};
-    protected static _values: {
-        [name: string]: string | number | boolean | undefined;
-    } = {};
+    protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
+    protected static _values: { [name: string]: string | number | boolean | undefined } = {};
 
     protected static _loadContextDotEnv(): void {
         const pathToContextDotEnv = this._values.NODE_ENV + '.env';
