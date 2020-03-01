@@ -24,6 +24,15 @@ describe('FileSystem', () => {
         expect(await FileSystem.readFile(testPath)).toBe('append-file-append-file');
     });
 
+    test('appendFileSync', () => {
+        const testPath = path.join(pathToTestDir, 'append-file-sync');
+
+        FileSystem.appendFileSync(testPath, 'append-file-sync');
+        expect(FileSystem.readFileSync(testPath)).toBe('append-file-sync');
+        FileSystem.appendFileSync(testPath, '-append-file-sync');
+        expect(FileSystem.readFileSync(testPath)).toBe('append-file-sync-append-file-sync');
+    });
+
     test('ensureDirectoryExists', async () => {
         const testPath = path.join(pathToTestDir, 'ensure-directory-exists');
 
@@ -31,11 +40,25 @@ describe('FileSystem', () => {
         expect(await FileSystem.isDirectory(testPath)).toBe(true);
     });
 
+    test('ensureDirectoryExistsSync', () => {
+        const testPath = path.join(pathToTestDir, 'ensure-directory-exists-sync');
+
+        FileSystem.ensureDirectoryExistsSync(testPath);
+        expect(FileSystem.isDirectorySync(testPath)).toBe(true);
+    });
+
     test('ensureFileExists', async () => {
         const testPath = path.join(pathToTestDir, 'ensure-file-exists.txt');
 
         await FileSystem.ensureFileExists(testPath);
         expect(await FileSystem.isFile(testPath)).toBe(true);
+    });
+
+    test('ensureFileExistsSync', () => {
+        const testPath = path.join(pathToTestDir, 'ensure-file-exists-sync.txt');
+
+        FileSystem.ensureFileExistsSync(testPath);
+        expect(FileSystem.isFileSync(testPath)).toBe(true);
     });
 
     test('isDirectory', async () => {
@@ -46,12 +69,28 @@ describe('FileSystem', () => {
         expect(await FileSystem.isDirectory(testPath)).toBe(true);
     });
 
+    test('isDirectorySnc', () => {
+        const testPath = path.join(pathToTestDir, 'is-directory-sync');
+
+        expect(FileSystem.isDirectorySync(testPath)).toBe(false);
+        FileSystem.ensureDirectoryExistsSync(testPath);
+        expect(FileSystem.isDirectorySync(testPath)).toBe(true);
+    });
+
     test('isFile', async () => {
         const testPath = path.join(pathToTestDir, 'is-file');
 
         expect(await FileSystem.isFile(testPath)).toBe(false);
         await FileSystem.ensureFileExists(testPath);
         expect(await FileSystem.isFile(testPath)).toBe(true);
+    });
+
+    test('isFileSync', () => {
+        const testPath = path.join(pathToTestDir, 'is-file-sync');
+
+        expect(FileSystem.isFileSync(testPath)).toBe(false);
+        FileSystem.ensureFileExistsSync(testPath);
+        expect(FileSystem.isFileSync(testPath)).toBe(true);
     });
 
     test('isSymlink', async () => {
@@ -64,6 +103,18 @@ describe('FileSystem', () => {
         expect(await FileSystem.isSymlink(symlinkPath)).toBe(false);
         await FileSystem.symlink(sourcePath, symlinkPath);
         expect(await FileSystem.isSymlink(symlinkPath)).toBe(true);
+    });
+
+    test('isSymlinkSync', () => {
+        const sourcePath = path.join(pathToTestDir, 'is-symlink-sync-source.txt');
+        const symlinkPath = path.join(pathToTestDir, 'is-symlink-sync-target.txt');
+
+        FileSystem.ensureFileExistsSync(sourcePath);
+
+        expect(FileSystem.isSymlinkSync(sourcePath)).toBe(false);
+        expect(FileSystem.isSymlinkSync(symlinkPath)).toBe(false);
+        FileSystem.symlinkSync(sourcePath, symlinkPath);
+        expect(FileSystem.isSymlinkSync(symlinkPath)).toBe(true);
     });
 
     test('isSymlinkToDirectory', async () => {
@@ -98,13 +149,39 @@ describe('FileSystem', () => {
         expect(await FileSystem.readFile(testPath)).toBe('read-file');
     });
 
-    test('remove', async () => {
-        const testPath = path.join(pathToTestDir, 'remove');
+    test('readFileSync', () => {
+        const testPath = path.join(pathToTestDir, 'read-file-sync');
 
-        await FileSystem.ensureFileExists(testPath);
-        expect(await FileSystem.isFile(testPath)).toBe(true);
-        await FileSystem.remove(testPath);
-        expect(await FileSystem.isFile(testPath)).toBe(false);
+        FileSystem.writeFileSync(testPath, 'read-file-sync');
+        expect(FileSystem.readFileSync(testPath)).toBe('read-file-sync');
+    });
+
+    test('remove', async () => {
+        const testDirectory = path.join(pathToTestDir, 'remove');
+        const testFile = path.join(testDirectory, 'remove-sub/remove-test-file');
+        const testFileSymlink = path.join(testDirectory, 'remove-sub/remove-test-file-symlink');
+        const notExistingTestFile = '';
+
+        await FileSystem.ensureFileExists(testFile);
+        await FileSystem.symlink(testFile, testFileSymlink);
+        expect(await FileSystem.isFile(testFile)).toBe(true);
+        await FileSystem.remove(testDirectory);
+        await FileSystem.remove(notExistingTestFile);
+        expect(await FileSystem.isFile(testFile)).toBe(false);
+    });
+
+    test('removeSync', () => {
+        const testDirectory = path.join(pathToTestDir, 'remove-sync');
+        const testFile = path.join(testDirectory, 'remove-sub/remove-test-file');
+        const testFileSymlink = path.join(testDirectory, 'remove-sub/remove-test-file-symlink');
+        const notExistingTestFile = '';
+
+        FileSystem.ensureFileExistsSync(testFile);
+        FileSystem.symlinkSync(testFile, testFileSymlink);
+        expect(FileSystem.isFileSync(testFile)).toBe(true);
+        FileSystem.removeSync(testDirectory);
+        FileSystem.removeSync(notExistingTestFile);
+        expect(FileSystem.isFileSync(testFile)).toBe(false);
     });
 
     test('rename', async () => {
@@ -127,10 +204,27 @@ describe('FileSystem', () => {
         expect(await FileSystem.isSymlink(symlinkPath)).toBe(true);
     });
 
+    test('symlinkSync', () => {
+        const sourcePath = path.join(pathToTestDir, 'symlink-sync-source.txt');
+        const symlinkPath = path.join(pathToTestDir, 'symlink-sync-target.txt');
+
+        FileSystem.ensureFileExistsSync(sourcePath);
+
+        FileSystem.symlinkSync(sourcePath, symlinkPath);
+        expect(FileSystem.isSymlinkSync(symlinkPath)).toBe(true);
+    });
+
     test('writeFile', async () => {
         const testPath = path.join(pathToTestDir, 'write-file');
 
         await FileSystem.writeFile(testPath, 'write-file');
         expect(await FileSystem.readFile(testPath)).toBe('write-file');
+    });
+
+    test('writeFileSync', () => {
+        const testPath = path.join(pathToTestDir, 'write-file-sync');
+
+        FileSystem.writeFileSync(testPath, 'write-file-sync');
+        expect(FileSystem.readFileSync(testPath)).toBe('write-file-sync');
     });
 });

@@ -20,6 +20,8 @@ class Config {
 describe('EnvironmentComponent', () => {
     test('get', async () => {
         const config = new Config();
+
+        console.log(config.testString);
         expect(config.testString).toBe('string');
     });
 });

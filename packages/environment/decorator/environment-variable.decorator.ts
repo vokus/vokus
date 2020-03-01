@@ -3,6 +3,6 @@ import { EnvironmentVariableInterface } from '../interface/environment-variable.
 
 export function EnvironmentVariableDecorator(environmentVariable: EnvironmentVariableInterface): any {
     return (target: any, propertyKey: any) => {
-        target[propertyKey] = await EnvironmentComponent.getValue(environmentVariable);
+        target[propertyKey] = EnvironmentComponent.getValue(environmentVariable);
     };
 }
