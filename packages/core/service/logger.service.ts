@@ -3,7 +3,7 @@ import StringUtil from '../util/string.util';
 import LogEntity from '../entity/log.entity';
 import ApplicationConfig from '../config/application.config';
 import * as nodePath from 'path';
-import { FileSystem } from '@vokus/component';
+import { FileSystem } from '@vokus/file-system';
 
 @ServiceDecorator()
 export default class LoggerService {

@@ -1,5 +1,5 @@
 import ConfigDecorator from '../decorator/config.decorator';
-import EnvironmentVariableDecorator from '../decorator/environment-variable.decorator';
+import EnvironmentVariableDecorator from '../../environment/decorator/environment-variable.decorator';
 
 @ConfigDecorator()
 export default class ServerConfig {

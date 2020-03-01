@@ -12,9 +12,9 @@ export class FileSystem {
 
     public static async ensureFileExists(path: string): Promise<void> {
         try {
-            return await nodeFs.promises.access(path, nodeFs.constants.R_OK);
-        } catch (err) {
-            this.ensureDirectoryExists(nodePath.dirname(path));
+            await nodeFs.promises.access(path, nodeFs.constants.R_OK);
+        } catch (e) {
+            await this.ensureDirectoryExists(nodePath.dirname(path));
         }
 
         return nodeFs.promises.appendFile(path, '');

@@ -1,10 +1,12 @@
 import dotenv from 'dotenv';
 import { EnvironmentVariableError } from '../error/environment-variable.error';
-import { FileSystem } from '..';
+import { FileSystem } from '@vokus/file-system';
 import { EnvironmentVariableInterface } from '../interface/environment-variable.interface';
 
 export class EnvironmentComponent {
-    public static getValue(environmentVariable: EnvironmentVariableInterface): string | number | boolean | undefined {
+    public static async getValue(
+        environmentVariable: EnvironmentVariableInterface,
+    ): Promise<string | number | boolean | undefined> {
         // check if value already set and return
         if (undefined !== this._values[environmentVariable.name]) {
             return this._values[environmentVariable.name];
@@ -19,35 +21,37 @@ export class EnvironmentComponent {
                 required: true,
             };
 
-            this._values.NODE_ENV = this.getValueFromEnv('NODE_ENV');
+            this._values.NODE_ENV = await this.getValueFromEnv('NODE_ENV');
         }
 
         // load context.env
         if (!this._contextDotEnvLoaded) {
-            this._loadContextDotEnv();
+            await this._loadContextDotEnv();
         }
 
         this._variables[environmentVariable.name] = environmentVariable;
+        this._values[environmentVariable.name] = await this.getValueFromEnv(environmentVariable.name);
 
-        return (this._values[environmentVariable.name] = this.getValueFromEnv(environmentVariable.name));
+        return this._values[environmentVariable.name];
     }
 
     protected static _contextDotEnvLoaded: boolean = false;
     protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
     protected static _values: { [name: string]: string | number | boolean | undefined } = {};
 
-    protected static _loadContextDotEnv(): void {
+    protected static async _loadContextDotEnv(): Promise<void> {
         const pathToContextDotEnv = this._values.NODE_ENV + '.env';
-        FileSystem.ensureFileExistsSync(pathToContextDotEnv);
+
+        console.log(FileSystem.ensureFileExists(pathToContextDotEnv));
+
+        await FileSystem.ensureFileExists(pathToContextDotEnv);
 
         dotenv.config({ path: pathToContextDotEnv });
         this._contextDotEnvLoaded = true;
     }
 
-    protected static _updateDotEnvFiles(): void {
-        const orderedVariables: {
-            [name: string]: EnvironmentVariableInterface;
-        } = {};
+    protected static async _updateDotEnvFiles(): Promise<void> {
+        const orderedVariables: { [name: string]: EnvironmentVariableInterface } = {};
         Object.keys(this._variables)
             .sort()
             .forEach(key => {
@@ -58,8 +62,8 @@ export class EnvironmentComponent {
 
         const pathToExampleDotEnv = 'example.env';
 
-        FileSystem.removeSync(pathToExampleDotEnv);
-        FileSystem.ensureFileExistsSync(pathToExampleDotEnv);
+        await FileSystem.remove(pathToExampleDotEnv);
+        await FileSystem.ensureFileExists(pathToExampleDotEnv);
 
         const data = [];
 
@@ -85,10 +89,10 @@ export class EnvironmentComponent {
             data.push(`${name}=${example}`);
         }
 
-        FileSystem.appendFileSync(pathToExampleDotEnv, data.join('\n'));
+        await FileSystem.appendFile(pathToExampleDotEnv, data.join('\n'));
     }
 
-    protected static getValueFromEnv(name: string): string | number | boolean | undefined {
+    protected static async getValueFromEnv(name: string): Promise<string | number | boolean | undefined> {
         const environmentVariable = this._variables[name];
         let value = process.env[name] as any;
 

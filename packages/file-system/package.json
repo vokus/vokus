@@ -1,11 +1,11 @@
 {
-    "name": "@vokus/filesystem",
+    "name": "@vokus/file-system",
     "version": "0.0.1",
-    "description": "@vokus/filesystem",
+    "description": "@vokus/file-system",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/filesystem"
+        "directory": "packages/file-system"
     },
     "license": "MIT",
     "main": "index.js",
