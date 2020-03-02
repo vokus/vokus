@@ -7,7 +7,7 @@ describe('EnvironmentVariableError', () => {
                 name: 'TEST_STRING',
                 example: 'string',
             });
-        }).toThrowError('TEST_STRING not set or not valid - example: string');
+        }).toThrowError("environment variable 'TEST_STRING' not valid - example: 'string'");
 
         expect(() => {
             throw new EnvironmentVariableError({
@@ -15,7 +15,7 @@ describe('EnvironmentVariableError', () => {
                 example: 'string',
                 required: true,
             });
-        }).toThrowError('TEST_STRING not set or not valid - example: string');
+        }).toThrowError("environment variable 'TEST_STRING' not valid - example: 'string'");
 
         expect(() => {
             throw new EnvironmentVariableError({
@@ -24,20 +24,22 @@ describe('EnvironmentVariableError', () => {
                 required: true,
                 allowedValues: ['test', 'abc', 'john doe'],
             });
-        }).toThrowError('TEST_STRING not set or not valid - example: test - allowed values: test | abc | john doe');
+        }).toThrowError(
+            "environment variable 'TEST_STRING' not valid - example: 'test' - allowed values: 'test | abc | john doe'",
+        );
 
         expect(() => {
             throw new EnvironmentVariableError({
                 name: 'TEST_NUMBER',
                 example: 10,
             });
-        }).toThrowError('TEST_NUMBER not set or not valid - example: 10');
+        }).toThrowError("environment variable 'TEST_NUMBER' not valid - example: '10'");
 
         expect(() => {
             throw new EnvironmentVariableError({
                 name: 'TEST_BOOLEAN',
                 example: true,
             });
-        }).toThrowError('TEST_BOOLEAN not set or not valid - example: 1');
+        }).toThrowError("environment variable 'TEST_BOOLEAN' not valid - example: '1'");
     });
 });

@@ -1,1 +1,1 @@
-export * from './component/file-system';
+export { FileSystem } from './component/file-system';

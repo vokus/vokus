@@ -1,13 +1,18 @@
 /* tslint:disable:max-classes-per-file */
 
-import { EnvironmentVariableDecorator } from '../decorator/environment-variable.decorator';
-import { EnvironmentComponent } from './environment.component';
-import { EnvironmentVariableInterface } from '../interface/environment-variable.interface';
+import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../';
+import { FileSystem } from '@vokus/file-system';
+import path from 'path';
 
-process.env.TEST_STRING = 'string';
+process.env.TEST_STRING_1 = 'string';
 process.env.TEST_STRING_2 = 'string 2';
-process.env.TEST_NUMBER = '20';
-process.env.TEST_NUMBER_2 = '-200';
+process.env.TEST_NUMBER_1 = '20';
+process.env.TEST_NUMBER_2 = '-300';
+process.env.TEST_BOOLEAN_1 = '1';
+process.env.TEST_BOOLEAN_2 = '0';
+process.env.TEST_ERROR_1 = '-300';
+process.env.TEST_ERROR_2 = 'abc';
+process.env.TEST_ERROR_4 = 'abc';
 
 const definitions: { [name: string]: EnvironmentVariableInterface } = {
     TEST_STRING_1: {
@@ -29,10 +34,31 @@ const definitions: { [name: string]: EnvironmentVariableInterface } = {
         example: -300,
         allowedValues: [-300, 10],
     },
+    TEST_BOOLEAN_1: {
+        name: 'TEST_BOOLEAN_1',
+        example: true,
+    },
+    TEST_BOOLEAN_2: {
+        name: 'TEST_BOOLEAN_2',
+        example: false,
+    },
     TEST_ERROR_1: {
-        name: 'TEST_ERROR',
+        name: 'TEST_ERROR_1',
         example: -200,
         allowedValues: [-300, 10],
+    },
+    TEST_ERROR_2: {
+        name: 'TEST_ERROR_2',
+        example: 'error',
+        allowedValues: ['error', 'test'],
+    },
+    TEST_ERROR_3: {
+        name: 'TEST_ERROR_3',
+        example: 'error 3',
+    },
+    TEST_ERROR_4: {
+        name: 'TEST_ERROR_4',
+        example: 10,
     },
 };
 
@@ -44,10 +70,16 @@ class Config {
     protected _testString2: string;
 
     @EnvironmentVariableDecorator(definitions.TEST_NUMBER_1)
-    protected _testNumber1: string;
+    protected _testNumber1: number;
 
     @EnvironmentVariableDecorator(definitions.TEST_NUMBER_2)
-    protected _testNumber2: string;
+    protected _testNumber2: number;
+
+    @EnvironmentVariableDecorator(definitions.TEST_BOOLEAN_1)
+    protected _testBoolean1: boolean;
+
+    @EnvironmentVariableDecorator(definitions.TEST_BOOLEAN_2)
+    protected _testBoolean2: boolean;
 
     public get testString1(): string {
         return this._testString1;
@@ -57,34 +89,61 @@ class Config {
         return this._testString2;
     }
 
-    public get testNumber1(): string {
+    public get testNumber1(): number {
         return this._testNumber1;
     }
 
-    public get testNumber2(): string {
+    public get testNumber2(): number {
         return this._testNumber2;
     }
-}
 
-class ConfigError {
-    @EnvironmentVariableDecorator(definitions.TEST_STRING)
-    protected _testString1: string;
+    public get testBoolean1(): boolean {
+        return this._testBoolean1;
+    }
 
-    public get testString1(): string {
-        return this._testString1;
+    public get testBoolean2(): boolean {
+        return this._testBoolean2;
     }
 }
 
 describe('EnvironmentComponent', () => {
-    test('get', async () => {
+    test('getValue', async () => {
         const config = new Config();
 
         expect(config.testString1).toBe('string');
         expect(config.testString2).toBe('string 2');
         expect(config.testNumber1).toBe(20);
-        expect(config.testNumber2).toBe(20);
+        expect(config.testNumber2).toBe(-300);
+        expect(config.testBoolean1).toBe(true);
+        expect(config.testBoolean2).toBe(false);
 
-        expect(EnvironmentComponent.getValue(definitions.TEST_STRING)).toBe('string');
-        expect(EnvironmentComponent.getValue(definitions.TEST_NUMBER)).toBe(20);
+        expect(EnvironmentComponent.getValue(definitions.TEST_STRING_1)).toBe('string');
+        expect(EnvironmentComponent.getValue(definitions.TEST_NUMBER_1)).toBe(20);
+
+        expect(() => {
+            EnvironmentComponent.getValue(definitions.TEST_ERROR_1);
+        }).toThrowError(
+            "environment variable 'TEST_ERROR_1' not valid - example: '-200' - allowed values: '-300 | 10'",
+        );
+
+        expect(() => {
+            EnvironmentComponent.getValue(definitions.TEST_ERROR_2);
+        }).toThrowError(
+            "environment variable 'TEST_ERROR_2' not valid - example: 'error' - allowed values: 'error | test'",
+        );
+
+        expect(() => {
+            EnvironmentComponent.getValue(definitions.TEST_ERROR_3);
+        }).toThrowError("environment variable 'TEST_ERROR_3' not valid - example: 'error 3'");
+
+        expect(() => {
+            EnvironmentComponent.getValue(definitions.TEST_ERROR_4);
+        }).toThrowError("environment variable 'TEST_ERROR_4' not valid - example: '10'");
+
+        expect(await FileSystem.readFile(path.join(EnvironmentComponent.getProjectPath(), 'example.env'))).toMatch(
+            /# required/,
+        );
+
+        expect(EnvironmentComponent.getPublicPath()).toMatch(/public/);
     });
 });

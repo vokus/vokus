@@ -1,5 +1,5 @@
-import cluster from 'cluster';
-import os from 'os';
+// import cluster from 'cluster';
+// import os from 'os';
 import ModuleDecorator from './decorator/module.decorator';
 import HTTPServerService from './service/http-server.service';
 import ModuleInterface from './interface/module.interface';

@@ -7,5 +7,6 @@
         "packages/**/*.d.ts": true
     },
     "npm.enableScriptExplorer": true,
-    "jestrunner.configPath": "jest-config-vscode.js"
+    "jestrunner.configPath": "jest-config-vscode.js",
+    "javascript.implicitProjectConfig.experimentalDecorators": true
 }

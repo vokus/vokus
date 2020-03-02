@@ -2,7 +2,7 @@ import { EnvironmentVariableInterface } from '../interface/environment-variable.
 
 export class EnvironmentVariableError extends Error {
     constructor(environmentVariable: EnvironmentVariableInterface) {
-        const messages = [`${environmentVariable.name} not set or not valid`];
+        const messages = [`environment variable '${environmentVariable.name}' not valid`];
         let example = environmentVariable.example;
         const allowedValues = environmentVariable.allowedValues;
 
@@ -10,10 +10,10 @@ export class EnvironmentVariableError extends Error {
             example = Number(example);
         }
 
-        messages.push(`example: ${example}`);
+        messages.push(`example: '${example}'`);
 
         if ('undefined' !== typeof allowedValues) {
-            messages.push(`allowed values: ${allowedValues.join(' | ')}`);
+            messages.push(`allowed values: '${allowedValues.join(' | ')}'`);
         }
 
         super(messages.join(' - '));

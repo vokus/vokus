@@ -1,9 +1,18 @@
 import dotenv from 'dotenv';
 import { EnvironmentVariableError } from '../error/environment-variable.error';
-import { FileSystem } from '@vokus/file-system';
 import { EnvironmentVariableInterface } from '../interface/environment-variable.interface';
+import { FileSystem } from '@vokus/file-system';
+import path from 'path';
 
 export class EnvironmentComponent {
+    public static getProjectPath(): string {
+        return process.cwd();
+    }
+
+    public static getPublicPath(): string {
+        return path.join(process.cwd(), 'public');
+    }
+
     public static getValue(environmentVariable: EnvironmentVariableInterface): string | number | boolean | undefined {
         // check if value already set and return
         if (undefined !== this._values[environmentVariable.name]) {
@@ -55,16 +64,8 @@ export class EnvironmentComponent {
             throw new EnvironmentVariableError(environmentVariable);
         }
 
-        if (
-            undefined !== environmentVariable.allowedValues &&
-            !environmentVariable.allowedValues.includes(environmentVariable.example as never)
-        ) {
-            this._updateDotEnvFiles();
-            throw new EnvironmentVariableError(environmentVariable);
-        }
-
         if ('string' === typeof environmentVariable.example) {
-            return value;
+            return this._checkEnvironmentVariable(environmentVariable, value);
         }
 
         value = Number(value);
@@ -76,10 +77,26 @@ export class EnvironmentComponent {
         }
 
         if ('number' === typeof environmentVariable.example) {
+            return this._checkEnvironmentVariable(environmentVariable, value);
+        }
+
+        return this._checkEnvironmentVariable(environmentVariable, Boolean(value));
+    }
+
+    protected static _checkEnvironmentVariable(
+        environmentVariable: EnvironmentVariableInterface,
+        value: string | number | boolean,
+    ): string | number | boolean {
+        if (
+            'object' !== typeof environmentVariable.allowedValues ||
+            (environmentVariable.allowedValues.includes(value as never) &&
+                environmentVariable.allowedValues.includes(environmentVariable.example as never))
+        ) {
             return value;
         }
 
-        return Boolean(value);
+        this._updateDotEnvFiles();
+        throw new EnvironmentVariableError(environmentVariable);
     }
 
     protected static _updateDotEnvFiles(): void {
@@ -114,6 +131,12 @@ export class EnvironmentComponent {
                 comments.push('required');
             } else {
                 comments.push('optional');
+            }
+
+            comments.push(`example: '${environmentVariable.example}'`);
+
+            if ('object' === typeof environmentVariable.allowedValues) {
+                comments.push(`allowed: '${environmentVariable.allowedValues.join(' | ')}'`);
             }
 
             data.push(`# ${comments.join(' - ')}`);

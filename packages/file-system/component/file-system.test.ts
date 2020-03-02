@@ -1,4 +1,4 @@
-import { FileSystem } from './file-system';
+import { FileSystem } from '../';
 import path from 'path';
 
 const pathToTestDir = path.join(__dirname, 'test');
