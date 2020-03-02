@@ -1,7 +1,11 @@
 module.exports = {
     bail: true,
     collectCoverage: true,
-    collectCoverageFrom: ['<rootDir>/packages/**/*.ts'],
+    collectCoverageFrom: [
+        //'<rootDir>/packages/**/*.ts'
+        '<rootDir>/packages/file-system/**/*.ts',
+        '<rootDir>/packages/environment/**/*.ts',
+    ],
     coverageReporters: ['text'],
     coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js'],
     coverageThreshold: {
@@ -13,7 +17,11 @@ module.exports = {
         },
     },
     errorOnDeprecated: true,
-    roots: ['<rootDir>/packages'],
+    roots: [
+        // '<rootDir>/packages',
+        '<rootDir>/packages/file-system',
+        '<rootDir>/packages/environment',
+    ],
     testEnvironment: 'node',
     moduleFileExtensions: ['ts', 'js'],
     transform: {

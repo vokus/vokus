@@ -11,24 +11,26 @@ export class EnvironmentComponent {
         }
 
         // register NODE_ENV if not exists
-        if (undefined === this._values.NODE_ENV) {
+        if (undefined === this._variables.NODE_ENV) {
             this._variables.NODE_ENV = {
                 name: 'NODE_ENV',
                 example: 'production',
-                allowedValues: ['production', 'staging', 'acceptance', 'test', 'development'],
+                allowedValues: ['production', 'acceptance', 'staging', 'test', 'development'],
                 required: true,
             };
 
-            this._values.NODE_ENV = this.getValueFromEnv('NODE_ENV');
+            this._values.NODE_ENV = this.getValueFromEnv(this._variables.NODE_ENV);
         }
 
         // load context.env
         if (!this._contextDotEnvLoaded) {
-            this._loadContextDotEnv();
+            this._loadContextSpecificDotEnv();
         }
 
         this._variables[environmentVariable.name] = environmentVariable;
-        this._values[environmentVariable.name] = this.getValueFromEnv(environmentVariable.name);
+        this._values[environmentVariable.name] = this.getValueFromEnv(environmentVariable);
+
+        this._updateDotEnvFiles();
 
         return this._values[environmentVariable.name];
     }
@@ -37,13 +39,47 @@ export class EnvironmentComponent {
     protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
     protected static _values: { [name: string]: string | number | boolean | undefined } = {};
 
-    protected static _loadContextDotEnv(): void {
-        const pathToContextDotEnv = this._values.NODE_ENV + '.env';
-
-        FileSystem.ensureFileExists(pathToContextDotEnv);
-
-        dotenv.config({ path: pathToContextDotEnv });
+    protected static _loadContextSpecificDotEnv(): void {
+        FileSystem.ensureFileExistsSync(this._values.NODE_ENV + '.env');
+        dotenv.config({ path: this._values.NODE_ENV + '.env' });
         this._contextDotEnvLoaded = true;
+    }
+
+    protected static getValueFromEnv(
+        environmentVariable: EnvironmentVariableInterface,
+    ): string | number | boolean | undefined {
+        let value = process.env[environmentVariable.name] as any;
+
+        if ('string' !== typeof value || 0 === value.length) {
+            this._updateDotEnvFiles();
+            throw new EnvironmentVariableError(environmentVariable);
+        }
+
+        if (
+            undefined !== environmentVariable.allowedValues &&
+            !environmentVariable.allowedValues.includes(environmentVariable.example as never)
+        ) {
+            this._updateDotEnvFiles();
+            throw new EnvironmentVariableError(environmentVariable);
+        }
+
+        if ('string' === typeof environmentVariable.example) {
+            return value;
+        }
+
+        value = Number(value);
+
+        // check if value is valid number
+        if (Number.isNaN(value)) {
+            this._updateDotEnvFiles();
+            throw new EnvironmentVariableError(environmentVariable);
+        }
+
+        if ('number' === typeof environmentVariable.example) {
+            return value;
+        }
+
+        return Boolean(value);
     }
 
     protected static _updateDotEnvFiles(): void {
@@ -58,7 +94,6 @@ export class EnvironmentComponent {
 
         const pathToExampleDotEnv = 'example.env';
 
-        FileSystem.removeSync(pathToExampleDotEnv);
         FileSystem.ensureFileExistsSync(pathToExampleDotEnv);
 
         const data = [];
@@ -85,38 +120,6 @@ export class EnvironmentComponent {
             data.push(`${name}=${example}`);
         }
 
-        FileSystem.appendFileSync(pathToExampleDotEnv, data.join('\n'));
-    }
-
-    protected static getValueFromEnv(name: string): string | number | boolean | undefined {
-        const environmentVariable = this._variables[name];
-        let value = process.env[name] as any;
-
-        if (false === environmentVariable.required) {
-            return undefined;
-        }
-
-        if ('string' !== typeof value || 0 === value.length) {
-            this._updateDotEnvFiles();
-            throw new EnvironmentVariableError(environmentVariable);
-        }
-
-        if ('string' === typeof environmentVariable.example) {
-            return value;
-        }
-
-        value = Number(value);
-
-        // check if value is valid number
-        if (Number.isNaN(value)) {
-            this._updateDotEnvFiles();
-            throw new EnvironmentVariableError(environmentVariable);
-        }
-
-        if ('number' === typeof environmentVariable.example) {
-            return value;
-        }
-
-        return Boolean(value);
+        FileSystem.writeFileSync(pathToExampleDotEnv, data.join('\n'));
     }
 }
