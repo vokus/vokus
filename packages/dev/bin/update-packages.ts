@@ -1,24 +1,23 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
 import path from 'path';
+import { FileSystem } from '@vokus/file-system';
 
 // TODO: add files only .js und .d.ts
-class UpdateAndCleanPackages {
+class UpdatePackages {
     protected static packagesPath = 'packages';
 
     public static async run(): Promise<void> {
-        for (const name of fs.readdirSync(this.packagesPath)) {
+        for (const name of await FileSystem.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
             if (name.startsWith('.')) {
                 continue;
             }
 
             const pathToPackageJson = path.join(this.packagesPath, name, 'package.json');
-            const pathToTsConfigJson = path.join(this.packagesPath, name, 'tsconfig.json');
             const pathToNpmIgnore = path.join(this.packagesPath, name, '.npmignore');
             const pathToNpmrc = path.join(this.packagesPath, name, '.npmrc');
-            const packageJson = JSON.parse(fs.readFileSync(pathToPackageJson, 'utf8'));
+            const packageJson = JSON.parse(await FileSystem.readFile(pathToPackageJson));
 
             packageJson.name = '@vokus/' + name;
             packageJson.description = '@vokus/' + name;
@@ -33,21 +32,13 @@ class UpdateAndCleanPackages {
                 directory: path.join(this.packagesPath, name),
             };
 
-            fs.writeFileSync(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
+            await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
-            if (fs.existsSync(pathToTsConfigJson)) {
-                fs.unlinkSync(pathToTsConfigJson);
-            }
+            await FileSystem.writeFile(pathToNpmIgnore, '**/*.ts' + '\n');
 
-            if (fs.existsSync(pathToNpmIgnore)) {
-                fs.unlinkSync(pathToNpmIgnore);
-            }
-
-            fs.writeFileSync(pathToNpmIgnore, '**/*.ts' + '\n');
-
-            fs.writeFileSync(pathToNpmrc, 'engine-strict=true' + '\n' + 'package-lock=false' + '\n');
+            await FileSystem.writeFile(pathToNpmrc, 'engine-strict=true' + '\n' + 'package-lock=false' + '\n');
         }
     }
 }
 
-UpdateAndCleanPackages.run();
+UpdatePackages.run();

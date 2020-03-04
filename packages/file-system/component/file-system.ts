@@ -14,6 +14,10 @@ export class FileSystem {
         return nodeFs.promises.mkdir(path, { recursive: true });
     }
 
+    public static createWriteStream(path: string): nodeFs.WriteStream {
+        return nodeFs.createWriteStream(path);
+    }
+
     public static ensureDirectoryExistsSync(path: string): void {
         return nodeFs.mkdirSync(path, { recursive: true });
     }
