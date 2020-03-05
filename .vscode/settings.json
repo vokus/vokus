@@ -3,8 +3,8 @@
     "editor.formatOnSave": true,
     "files.exclude": {
         "**/node_modules/": true,
-        "packages/**/*.js": true,
-        "packages/**/*.d.ts": true
+        "packages/**/*.js": false,
+        "packages/**/*.d.ts": false
     },
     "npm.enableScriptExplorer": true,
     "jestrunner.configPath": "jest-config-vscode.js",

@@ -10,7 +10,15 @@ class Badge {
         {
             key: 'coverage',
             label: 'coverage',
+            message: '100%',
             color: 'blue',
+            style: 'flat-square',
+        },
+        {
+            key: 'code-style',
+            label: 'code style',
+            message: 'pretier',
+            color: 'ff69b4',
             style: 'flat-square',
         },
     ];
@@ -18,12 +26,23 @@ class Badge {
     public static async run(): Promise<void> {
         for (const badge of this.badges) {
             const pathToBadge = path.join(EnvironmentComponent.getProjectPath(), 'badge', badge.key + '.svg');
+
             await FileSystem.ensureFileExists(pathToBadge);
             const badgeFile = FileSystem.createWriteStream(pathToBadge);
 
-            https.get('https://img.shields.io/static/v1?label=' + badge.label, response => {
-                response.pipe(badgeFile);
-            });
+            https.get(
+                'https://img.shields.io/static/v1?label=' +
+                    badge.label +
+                    '&message=' +
+                    badge.message +
+                    '&color=' +
+                    badge.color +
+                    '&style=' +
+                    badge.style,
+                response => {
+                    response.pipe(badgeFile);
+                },
+            );
         }
     }
 }

@@ -10,12 +10,12 @@ export class FileSystem {
         return nodeFs.appendFileSync(path, data, 'utf8');
     }
 
-    public static async ensureDirectoryExists(path: string): Promise<void> {
-        return nodeFs.promises.mkdir(path, { recursive: true });
-    }
-
     public static createWriteStream(path: string): nodeFs.WriteStream {
         return nodeFs.createWriteStream(path);
+    }
+
+    public static async ensureDirectoryExists(path: string): Promise<void> {
+        return nodeFs.promises.mkdir(path, { recursive: true });
     }
 
     public static ensureDirectoryExistsSync(path: string): void {

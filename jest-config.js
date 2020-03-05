@@ -3,7 +3,6 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
         //'<rootDir>/packages/**/*.ts'
-        '<rootDir>/packages/dev/**/*.ts',
         '<rootDir>/packages/environment/**/*.ts',
         '<rootDir>/packages/file-system/**/*.ts',
     ],
@@ -20,7 +19,6 @@ module.exports = {
     errorOnDeprecated: true,
     roots: [
         // '<rootDir>/packages',
-        '<rootDir>/packages/dev',
         '<rootDir>/packages/environment',
         '<rootDir>/packages/file-system',
     ],

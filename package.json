@@ -4,8 +4,10 @@
     "scripts": {
         "badges": "ts-node ./packages/dev/bin/badge",
         "bootstrap": "lerna bootstrap",
+        "clean": "ts-node ./packages/dev/bin/clean",
+        "clean-setup": "npm run clean && npm run bootstrap",
         "publish": "npm run clean && npm run update-packages && npm run tslint && npm run test && npm run tsc && lerna publish",
-        "test": "npm run bootstrap && jest --config jest-config.js --detectOpenHandles",
+        "test": "jest --config jest-config.js --detectOpenHandles",
         "tsc": "tsc",
         "tslint": "tslint --config tslint.json --project ./",
         "update-packages": "ts-node ./packages/dev/bin/update-packages && sort-package-json 'package.json' 'packages/*/package.json'"
