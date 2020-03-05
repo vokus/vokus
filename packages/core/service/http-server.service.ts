@@ -6,7 +6,7 @@ import ServerConfig from '../config/server.config';
 
 // TODO: certificates
 @ServiceDecorator()
-export default class HTTPServerService {
+export class HTTPServerService {
     protected _server: Server;
     protected _connection: Server | undefined;
     protected _logger: LoggerService;
@@ -18,8 +18,8 @@ export default class HTTPServerService {
 
         this._server = createServer(
             {
-                // cert: await FileSystem.readFile(this.pathToCertPem),
-                // key: await FileSystem.readFile(this.pathToKeyPem),
+                // cert: await FileSystemComponent.readFile(this.pathToCertPem),
+                // key: await FileSystemComponent.readFile(this.pathToKeyPem),
             },
             express(),
         );

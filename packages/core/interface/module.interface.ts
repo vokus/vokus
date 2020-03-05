@@ -1,4 +1,4 @@
-export default interface ModuleInterface {
+export interface ModuleInterface {
     start(): Promise<boolean>;
     stop(): Promise<boolean>;
 }

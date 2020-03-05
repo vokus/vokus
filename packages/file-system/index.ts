@@ -1,1 +1,1 @@
-export { FileSystem } from './component/file-system';
+export { FileSystemComponent } from './component/file-system.component';

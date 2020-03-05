@@ -1,7 +1,7 @@
 /* tslint:disable:max-classes-per-file */
 
-import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../';
-import { FileSystem } from '@vokus/file-system';
+import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
+import { FileSystemComponent } from '@vokus/file-system';
 import path from 'path';
 
 process.env.TEST_STRING_1 = 'string';
@@ -140,9 +140,9 @@ describe('EnvironmentComponent', () => {
             EnvironmentComponent.getValue(definitions.TEST_ERROR_4);
         }).toThrowError("environment variable 'TEST_ERROR_4' not valid - example: '10'");
 
-        expect(await FileSystem.readFile(path.join(EnvironmentComponent.getProjectPath(), 'example.env'))).toMatch(
-            /# required/,
-        );
+        expect(
+            await FileSystemComponent.readFile(path.join(EnvironmentComponent.getProjectPath(), 'example.env')),
+        ).toMatch(/# required/);
 
         expect(EnvironmentComponent.getPublicPath()).toMatch(/public/);
     });

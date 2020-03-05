@@ -3,10 +3,10 @@ import StringUtil from '../util/string.util';
 import LogEntity from '../entity/log.entity';
 import ApplicationConfig from '../config/application.config';
 import * as nodePath from 'path';
-import { FileSystem } from '@vokus/file-system';
+import { FileSystemComponent } from '@vokus/file-system';
 
 @ServiceDecorator()
-export default class LoggerService {
+export class LoggerService {
     protected _applicationConfig: ApplicationConfig;
     protected _contextType: string;
     protected _contextName: string;
@@ -107,13 +107,13 @@ export default class LoggerService {
 
         for (const logFilePath of logFilePaths) {
             // check if log file exists and create if not
-            await FileSystem.ensureFileExists(logFilePath);
+            await FileSystemComponent.ensureFileExists(logFilePath);
 
             // check if log rotation is necessary
             // await this._rotateLogFile(logFile);
 
             // write line to log file
-            await FileSystem.appendFile(
+            await FileSystemComponent.appendFile(
                 logFilePath,
                 output
                     .join(' ')

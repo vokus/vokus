@@ -1,7 +1,7 @@
 import nodeFs from 'fs';
 import nodePath from 'path';
 
-export class FileSystem {
+export class FileSystemComponent {
     public static async appendFile(path: string, data: any): Promise<void> {
         return nodeFs.promises.appendFile(path, data, 'utf8');
     }

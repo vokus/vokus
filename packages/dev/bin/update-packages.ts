@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 
 import path from 'path';
-import { FileSystem } from '@vokus/file-system';
+import { FileSystemComponent } from '@vokus/file-system';
 
-// TODO: add files only .js und .d.ts
 class UpdatePackages {
     protected static packagesPath = 'packages';
 
     public static async run(): Promise<void> {
-        for (const name of await FileSystem.readDirectory(this.packagesPath)) {
+        for (const name of await FileSystemComponent.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
             if (name.startsWith('.')) {
                 continue;
@@ -17,7 +16,7 @@ class UpdatePackages {
             const pathToPackageJson = path.join(this.packagesPath, name, 'package.json');
             const pathToNpmIgnore = path.join(this.packagesPath, name, '.npmignore');
             const pathToNpmrc = path.join(this.packagesPath, name, '.npmrc');
-            const packageJson = JSON.parse(await FileSystem.readFile(pathToPackageJson));
+            const packageJson = JSON.parse(await FileSystemComponent.readFile(pathToPackageJson));
 
             packageJson.name = '@vokus/' + name;
             packageJson.description = '@vokus/' + name;
@@ -32,11 +31,11 @@ class UpdatePackages {
                 directory: path.join(this.packagesPath, name),
             };
 
-            await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
+            await FileSystemComponent.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
-            await FileSystem.writeFile(pathToNpmIgnore, '**/*.ts' + '\n');
+            await FileSystemComponent.writeFile(pathToNpmIgnore, '**/*.ts' + '\n');
 
-            await FileSystem.writeFile(pathToNpmrc, 'engine-strict=true' + '\n' + 'package-lock=false' + '\n');
+            await FileSystemComponent.writeFile(pathToNpmrc, 'engine-strict=true' + '\n' + 'package-lock=false' + '\n');
         }
     }
 }

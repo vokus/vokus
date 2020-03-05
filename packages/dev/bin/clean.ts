@@ -1,40 +1,38 @@
 #!/usr/bin/env node
 import nodePath from 'path';
 import { EnvironmentComponent } from '@vokus/environment';
-import { FileSystem } from '@vokus/file-system';
+import { FileSystemComponent } from '@vokus/file-system';
 
 class Clean {
     public static async run(): Promise<void> {
-        const path = nodePath.join(EnvironmentComponent.getProjectPath(), 'packages');
-
-        await this.cleanDirectory(path);
+        await this.cleanDirectory(nodePath.join(EnvironmentComponent.getProjectPath(), 'packages'));
     }
 
     protected static async cleanDirectory(path: string): Promise<void> {
-        const entries = await FileSystem.readDirectory(path);
+        const entries = await FileSystemComponent.readDirectory(path);
 
         if (entries.length === 0) {
-            await FileSystem.remove(path);
+            await FileSystemComponent.remove(path);
         }
 
         for (const entry of entries) {
             const fullPath = nodePath.join(path, entry);
 
             if (entry === 'node_modules') {
-                await FileSystem.remove(fullPath);
+                await FileSystemComponent.remove(fullPath);
             }
 
-            if (await FileSystem.isDirectory(fullPath)) {
+            if (await FileSystemComponent.isDirectory(fullPath)) {
                 await this.cleanDirectory(fullPath);
                 continue;
             }
 
-            if (!(await FileSystem.isFile(fullPath))) {
+            if (!(await FileSystemComponent.isFile(fullPath))) {
                 continue;
             }
 
             if (fullPath.endsWith('.js') || fullPath.endsWith('.d.ts')) {
-                await FileSystem.remove(fullPath);
+                await FileSystemComponent.remove(fullPath);
             }
         }
     }
