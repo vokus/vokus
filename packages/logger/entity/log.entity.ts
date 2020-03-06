@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export default class LogEntity {
+export class LogEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 

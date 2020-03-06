@@ -1,8 +1,8 @@
 /* tslint:disable:max-classes-per-file */
 
+import path from 'path';
 import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
 import { FileSystemComponent } from '@vokus/file-system';
-import path from 'path';
 
 process.env.TEST_STRING_1 = 'string';
 process.env.TEST_STRING_2 = 'string 2';
@@ -13,6 +13,7 @@ process.env.TEST_BOOLEAN_2 = '0';
 process.env.TEST_ERROR_1 = '-300';
 process.env.TEST_ERROR_2 = 'abc';
 process.env.TEST_ERROR_4 = 'abc';
+process.env.TEST_ERROR_5 = 'abc';
 
 const definitions: { [name: string]: EnvironmentVariableInterface } = {
     TEST_STRING_1: {
@@ -60,6 +61,10 @@ const definitions: { [name: string]: EnvironmentVariableInterface } = {
         name: 'TEST_ERROR_4',
         example: 10,
     },
+    TEST_ERROR_5: {
+        name: 'TEST_ERROR_5',
+        example: true,
+    },
 };
 
 class Config {
@@ -106,7 +111,44 @@ class Config {
     }
 }
 
+afterAll(async () => {
+    await FileSystemComponent.remove(path.join(EnvironmentComponent.projectPath, 'example.env'));
+    await FileSystemComponent.remove(path.join(EnvironmentComponent.projectPath, 'test.env'));
+});
+
 describe('EnvironmentComponent', () => {
+    test('context', () => {
+        expect(EnvironmentComponent.context).toBe('test');
+    });
+
+    test('isInContextProduction', () => {
+        expect(EnvironmentComponent.isInContextProduction()).toBe(false);
+    });
+
+    test('isInContextAcceptance', () => {
+        expect(EnvironmentComponent.isInContextAcceptance()).toBe(false);
+    });
+
+    test('isInContextStaging', () => {
+        expect(EnvironmentComponent.isInContextStaging()).toBe(false);
+    });
+
+    test('isInContextTest', () => {
+        expect(EnvironmentComponent.isInContextTest()).toBe(true);
+    });
+
+    test('isInContextDevelopment', () => {
+        expect(EnvironmentComponent.isInContextDevelopment()).toBe(false);
+    });
+
+    test('projectPath', () => {
+        expect(EnvironmentComponent.projectPath).toBe(process.cwd());
+    });
+
+    test('publicPath', async () => {
+        expect(EnvironmentComponent.publicPath).toMatch(/public/);
+    });
+
     test('getValue', async () => {
         const config = new Config();
 
@@ -140,10 +182,8 @@ describe('EnvironmentComponent', () => {
             EnvironmentComponent.getValue(definitions.TEST_ERROR_4);
         }).toThrowError("environment variable 'TEST_ERROR_4' not valid - example: '10'");
 
-        expect(
-            await FileSystemComponent.readFile(path.join(EnvironmentComponent.getProjectPath(), 'example.env')),
-        ).toMatch(/# required/);
-
-        expect(EnvironmentComponent.getPublicPath()).toMatch(/public/);
+        expect(() => {
+            EnvironmentComponent.getValue(definitions.TEST_ERROR_5);
+        }).toThrowError("environment variable 'TEST_ERROR_5' not valid - example: '1'");
     });
 });

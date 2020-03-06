@@ -1,21 +1,16 @@
-import ServiceDecorator from '../decorator/service.decorator';
-import StringUtil from '../util/string.util';
-import LogEntity from '../entity/log.entity';
-import ApplicationConfig from '../config/application.config';
+import { StringComponent } from '@vokus/string';
+import { EnvironmentComponent } from '@vokus/environment';
+import { LogEntity } from '../entity/log.entity';
 import * as nodePath from 'path';
 import { FileSystemComponent } from '@vokus/file-system';
 
-@ServiceDecorator()
 export class LoggerService {
-    protected _applicationConfig: ApplicationConfig;
     protected _contextType: string;
     protected _contextName: string;
 
-    public constructor(applicationConfig: ApplicationConfig, contextType: string, contextName: string) {
-        this._applicationConfig = applicationConfig;
-
-        contextType = contextType.toLowerCase();
-        contextName = StringUtil.decamelize(contextName);
+    public constructor(contextType: string, contextName: string) {
+        contextType = StringComponent.decamelize(contextType);
+        contextName = StringComponent.decamelize(contextName);
         contextName = contextName.replace('-' + contextType, '');
 
         this._contextType = contextType;
@@ -68,7 +63,7 @@ export class LoggerService {
             data = '';
         }
 
-        data = StringUtil.cast(data);
+        data = StringComponent.cast(data);
 
         const log = new LogEntity(code, date, this._contextType, this._contextName, message, data);
 
@@ -78,16 +73,16 @@ export class LoggerService {
     protected async _writeLog(log: LogEntity) {
         const logFilePaths = [
             nodePath.join(
-                this._applicationConfig.rootPath,
+                EnvironmentComponent.projectPath,
                 'var',
-                this._applicationConfig.context,
+                EnvironmentComponent.context,
                 'log',
                 log.level + '.log',
             ),
             nodePath.join(
-                this._applicationConfig.rootPath,
+                EnvironmentComponent.projectPath,
                 'var',
-                this._applicationConfig.context,
+                EnvironmentComponent.context,
                 'log',
                 log.contextType,
                 log.contextName,
@@ -125,7 +120,7 @@ export class LoggerService {
 
     protected async _writeToConsole(log: LogEntity): Promise<void> {
         // disabled, if in context test or log level less then notice and in context production
-        if (this._applicationConfig.isTest() || (this._applicationConfig.isProduction() && log.code > 5)) {
+        if (EnvironmentComponent.isInContextTest() || (EnvironmentComponent.isInContextTest() && log.code > 5)) {
             return;
         }
 

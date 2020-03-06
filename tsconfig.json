@@ -10,6 +10,12 @@
         "strictPropertyInitialization": false,
         "esModuleInterop": true
     },
-    "include": ["packages/dev/**/*", "packages/component/**/*", "packages/file-system/**/*", "packages/string/**/*"],
+    "include": [
+        "packages/component/**/*",
+        "packages/dev/**/*",
+        "packages/file-system/**/*",
+        "packages/logger/**/*",
+        "packages/string/**/*"
+    ],
     "exclude": ["node_modules", "**/*.test.ts"]
 }

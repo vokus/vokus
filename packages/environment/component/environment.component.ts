@@ -5,11 +5,63 @@ import { FileSystemComponent } from '@vokus/file-system';
 import path from 'path';
 
 export class EnvironmentComponent {
-    public static getProjectPath(): string {
+    protected static readonly _contextProduction: string = 'production';
+    protected static readonly _contextAcceptance: string = 'acceptance';
+    protected static readonly _contextStaging: string = 'staging';
+    protected static readonly _contextTest: string = 'test';
+    protected static readonly _contextDevelopment: string = 'development';
+
+    protected static ensureContextVariableExists(): void {
+        // register NODE_ENV if not exists
+        if (undefined === this._values.NODE_ENV) {
+            this._variables.NODE_ENV = {
+                name: 'NODE_ENV',
+                example: 'production',
+                allowedValues: [
+                    this._contextProduction,
+                    this._contextAcceptance,
+                    this._contextStaging,
+                    this._contextTest,
+                    this._contextDevelopment,
+                ],
+                required: true,
+            };
+
+            this._values.NODE_ENV = this.getValueFromEnv(this._variables.NODE_ENV);
+        }
+    }
+
+    public static get context(): string {
+        this.ensureContextVariableExists();
+
+        return String(this._values.NODE_ENV);
+    }
+
+    public static isInContextProduction(): boolean {
+        return this.context === this._contextProduction;
+    }
+
+    public static isInContextAcceptance(): boolean {
+        return this.context === this._contextAcceptance;
+    }
+
+    public static isInContextStaging(): boolean {
+        return this.context === this._contextStaging;
+    }
+
+    public static isInContextTest(): boolean {
+        return this.context === this._contextTest;
+    }
+
+    public static isInContextDevelopment(): boolean {
+        return this.context === this._contextDevelopment;
+    }
+
+    public static get projectPath(): string {
         return process.cwd();
     }
 
-    public static getPublicPath(): string {
+    public static get publicPath(): string {
         return path.join(process.cwd(), 'public');
     }
 
@@ -19,17 +71,7 @@ export class EnvironmentComponent {
             return this._values[environmentVariable.name];
         }
 
-        // register NODE_ENV if not exists
-        if (undefined === this._variables.NODE_ENV) {
-            this._variables.NODE_ENV = {
-                name: 'NODE_ENV',
-                example: 'production',
-                allowedValues: ['production', 'acceptance', 'staging', 'test', 'development'],
-                required: true,
-            };
-
-            this._values.NODE_ENV = this.getValueFromEnv(this._variables.NODE_ENV);
-        }
+        this.ensureContextVariableExists();
 
         // load context.env
         if (!this._contextDotEnvLoaded) {
@@ -100,6 +142,7 @@ export class EnvironmentComponent {
     }
 
     protected static _updateDotEnvFiles(): void {
+
         const orderedVariables: { [name: string]: EnvironmentVariableInterface } = {};
         Object.keys(this._variables)
             .sort()

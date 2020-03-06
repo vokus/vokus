@@ -5,6 +5,7 @@ module.exports = {
         //'<rootDir>/packages/**/*.ts'
         '<rootDir>/packages/environment/**/*.ts',
         '<rootDir>/packages/file-system/**/*.ts',
+        '<rootDir>/packages/logger/**/*.ts',
         '<rootDir>/packages/string/**/*.ts',
     ],
     coverageReporters: ['text'],
@@ -22,6 +23,7 @@ module.exports = {
         // '<rootDir>/packages',
         '<rootDir>/packages/environment',
         '<rootDir>/packages/file-system',
+        '<rootDir>/packages/logger',
         '<rootDir>/packages/string',
     ],
     testEnvironment: 'node',

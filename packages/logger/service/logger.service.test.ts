@@ -1,10 +1,9 @@
 /* tslint:disable:no-empty */
 
-import LoggerService from './logger.service';
-import ApplicationUtil from '../util/application.util';
+import { LoggerService } from '../';
 
 test('logger', async () => {
-    const logger = await ApplicationUtil.create<LoggerService>(LoggerService);
+    const logger = new LoggerService('test', 'test');
 
     await Promise.all([
         logger.alert('alert message', [1, 2, 3]),
