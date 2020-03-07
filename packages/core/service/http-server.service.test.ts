@@ -1,5 +1,3 @@
-/* tslint:disable:no-empty */
-
 import https from 'https';
 import ApplicationUtil from '../util/application.util';
 import HTTPServerService from './http-server.service';

@@ -2,11 +2,11 @@ import nodeFs from 'fs';
 import nodePath from 'path';
 
 export class FileSystemComponent {
-    public static async appendFile(path: string, data: any): Promise<void> {
+    public static async appendFile(path: string, data: string): Promise<void> {
         return nodeFs.promises.appendFile(path, data, 'utf8');
     }
 
-    public static appendFileSync(path: string, data: any): void {
+    public static appendFileSync(path: string, data: string): void {
         return nodeFs.appendFileSync(path, data, 'utf8');
     }
 
@@ -146,11 +146,11 @@ export class FileSystemComponent {
         return nodeFs.symlinkSync(sourcePath, targetPath);
     }
 
-    public static async writeFile(path: string, data: any): Promise<void> {
+    public static async writeFile(path: string, data: string): Promise<void> {
         return nodeFs.promises.writeFile(path, data, 'utf8');
     }
 
-    public static writeFileSync(path: string, data: any): void {
+    public static writeFileSync(path: string, data: string): void {
         return nodeFs.writeFileSync(path, data, 'utf8');
     }
 }

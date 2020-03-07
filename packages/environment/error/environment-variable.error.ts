@@ -6,13 +6,13 @@ export class EnvironmentVariableError extends Error {
         let example = environmentVariable.example;
         const allowedValues = environmentVariable.allowedValues;
 
-        if ('boolean' === typeof example) {
+        if (typeof example === 'boolean') {
             example = Number(example);
         }
 
         messages.push(`example: '${example}'`);
 
-        if ('undefined' !== typeof allowedValues) {
+        if (typeof allowedValues !== 'undefined') {
             messages.push(`allowed values: '${allowedValues.join(' | ')}'`);
         }
 

@@ -8,5 +8,6 @@
     },
     "npm.enableScriptExplorer": true,
     "jestrunner.configPath": "jest-config-vscode.js",
-    "javascript.implicitProjectConfig.experimentalDecorators": true
+    "javascript.implicitProjectConfig.experimentalDecorators": true,
+    "eslint.alwaysShowStatus": true
 }

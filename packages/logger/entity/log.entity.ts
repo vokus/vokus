@@ -20,16 +20,18 @@ export class LogEntity {
     @Column({ type: 'varchar' })
     public contextName: string;
 
-    @Column({ type: 'text' })
-    public data: string = '';
-
-    constructor(code: number, date: Date, contextType: string, contextName: string, message: string, data: string) {
+    constructor(
+        code: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7,
+        date: Date,
+        contextType: string,
+        contextName: string,
+        message: string,
+    ) {
         this.code = code;
         this.date = date;
         this.contextType = contextType;
         this.contextName = contextName;
         this.message = message;
-        this.data = data;
     }
 
     public get level(): string {
@@ -48,8 +50,8 @@ export class LogEntity {
                 return 'notice';
             case 6:
                 return 'info';
-            default:
-                return 'debug';
         }
+
+        return 'debug';
     }
 }

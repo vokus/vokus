@@ -86,7 +86,7 @@ export class EnvironmentComponent {
         return this._values[environmentVariable.name];
     }
 
-    protected static _contextDotEnvLoaded: boolean = false;
+    protected static _contextDotEnvLoaded = false;
     protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
     protected static _values: { [name: string]: string | number | boolean | undefined } = {};
 
@@ -99,14 +99,14 @@ export class EnvironmentComponent {
     protected static getValueFromEnv(
         environmentVariable: EnvironmentVariableInterface,
     ): string | number | boolean | undefined {
-        let value = process.env[environmentVariable.name] as any;
+        let value = process.env[environmentVariable.name] as string | number | boolean;
 
-        if ('string' !== typeof value || 0 === value.length) {
+        if (typeof value !== 'string' || value.length === 0) {
             this._updateDotEnvFiles();
             throw new EnvironmentVariableError(environmentVariable);
         }
 
-        if ('string' === typeof environmentVariable.example) {
+        if (typeof environmentVariable.example === 'string') {
             return this._checkEnvironmentVariable(environmentVariable, value);
         }
 
@@ -118,7 +118,7 @@ export class EnvironmentComponent {
             throw new EnvironmentVariableError(environmentVariable);
         }
 
-        if ('number' === typeof environmentVariable.example) {
+        if (typeof environmentVariable.example === 'number') {
             return this._checkEnvironmentVariable(environmentVariable, value);
         }
 
@@ -130,7 +130,7 @@ export class EnvironmentComponent {
         value: string | number | boolean,
     ): string | number | boolean {
         if (
-            'object' !== typeof environmentVariable.allowedValues ||
+            typeof environmentVariable.allowedValues !== 'object' ||
             (environmentVariable.allowedValues.includes(value as never) &&
                 environmentVariable.allowedValues.includes(environmentVariable.example as never))
         ) {
@@ -142,7 +142,6 @@ export class EnvironmentComponent {
     }
 
     protected static _updateDotEnvFiles(): void {
-
         const orderedVariables: { [name: string]: EnvironmentVariableInterface } = {};
         Object.keys(this._variables)
             .sort()
@@ -164,13 +163,13 @@ export class EnvironmentComponent {
             }
             let example = environmentVariable.example;
 
-            if ('boolean' === typeof example) {
+            if (typeof example === 'boolean') {
                 example = Number(example);
             }
 
             const comments = [];
 
-            if (undefined === environmentVariable.required || true === environmentVariable.required) {
+            if (undefined === environmentVariable.required || environmentVariable.required === true) {
                 comments.push('required');
             } else {
                 comments.push('optional');
@@ -178,7 +177,7 @@ export class EnvironmentComponent {
 
             comments.push(`example: '${environmentVariable.example}'`);
 
-            if ('object' === typeof environmentVariable.allowedValues) {
+            if (typeof environmentVariable.allowedValues === 'object') {
                 comments.push(`allowed: '${environmentVariable.allowedValues.join(' | ')}'`);
             }
 

@@ -1,5 +1,3 @@
-/* tslint:disable:max-classes-per-file */
-
 import path from 'path';
 import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
 import { FileSystemComponent } from '@vokus/file-system';

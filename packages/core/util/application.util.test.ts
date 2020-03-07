@@ -1,5 +1,3 @@
-/* tslint:disable:max-classes-per-file */
-
 import ApplicationUtil from './application.util';
 import CoreModule from '../core.module';
 import ServiceDecorator from '../decorator/service.decorator';

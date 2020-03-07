@@ -56,7 +56,7 @@ export class HTTPServerService {
 
         const address = this._connection.address();
 
-        if ('object' === typeof address && null !== address) {
+        if (typeof address === 'object' && address !== null) {
             return address.port;
         }
 

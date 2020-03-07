@@ -25,7 +25,7 @@ class Badge {
 
     public static async run(): Promise<void> {
         for (const badge of this.badges) {
-            const pathToBadge = path.join(EnvironmentComponent.getProjectPath(), 'badge', badge.key + '.svg');
+            const pathToBadge = path.join(EnvironmentComponent.projectPath, 'badge', badge.key + '.svg');
 
             await FileSystemComponent.ensureFileExists(pathToBadge);
             const badgeFile = FileSystemComponent.createWriteStream(pathToBadge);

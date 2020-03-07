@@ -35,18 +35,18 @@ export default class ApplicationUtil {
         return this._instances;
     }
 
-    private static _created: boolean = false;
+    private static _created = false;
     private static _classes: { [key: string]: { [key: string]: any } } = {};
     private static _loggerClass: any;
     private static _instances: { [key: string]: { [key: string]: any } } = {};
 
     private static async createInstance(target: any, parentName: string, parentType: string): Promise<any> {
         let resolvedTarget: any = null;
-        let resolvedType: string = '';
-        let resolvedIndex: string = '';
+        let resolvedType = '';
+        let resolvedIndex = '';
 
         for (const [type, classes] of Object.entries(this._classes)) {
-            if (null !== resolvedTarget) {
+            if (resolvedTarget !== null) {
                 break;
             }
 
@@ -60,7 +60,7 @@ export default class ApplicationUtil {
             }
         }
 
-        if (null === resolvedTarget) {
+        if (resolvedTarget === null) {
             throw new Error('class is not registered');
         }
 

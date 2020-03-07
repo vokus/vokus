@@ -17,39 +17,39 @@ export class LoggerService {
         this._contextName = contextName;
     }
 
-    public async emergency(message: string, data?: any): Promise<void> {
-        await this.log(0, message, data);
+    public async emergency(message: string): Promise<void> {
+        await this.log(0, message);
     }
 
-    public async alert(message: string, data?: any): Promise<void> {
-        await this.log(1, message, data);
+    public async alert(message: string): Promise<void> {
+        await this.log(1, message);
     }
 
-    public async critical(message: string, data?: any): Promise<void> {
-        await this.log(2, message, data);
+    public async critical(message: string): Promise<void> {
+        await this.log(2, message);
     }
 
-    public async error(message: string, data?: any): Promise<void> {
-        await this.log(3, message, data);
+    public async error(message: string): Promise<void> {
+        await this.log(3, message);
     }
 
-    public async warning(message: string, data?: any): Promise<void> {
-        await this.log(4, message, data);
+    public async warning(message: string): Promise<void> {
+        await this.log(4, message);
     }
 
-    public async notice(message: string, data?: any): Promise<void> {
-        await this.log(5, message, data);
+    public async notice(message: string): Promise<void> {
+        await this.log(5, message);
     }
 
-    public async info(message: string, data?: any): Promise<void> {
-        await this.log(6, message, data);
+    public async info(message: string): Promise<void> {
+        await this.log(6, message);
     }
 
-    public async debug(message: string, data?: any): Promise<void> {
-        await this.log(7, message, data);
+    public async debug(message: string): Promise<void> {
+        await this.log(7, message);
     }
 
-    protected async log(code: number, message: string, data?: any): Promise<void> {
+    protected async log(code: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, message: string): Promise<void> {
         const date = new Date();
 
         // trim message
@@ -58,19 +58,12 @@ export class LoggerService {
         // remove line breaks from message
         message = message.replace(/(\r?\n|\r)/gm, ' ');
 
-        // string type cast data
-        if (undefined === data) {
-            data = '';
-        }
-
-        data = StringComponent.cast(data);
-
-        const log = new LogEntity(code, date, this._contextType, this._contextName, message, data);
+        const log = new LogEntity(code, date, this._contextType, this._contextName, message);
 
         await Promise.all([this._writeLog(log), this._writeToConsole(log)]);
     }
 
-    protected async _writeLog(log: LogEntity) {
+    protected async _writeLog(log: LogEntity): Promise<void> {
         const logFilePaths = [
             nodePath.join(
                 EnvironmentComponent.projectPath,
@@ -95,10 +88,6 @@ export class LoggerService {
         output.push('[' + log.level + ']');
         output.push('[' + log.contextType + '/' + log.contextName + ']');
         output.push('[' + log.message + ']');
-
-        if (0 < log.data.length) {
-            output.push('[' + log.data + ']');
-        }
 
         for (const logFilePath of logFilePaths) {
             // check if log file exists and create if not
@@ -128,11 +117,6 @@ export class LoggerService {
         output.push('[' + log.level + ']');
         output.push('[' + log.contextType + '/' + log.contextName + ']');
         output.push(log.message);
-
-        if (0 < log.data.length) {
-            output.push('[' + log.data + ']');
-        }
-
         output.push('[pid:' + process.pid + ']');
 
         const colors: { [key: number]: string } = {
@@ -146,7 +130,6 @@ export class LoggerService {
             7: '\x1b[37m',
         };
 
-        // tslint:disable-next-line
         console.log(
             colors[log.code],
             output
