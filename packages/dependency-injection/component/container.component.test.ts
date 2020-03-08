@@ -1,6 +1,6 @@
-import ApplicationUtil from './application.util';
-import CoreModule from '../core.module';
-import ServiceDecorator from '../decorator/service.decorator';
+import ApplicationUtil from './container.component';
+import CoreModule from '../../core/core.module';
+import ServiceDecorator from '../../core/decorator/service.decorator';
 import LoggerService from '../service/logger.service';
 
 class TestServiceWithoutDecorator {}

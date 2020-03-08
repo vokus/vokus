@@ -1,5 +1,7 @@
 {
-    "editor.rulers": [100],
+    "editor.rulers": [
+        100
+    ],
     "editor.formatOnSave": true,
     "files.exclude": {
         "**/node_modules/": true,
@@ -9,5 +11,6 @@
     "npm.enableScriptExplorer": true,
     "jestrunner.configPath": "jest-config-vscode.js",
     "javascript.implicitProjectConfig.experimentalDecorators": true,
-    "eslint.alwaysShowStatus": true
+    "eslint.alwaysShowStatus": true,
+    "eslint.run": "onSave"
 }

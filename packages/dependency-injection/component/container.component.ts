@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
-export default class ApplicationUtil {
-    public static registerClass(target: any, type: string) {
+export class ContainerComponent {
+    public static register(target: any, type: string): void {
         if (this._created) {
             throw new Error('registerClass() not allowed after create() call');
         }
