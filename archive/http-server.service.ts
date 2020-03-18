@@ -2,7 +2,7 @@ import { createServer, Server } from 'https';
 import express from 'express';
 import ServiceDecorator from '../decorator/service.decorator';
 import LoggerService from './logger.service';
-import ServerConfig from '../config/server.config';
+import ServerConfig from '../../config/server.config';
 
 // TODO: certificates
 @ServiceDecorator()

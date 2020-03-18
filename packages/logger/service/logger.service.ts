@@ -3,8 +3,9 @@ import { EnvironmentComponent } from '@vokus/environment';
 import { LogEntity } from '../entity/log.entity';
 import * as nodePath from 'path';
 import { FileSystemComponent } from '@vokus/file-system';
+import { LoggerInterface } from '@vokus/core';
 
-export class LoggerService {
+export class LoggerService implements LoggerInterface {
     protected _contextType: string;
     protected _contextName: string;
 

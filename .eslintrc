@@ -10,7 +10,6 @@
         "sourceType": "module"
     },
     "rules": {
-        "yoda": "error",
         "@typescript-eslint/no-explicit-any": "off"
     }
 }

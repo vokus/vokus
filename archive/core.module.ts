@@ -1,8 +1,8 @@
 // import cluster from 'cluster';
 // import os from 'os';
 import ModuleDecorator from './decorator/module.decorator';
-import HTTPServerService from './service/http-server.service';
-import ModuleInterface from './interface/module.interface';
+import HTTPServerService from './service/archive/http-server.service';
+import ModuleInterface from '../packages/core/interface/module.interface';
 import IndexController from './controller/index.controller';
 import ApplicationConfig from './config/application.config';
 

@@ -1,5 +1,5 @@
 import https from 'https';
-import ApplicationUtil from '../../dependency-injection/component/container.component';
+import ApplicationUtil from '../../../dependency-injection/component/container.component';
 import HTTPServerService from './http-server.service';
 
 test('http-service', async () => {

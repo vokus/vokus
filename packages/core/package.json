@@ -10,8 +10,6 @@
     "license": "MIT",
     "main": "index.js",
     "dependencies": {
-        "@vokus/environment": "0.0.1",
-        "@vokus/file-system": "0.0.1",
         "dotenv": "8.2.0",
         "express": "4.17.1",
         "reflect-metadata": "0.1.13",

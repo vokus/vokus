@@ -108,10 +108,9 @@ export class ContainerComponent {
     }
 
     private static async detectLoggerClass(): Promise<void> {
-        const LoggerService = (await import('../service/logger.service')).default;
-
+        // TODO: check if logger methods exists
         for (const entry of Object.values(this._classes.service)) {
-            if (LoggerService.isPrototypeOf(entry) || entry === LoggerService) {
+            if (typeof entry.info === 'function') {
                 this._loggerClass = entry;
                 return;
             }
