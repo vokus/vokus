@@ -2,7 +2,8 @@ module.exports = {
     bail: true,
     collectCoverage: true,
     collectCoverageFrom: [
-        '<rootDir>/packages/**/*.ts'
+        '<rootDir>/packages/**/*.ts',
+        '!<rootDir>/packages/dev/**/*.ts'
     ],
     coverageReporters: ['text'],
     coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js', 'index.ts', 'index.js'],

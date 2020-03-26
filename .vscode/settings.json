@@ -12,5 +12,6 @@
     "jestrunner.configPath": "jest-config-vscode.js",
     "javascript.implicitProjectConfig.experimentalDecorators": true,
     "eslint.alwaysShowStatus": true,
-    "eslint.run": "onSave"
+    "eslint.run": "onSave",
+    "eslint.format.enable": true
 }

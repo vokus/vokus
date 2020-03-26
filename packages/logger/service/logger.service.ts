@@ -61,7 +61,7 @@ export class LoggerService implements LoggerInterface {
 
         const log = new LogEntity(code, date, this._contextType, this._contextName, message);
 
-        await Promise.all([this._writeLog(log), this._writeToConsole(log)]);
+        await this._writeLog(log);
     }
 
     protected async _writeLog(log: LogEntity): Promise<void> {
@@ -106,39 +106,6 @@ export class LoggerService implements LoggerInterface {
                     .trim() + '\n',
             );
         }
-    }
-
-    protected async _writeToConsole(log: LogEntity): Promise<void> {
-        // disabled, if in context test or log level less then notice and in context production
-        if (EnvironmentComponent.isInContextTest() || (EnvironmentComponent.isInContextTest() && log.code > 5)) {
-            return;
-        }
-
-        const output = [];
-        output.push('[' + log.level + ']');
-        output.push('[' + log.contextType + '/' + log.contextName + ']');
-        output.push(log.message);
-        output.push('[pid:' + process.pid + ']');
-
-        const colors: { [key: number]: string } = {
-            0: '\x1b[31m',
-            1: '\x1b[31m',
-            2: '\x1b[31m',
-            3: '\x1b[31m',
-            4: '\x1b[33m',
-            5: '\x1b[34m',
-            6: '\x1b[34m',
-            7: '\x1b[37m',
-        };
-
-        console.log(
-            colors[log.code],
-            output
-                .join(' ')
-                .replace(/\r?\n?/g, '')
-                .trim(),
-            '\x1b[0m',
-        );
     }
 
     private dateToString(date: Date): string {
