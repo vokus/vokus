@@ -2,7 +2,6 @@ import { ConfigDecorator } from '../decorator/config.decorator';
 import { ControllerDecorator } from '../decorator/controller.decorator';
 import { ServiceDecorator } from '../decorator/service.decorator';
 import { ContainerComponent } from './container.component';
-import { LoggerInterface } from '@vokus/core';
 
 @ConfigDecorator()
 class Test1Config {}
@@ -26,7 +25,7 @@ class Test1Controller {
 class Test2Controller extends Test1Controller {}
 
 @ServiceDecorator()
-class TestLoggerService implements LoggerInterface {
+class TestLoggerService {
     public async emergency(message: string): Promise<void> {
         message;
     }
@@ -116,7 +115,7 @@ test('container', async () => {
     expect(error).toEqual(new Error('create() not allowed after create() call'));
 
     expect(() => {
-        ContainerComponent.register(Test4Service, 'service');
+        ContainerComponent.register(Test4Service);
     }).toThrowError('register() not allowed after create() call');
 
     expect(test4Service.test1Config instanceof Test1Config).toBe(true);
@@ -132,5 +131,5 @@ test('container', async () => {
 
     expect(test4Service.test1Controller.test1Config instanceof Test3Config).toBe(true);
 
-    expect(Object.values(ContainerComponent.classes).length).toBe(10);
+    expect(ContainerComponent.metaData.length).toBe(10);
 });

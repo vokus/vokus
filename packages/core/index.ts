@@ -1,1 +1,1 @@
-export * from './interface/logger.interface';
+export * from './interface/meta.interface';

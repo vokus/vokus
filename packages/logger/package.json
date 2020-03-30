@@ -16,6 +16,9 @@
         "@vokus/string": "0.0.1",
         "typeorm": "0.2.24"
     },
+    "devDependencies": {
+        "@vokus/dependency-injection": "0.0.1"
+    },
     "publishConfig": {
         "access": "public"
     },

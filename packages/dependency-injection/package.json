@@ -11,6 +11,7 @@
     "main": "index.js",
     "dependencies": {
         "@vokus/core": "0.0.1",
+        "@vokus/string": "0.0.1",
         "reflect-metadata": "0.1.13"
     },
     "publishConfig": {

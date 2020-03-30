@@ -1,22 +1,11 @@
-import { StringComponent } from '@vokus/string';
 import { EnvironmentComponent } from '@vokus/environment';
 import { LogEntity } from '../entity/log.entity';
 import * as nodePath from 'path';
 import { FileSystemComponent } from '@vokus/file-system';
-import { LoggerInterface } from '@vokus/core';
 
-export class LoggerService implements LoggerInterface {
+export class LoggerService {
     protected _contextType: string;
     protected _contextName: string;
-
-    public constructor(contextType: string, contextName: string) {
-        contextType = StringComponent.decamelize(contextType);
-        contextName = StringComponent.decamelize(contextName);
-        contextName = contextName.replace('-' + contextType, '');
-
-        this._contextType = contextType;
-        this._contextName = contextName;
-    }
 
     public async emergency(message: string): Promise<void> {
         await this.log(0, message);
@@ -51,6 +40,26 @@ export class LoggerService implements LoggerInterface {
     }
 
     protected async log(code: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, message: string): Promise<void> {
+        // set context if not set
+        if (this._contextType === undefined && this._contextName === undefined && this.hasOwnProperty('__meta')) {
+            const descriptor: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(this, '__meta');
+
+            if (descriptor !== undefined) {
+                const meta = descriptor.value;
+
+                console.log(meta);
+
+                if (
+                    undefined !== meta.instantiatedBy &&
+                    'string' === typeof meta.instantiatedBy.type &&
+                    'string' === typeof meta.instantiatedBy.name
+                ) {
+                    this._contextType = meta.instantiatedBy.type;
+                    this._contextName = meta.instantiatedBy.name;
+                }
+            }
+        }
+
         const date = new Date();
 
         // trim message
@@ -73,21 +82,28 @@ export class LoggerService implements LoggerInterface {
                 'log',
                 log.level + '.log',
             ),
-            nodePath.join(
-                EnvironmentComponent.projectPath,
-                'var',
-                EnvironmentComponent.context,
-                'log',
-                log.contextType,
-                log.contextName,
-                log.level + '.log',
-            ),
         ];
+
+        if (undefined !== log.contextName && undefined !== log.contextType) {
+            logFilePaths.push(
+                nodePath.join(
+                    EnvironmentComponent.projectPath,
+                    'var',
+                    EnvironmentComponent.context,
+                    'log',
+                    log.contextType,
+                    log.contextName,
+                    log.level + '.log',
+                ),
+            );
+        }
 
         const output = [];
         output.push('[' + this.dateToString(log.date) + ']');
         output.push('[' + log.level + ']');
-        output.push('[' + log.contextType + '/' + log.contextName + ']');
+        if (undefined !== log.contextName && undefined !== log.contextType) {
+            output.push('[' + log.contextType + '/' + log.contextName + ']');
+        }
         output.push('[' + log.message + ']');
 
         for (const logFilePath of logFilePaths) {

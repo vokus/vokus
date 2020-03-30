@@ -1,7 +1,11 @@
 import { LoggerService } from '../';
+import { ContainerComponent, ServiceDecorator } from '@vokus/dependency-injection';
+
+@ServiceDecorator()
+class MyLoggerService extends LoggerService {}
 
 test('logger', async () => {
-    const logger = new LoggerService('test', 'test');
+    const logger: LoggerService = new LoggerService();
 
     await Promise.all([
         logger.alert('alert message'),
@@ -13,4 +17,8 @@ test('logger', async () => {
         logger.notice('notice message'),
         logger.warning('warning message'),
     ]);
+
+    const logger2: MyLoggerService = await ContainerComponent.create(MyLoggerService);
+
+    logger2.alert('alert message');
 });

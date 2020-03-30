@@ -15,16 +15,16 @@ export class LogEntity {
     public message: string;
 
     @Column({ type: 'varchar' })
-    public contextType: string;
+    public contextType: string | undefined;
 
     @Column({ type: 'varchar' })
-    public contextName: string;
+    public contextName: string | undefined;
 
     constructor(
         code: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7,
         date: Date,
-        contextType: string,
-        contextName: string,
+        contextType: string | undefined,
+        contextName: string | undefined,
         message: string,
     ) {
         this.code = code;
