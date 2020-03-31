@@ -1,5 +1,5 @@
 export interface MetaInterface {
-    constructor: any;
+    function: any;
     name: string;
     key: string;
     type: string;

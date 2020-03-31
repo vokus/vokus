@@ -5,43 +5,35 @@ export class ContainerComponent {
     protected static _created = false;
     protected static _metaData: MetaInterface[] = [];
 
-    public static register(constructor: any): void {
+    public static register(Function: any): void {
         if (this._created) {
             throw new Error('register() not allowed after create() call');
         }
 
         this._metaData.push({
-            constructor: constructor,
-            name: constructor.name,
-            key: StringComponent.decamelize(constructor.name),
-            type: StringComponent.decamelize(constructor.name.split(/(?=[A-Z][^A-Z]+$)/).pop()),
+            function: Function,
+            name: Function.name,
+            key: StringComponent.decamelize(Function.name),
+            type: StringComponent.decamelize(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop()),
             replacedBy: undefined,
             instance: undefined,
             instantiatedBy: undefined,
         });
     }
 
-    public static async create<T>(constructor: any): Promise<T> {
+    public static async create<T>(Function: any): Promise<T> {
         if (this._created) {
             throw new Error('create() not allowed after create() call');
         }
 
-        let meta: MetaInterface | undefined = undefined;
+        this.register(ContainerComponent);
 
-        for (const entry of this._metaData) {
-            if (constructor === entry.constructor) {
-                meta = entry;
-                break;
-            }
-        }
-
-        if (meta === undefined) {
-            throw new Error(`class "${constructor.name}" is not registered`);
-        }
+        const instantiateByMeta = await this.getMetaByFunction(ContainerComponent);
+        const meta = await this.getMetaByFunction(Function);
 
         await this.enrichMetaData();
 
-        const instance = await this.createInstance(meta);
+        const instance = await this.createInstance(meta, instantiateByMeta);
 
         this._created = true;
 
@@ -52,7 +44,7 @@ export class ContainerComponent {
         return this._metaData;
     }
 
-    protected static async createInstance(meta: MetaInterface): Promise<any> {
+    protected static async createInstance(meta: MetaInterface, instantiatedByMeta: MetaInterface): Promise<any> {
         if (meta.replacedBy !== undefined) {
             meta = meta.replacedBy;
         }
@@ -61,40 +53,42 @@ export class ContainerComponent {
             return meta.instance;
         }
 
-        const classParameters = Reflect.getMetadata('design:paramtypes', meta.constructor) || [];
+        meta.instantiatedBy = instantiatedByMeta;
+
+        const children = Reflect.getMetadata('design:paramtypes', meta.function) || [];
 
         const instancesToInject = [];
 
-        for (const classParameter of classParameters) {
-            const meta = await this.getMetaByConstructor(classParameter);
+        for (const childFunction of children) {
+            const childMeta = await this.getMetaByFunction(childFunction);
 
-            if (meta === undefined) {
-                throw new Error(`class "${classParameter.name}" is not registered`);
+            if (childMeta === undefined) {
+                throw new Error(`class "${childFunction.name}" is not registered`);
             }
 
-            instancesToInject.push(await this.createInstance(meta));
+            instancesToInject.push(await this.createInstance(childMeta, childMeta));
         }
 
-        meta.instance = new meta.constructor(...instancesToInject);
+        meta.instance = new meta.function(...instancesToInject);
         meta.instance.__meta = meta;
 
         return meta.instance;
     }
 
-    protected static async getMetaByConstructor(constructor: any): Promise<MetaInterface | undefined> {
+    protected static async getMetaByFunction(Function: any): Promise<MetaInterface> {
         for (const meta of this._metaData) {
-            if (constructor === meta.constructor) {
+            if (Function === meta.function) {
                 return meta;
             }
         }
 
-        return undefined;
+        throw new Error(`class "${Function.name}" is not registered`);
     }
 
     protected static async enrichMetaData(): Promise<void> {
         for (const meta of this._metaData) {
             for (const metaToCheck of this._metaData) {
-                if (meta.constructor.isPrototypeOf(metaToCheck.constructor)) {
+                if (meta.function.isPrototypeOf(metaToCheck.function)) {
                     meta.replacedBy = metaToCheck;
                 }
             }
