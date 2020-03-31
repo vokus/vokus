@@ -4,9 +4,6 @@ import * as nodePath from 'path';
 import { FileSystemComponent } from '@vokus/file-system';
 
 export class LoggerService {
-    protected _contextType: string;
-    protected _contextName: string;
-
     public async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }
@@ -40,24 +37,15 @@ export class LoggerService {
     }
 
     protected async log(code: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, message: string): Promise<void> {
-        // set context if not set
-        if (this._contextType === undefined && this._contextName === undefined && this.hasOwnProperty('__meta')) {
-            const descriptor: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(this, '__meta');
+        let contextType = undefined;
+        let contextKey = undefined;
 
-            if (descriptor !== undefined) {
-                const meta = descriptor.value;
+        // try to get context from meta data
+        const descriptor: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(this, '__meta');
 
-                console.log(meta);
-
-                if (
-                    undefined !== meta.instantiatedBy &&
-                    'string' === typeof meta.instantiatedBy.type &&
-                    'string' === typeof meta.instantiatedBy.name
-                ) {
-                    this._contextType = meta.instantiatedBy.type;
-                    this._contextName = meta.instantiatedBy.name;
-                }
-            }
+        if (descriptor !== undefined) {
+            contextType = descriptor.value.instantiatedBy.type;
+            contextKey = descriptor.value.instantiatedBy.key;
         }
 
         const date = new Date();
@@ -68,7 +56,7 @@ export class LoggerService {
         // remove line breaks from message
         message = message.replace(/(\r?\n|\r)/gm, ' ');
 
-        const log = new LogEntity(code, date, this._contextType, this._contextName, message);
+        const log = new LogEntity(code, date, contextType, contextKey, message);
 
         await this._writeLog(log);
     }
@@ -84,7 +72,7 @@ export class LoggerService {
             ),
         ];
 
-        if (undefined !== log.contextName && undefined !== log.contextType) {
+        if (undefined !== log.contextKey && undefined !== log.contextType) {
             logFilePaths.push(
                 nodePath.join(
                     EnvironmentComponent.projectPath,
@@ -92,7 +80,7 @@ export class LoggerService {
                     EnvironmentComponent.context,
                     'log',
                     log.contextType,
-                    log.contextName,
+                    log.contextKey,
                     log.level + '.log',
                 ),
             );
@@ -101,8 +89,8 @@ export class LoggerService {
         const output = [];
         output.push('[' + this.dateToString(log.date) + ']');
         output.push('[' + log.level + ']');
-        if (undefined !== log.contextName && undefined !== log.contextType) {
-            output.push('[' + log.contextType + '/' + log.contextName + ']');
+        if (undefined !== log.contextKey && undefined !== log.contextType) {
+            output.push('[' + log.contextType + '/' + log.contextKey + ']');
         }
         output.push('[' + log.message + ']');
 

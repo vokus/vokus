@@ -59,6 +59,8 @@ class TestLoggerService {
     }
 }
 
+class TestException {}
+
 @ServiceDecorator()
 class Test1Service {}
 
@@ -97,6 +99,14 @@ test('container', async () => {
     let error: Error = new Error();
 
     try {
+        ContainerComponent.register(TestException);
+    } catch (e) {
+        error = e;
+    }
+
+    expect(error).toEqual(new Error('can not register "TestException" - type "exception" not allowed'));
+
+    try {
         await ContainerComponent.create(Test5Service);
     } catch (e) {
         error = e;
@@ -131,5 +141,5 @@ test('container', async () => {
 
     expect(test4Service.test1Controller.test1Config instanceof Test3Config).toBe(true);
 
-    expect(ContainerComponent.metaData.length).toBe(10);
+    expect(ContainerComponent.metaData.length).toBe(11);
 });

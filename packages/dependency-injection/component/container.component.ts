@@ -2,19 +2,40 @@ import 'reflect-metadata';
 import { MetaInterface } from '@vokus/core';
 import { StringComponent } from '@vokus/string';
 export class ContainerComponent {
+    protected static _allowedTypes: string[] = ['config', 'component', 'controller', 'service'];
     protected static _created = false;
     protected static _metaData: MetaInterface[] = [];
 
     public static register(Function: any): void {
+        // check if already created and throw error
         if (this._created) {
             throw new Error('register() not allowed after create() call');
         }
 
+        // do not register if already registered
+        for (const meta of this._metaData) {
+            if (Function === meta.function) {
+                return;
+            }
+        }
+
+        // get type from function name
+        const type = StringComponent.decamelize(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
+
+        // check if type allowed
+        if (!this._allowedTypes.includes(type)) {
+            throw new Error(`can not register "${Function.name}" - type "${type}" not allowed`);
+        }
+
+        // get key from function name
+        const key = StringComponent.decamelize(Function.name).replace('-' + type, '');
+
+        // add meta data object to global meta data
         this._metaData.push({
             function: Function,
             name: Function.name,
-            key: StringComponent.decamelize(Function.name),
-            type: StringComponent.decamelize(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop()),
+            key: key,
+            type: type,
             replacedBy: undefined,
             instance: undefined,
             instantiatedBy: undefined,
@@ -60,13 +81,7 @@ export class ContainerComponent {
         const instancesToInject = [];
 
         for (const childFunction of children) {
-            const childMeta = await this.getMetaByFunction(childFunction);
-
-            if (childMeta === undefined) {
-                throw new Error(`class "${childFunction.name}" is not registered`);
-            }
-
-            instancesToInject.push(await this.createInstance(childMeta, childMeta));
+            instancesToInject.push(await this.createInstance(await this.getMetaByFunction(childFunction), meta));
         }
 
         meta.instance = new meta.function(...instancesToInject);

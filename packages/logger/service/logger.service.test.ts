@@ -20,5 +20,14 @@ test('logger', async () => {
 
     const logger2: MyLoggerService = await ContainerComponent.create(MyLoggerService);
 
-    logger2.alert('alert message');
+    await Promise.all([
+        logger2.alert('alert message'),
+        logger2.critical('critical message'),
+        logger2.debug('debug message'),
+        logger2.emergency('emergency message'),
+        logger2.error('error message'),
+        logger2.info('info message'),
+        logger2.notice('notice message'),
+        logger2.warning('warning message'),
+    ]);
 });
