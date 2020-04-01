@@ -1,6 +1,6 @@
 {
     "name": "@vokus/http-server",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "@vokus/http-server",
     "repository": {
         "type": "git",
@@ -10,10 +10,10 @@
     "license": "MIT",
     "main": "index.js",
     "dependencies": {
-        "@vokus/dependency-injection": "0.0.1",
-        "@vokus/environment": "0.0.1",
-        "@vokus/file-system": "0.0.1",
-        "@vokus/logger": "0.0.1"
+        "@vokus/dependency-injection": "^0.0.2",
+        "@vokus/environment": "^0.0.2",
+        "@vokus/file-system": "^0.0.2",
+        "@vokus/logger": "^0.0.2"
     },
     "publishConfig": {
         "access": "public"

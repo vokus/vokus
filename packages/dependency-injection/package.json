@@ -1,6 +1,6 @@
 {
     "name": "@vokus/dependency-injection",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "@vokus/dependency-injection",
     "repository": {
         "type": "git",
@@ -10,8 +10,8 @@
     "license": "MIT",
     "main": "index.js",
     "dependencies": {
-        "@vokus/core": "0.0.1",
-        "@vokus/string": "0.0.1",
+        "@vokus/core": "^0.0.2",
+        "@vokus/string": "^0.0.2",
         "reflect-metadata": "0.1.13"
     },
     "publishConfig": {

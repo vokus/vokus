@@ -1,6 +1,6 @@
 {
     "name": "@vokus/environment",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "@vokus/environment",
     "repository": {
         "type": "git",
@@ -10,7 +10,7 @@
     "license": "MIT",
     "main": "index.js",
     "dependencies": {
-        "@vokus/file-system": "0.0.1",
+        "@vokus/file-system": "^0.0.2",
         "dotenv": "^8.2.0"
     },
     "publishConfig": {
