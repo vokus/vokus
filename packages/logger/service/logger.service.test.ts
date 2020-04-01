@@ -1,5 +1,18 @@
+import path from 'path';
 import { LoggerService } from '../';
 import { ContainerComponent, ServiceDecorator } from '@vokus/dependency-injection';
+import { EnvironmentComponent } from '@vokus/environment';
+import { FileSystemComponent } from '@vokus/file-system';
+
+const pathToLogDir = path.join(EnvironmentComponent.projectPath, 'var', EnvironmentComponent.context, 'log');
+
+beforeAll(async () => {
+    await FileSystemComponent.remove(pathToLogDir);
+});
+
+afterAll(async () => {
+    // await FileSystemComponent.remove(pathToLogDir);
+});
 
 @ServiceDecorator()
 class MyLoggerService extends LoggerService {}
@@ -29,5 +42,28 @@ test('logger', async () => {
         logger2.info('info message'),
         logger2.notice('notice message'),
         logger2.warning('warning message'),
+    ]);
+
+    expect(await FileSystemComponent.readDirectory(pathToLogDir)).toEqual([
+        'alert.log',
+        'component',
+        'critical.log',
+        'debug.log',
+        'emergency.log',
+        'error.log',
+        'info.log',
+        'notice.log',
+        'warning.log',
+    ]);
+
+    expect(await FileSystemComponent.readDirectory(path.join(pathToLogDir, 'component', 'container'))).toEqual([
+        'alert.log',
+        'critical.log',
+        'debug.log',
+        'emergency.log',
+        'error.log',
+        'info.log',
+        'notice.log',
+        'warning.log',
     ]);
 });

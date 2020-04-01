@@ -21,6 +21,13 @@ class Badge {
             color: 'ff69b4',
             style: 'flat-square',
         },
+        {
+            key: 'linter',
+            label: 'eslint',
+            message: 'eslint',
+            color: '4b32C3',
+            style: 'flat-square',
+        },
     ];
 
     public static async run(): Promise<void> {
