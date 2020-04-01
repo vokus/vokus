@@ -65,6 +65,10 @@ export class EnvironmentComponent {
         return path.join(process.cwd(), 'public');
     }
 
+    public static get configPath(): string {
+        return path.join(process.cwd(), 'config');
+    }
+
     public static getValue(environmentVariable: EnvironmentVariableInterface): string | number | boolean | undefined {
         // check if value already set and return
         if (undefined !== this._values[environmentVariable.name]) {

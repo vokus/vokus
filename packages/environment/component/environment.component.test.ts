@@ -147,6 +147,10 @@ describe('EnvironmentComponent', () => {
         expect(EnvironmentComponent.publicPath).toMatch(/public/);
     });
 
+    test('configPath', async () => {
+        expect(EnvironmentComponent.configPath).toMatch(/config/);
+    });
+
     test('getValue', async () => {
         const config = new Config();
 

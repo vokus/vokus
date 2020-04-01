@@ -1,6 +1,6 @@
 import path from 'path';
 import { LoggerService } from '../';
-import { ContainerComponent, ServiceDecorator } from '@vokus/dependency-injection';
+import { ContainerComponent } from '@vokus/dependency-injection';
 import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
 
@@ -11,37 +11,34 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    // await FileSystemComponent.remove(pathToLogDir);
+    await FileSystemComponent.remove(pathToLogDir);
 });
 
-@ServiceDecorator()
-class MyLoggerService extends LoggerService {}
-
 test('logger', async () => {
-    const logger: LoggerService = new LoggerService();
+    let loggerService: LoggerService = new LoggerService();
 
     await Promise.all([
-        logger.alert('alert message'),
-        logger.critical('critical message'),
-        logger.debug('debug message'),
-        logger.emergency('emergency message'),
-        logger.error('error message'),
-        logger.info('info message'),
-        logger.notice('notice message'),
-        logger.warning('warning message'),
+        loggerService.alert('alert message'),
+        loggerService.critical('critical message'),
+        loggerService.debug('debug message'),
+        loggerService.emergency('emergency message'),
+        loggerService.error('error message'),
+        loggerService.info('info message'),
+        loggerService.notice('notice message'),
+        loggerService.warning('warning message'),
     ]);
 
-    const logger2: MyLoggerService = await ContainerComponent.create(MyLoggerService);
+    loggerService = await ContainerComponent.create(LoggerService);
 
     await Promise.all([
-        logger2.alert('alert message'),
-        logger2.critical('critical message'),
-        logger2.debug('debug message'),
-        logger2.emergency('emergency message'),
-        logger2.error('error message'),
-        logger2.info('info message'),
-        logger2.notice('notice message'),
-        logger2.warning('warning message'),
+        loggerService.alert('alert message'),
+        loggerService.critical('critical message'),
+        loggerService.debug('debug message'),
+        loggerService.emergency('emergency message'),
+        loggerService.error('error message'),
+        loggerService.info('info message'),
+        loggerService.notice('notice message'),
+        loggerService.warning('warning message'),
     ]);
 
     expect(await FileSystemComponent.readDirectory(pathToLogDir)).toEqual([
