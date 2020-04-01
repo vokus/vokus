@@ -23,7 +23,7 @@ class Badge {
         },
         {
             key: 'linter',
-            label: 'eslint',
+            label: 'linter',
             message: 'eslint',
             color: '4b32C3',
             style: 'flat-square',

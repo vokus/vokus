@@ -1,7 +1,0 @@
-{
-    "name": "example",
-    "private": true,
-    "dependencies": {
-        "@vokus/core": "latest"
-    }
-}

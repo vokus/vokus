@@ -22,6 +22,7 @@ class UpdatePackages {
             packageJson.description = '@vokus/' + name;
             packageJson.license = 'MIT';
             packageJson.main = 'index.js';
+            packageJson.types = 'index.d.ts';
             packageJson.publishConfig = {
                 access: 'public',
             };
