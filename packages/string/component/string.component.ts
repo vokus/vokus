@@ -1,3 +1,5 @@
+import { slugify } from 'transliteration';
+
 export class StringComponent {
     public static camelize(text: string): string {
         return text.replace(/^([A-Z])|[\s-_.]+(\w)/g, (match, p1, p2) => {
@@ -15,5 +17,11 @@ export class StringComponent {
             .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2')
             .replace(/_/g, separator)
             .toLowerCase();
+    }
+
+    public static slugify(text: string, separator = '-'): string {
+        text = text.replace(/([a-z\d])([A-Z])/g, '$1 $2');
+
+        return slugify(text, { separator: separator, allowedChars: 'a-zA-Z0-9' + separator });
     }
 }

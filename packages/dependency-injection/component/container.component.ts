@@ -20,7 +20,7 @@ export class ContainerComponent {
         }
 
         // get type from function name
-        const type = StringComponent.decamelize(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
+        const type = StringComponent.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
 
         // check if type allowed
         if (!this._allowedTypes.includes(type)) {
@@ -28,7 +28,7 @@ export class ContainerComponent {
         }
 
         // get key from function name
-        const key = StringComponent.decamelize(Function.name).replace('-' + type, '');
+        const key = StringComponent.slugify(Function.name).replace('-' + type, '');
 
         // add meta data object to global meta data
         this._metaData.push({

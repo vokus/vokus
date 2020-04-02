@@ -1,6 +1,7 @@
 export interface EnvironmentVariableInterface {
     name: string;
     example: string | number | boolean;
-    allowedValues?: string[] | number[];
-    required?: boolean;
+    required: boolean;
+    allowedValues?: string[] | number[] | boolean[];
+    default?: string | number | boolean;
 }

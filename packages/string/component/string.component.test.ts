@@ -11,6 +11,7 @@ describe('StringComponent', () => {
         expect(StringComponent.camelize('camelized')).toBe('camelized');
         expect(StringComponent.camelize('Camelized')).toBe('camelized');
     });
+
     test('decamelize', () => {
         expect(StringComponent.decamelize('camelized-string')).toBe('camelized-string');
         expect(StringComponent.decamelize('CamelizedString')).toBe('camelized-string');
@@ -18,5 +19,15 @@ describe('StringComponent', () => {
         expect(StringComponent.decamelize(' CamelizedString')).toBe('camelized-string');
         expect(StringComponent.decamelize(' camelized   String')).toBe('camelized-string');
         expect(StringComponent.decamelize('1CamelizedString')).toBe('1-camelized-string');
+    });
+
+    test('slugify', () => {
+        expect(StringComponent.slugify('slugified-string')).toBe('slugified-string');
+        expect(StringComponent.slugify('SlugString')).toBe('slug-string');
+        expect(StringComponent.slugify('slugifiedString')).toBe('slugified-string');
+        expect(StringComponent.slugify(' SlugifiedString')).toBe('slugified-string');
+        expect(StringComponent.slugify(' slugified   String')).toBe('slugified-string');
+        expect(StringComponent.slugify('1SlugifiedString')).toBe('1-slugified-string');
+        expect(StringComponent.slugify('10!".?&12 slugifiéd   String ')).toBe('10-12-slugified-string');
     });
 });

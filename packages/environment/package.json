@@ -12,6 +12,7 @@
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/file-system": "^0.0.4",
+        "@vokus/string": "^0.0.4",
         "dotenv": "^8.2.0"
     },
     "publishConfig": {
