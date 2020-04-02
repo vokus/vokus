@@ -15,18 +15,20 @@ export class HTTPServerService {
     }
 
     public async start(): Promise<void> {
+        /*
         this._server = https.createServer({}, (req, res) => {
             res.writeHead(200);
             res.end('hello world\n');
         });
 
         this._server.listen(8000);
+        */
 
         await this._loggerService.notice('started');
     }
 
     public async stop(): Promise<void> {
-        this._server.close();
+        // this._server.close();
         await this._loggerService.notice('stopped');
     }
 }
