@@ -34,9 +34,21 @@ class UpdatePackages {
 
             await FileSystemComponent.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
-            await FileSystemComponent.writeFile(pathToNpmIgnore, '**/*.ts' + '\n');
+            const npmignoreContent =
+                '# ignore the .ts files' +
+                '\n' +
+                '**/*.ts' +
+                '\n' +
+                '# include the .d.ts files' +
+                '\n' +
+                '!*.d.ts' +
+                '\n';
 
-            await FileSystemComponent.writeFile(pathToNpmrc, 'engine-strict=true' + '\n' + 'package-lock=false' + '\n');
+            await FileSystemComponent.writeFile(pathToNpmIgnore, npmignoreContent);
+
+            const npmrcContent = 'engine-strict=true' + '\n' + 'package-lock=false' + '\n';
+
+            await FileSystemComponent.writeFile(pathToNpmrc, npmrcContent);
         }
     }
 }
