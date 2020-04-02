@@ -1,6 +1,6 @@
 {
     "name": "@vokus/dev",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "@vokus/dev",
     "repository": {
         "type": "git",
@@ -11,8 +11,8 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/environment": "^0.0.3",
-        "@vokus/file-system": "^0.0.3"
+        "@vokus/environment": "^0.0.4",
+        "@vokus/file-system": "^0.0.4"
     },
     "publishConfig": {
         "access": "public"
