@@ -9,6 +9,7 @@
     },
     "license": "MIT",
     "main": "index.js",
+    "types": "index.d.ts",
     "dependencies": {
         "@vokus/core": "^0.0.2",
         "@vokus/dependency-injection": "^0.0.2",

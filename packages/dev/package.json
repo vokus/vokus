@@ -9,6 +9,7 @@
     },
     "license": "MIT",
     "main": "index.js",
+    "types": "index.d.ts",
     "dependencies": {
         "@vokus/environment": "^0.0.2",
         "@vokus/file-system": "^0.0.2"
