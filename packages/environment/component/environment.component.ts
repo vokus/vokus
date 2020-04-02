@@ -11,6 +11,10 @@ export class EnvironmentComponent {
     protected static readonly _contextTest: string = 'test';
     protected static readonly _contextDevelopment: string = 'development';
 
+    protected static _contextDotEnvLoaded = false;
+    protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
+    protected static _values: { [name: string]: string | number | boolean | undefined } = {};
+
     protected static ensureContextVariableExists(): void {
         // register NODE_ENV if not exists
         if (undefined === this._values.NODE_ENV) {
@@ -89,10 +93,6 @@ export class EnvironmentComponent {
 
         return this._values[environmentVariable.name];
     }
-
-    protected static _contextDotEnvLoaded = false;
-    protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
-    protected static _values: { [name: string]: string | number | boolean | undefined } = {};
 
     protected static _loadContextSpecificDotEnv(): void {
         FileSystemComponent.ensureFileExistsSync(this._values.NODE_ENV + '.env');

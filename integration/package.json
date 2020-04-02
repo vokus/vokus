@@ -2,13 +2,8 @@
     "name": "example",
     "private": true,
     "dependencies": {
-        "@vokus/core": "latest",
-        "@vokus/dependency-injection": "latest",
-        "@vokus/http-server": "latest"
-    },
-    "devDependencies": {
-        "@types/vokus__core": "latest",
-        "@types/vokus__dependency-injection": "latest",
-        "@types/vokus__http-server": "latest"
+        "@vokus/core": "0.0.4",
+        "@vokus/dependency-injection": "0.0.4",
+        "@vokus/http-server": "0.0.4"
     }
 }
