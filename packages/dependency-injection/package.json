@@ -1,6 +1,6 @@
 {
     "name": "@vokus/dependency-injection",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "@vokus/dependency-injection",
     "repository": {
         "type": "git",
@@ -11,8 +11,8 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/core": "^0.0.2",
-        "@vokus/string": "^0.0.2",
+        "@vokus/core": "^0.0.3",
+        "@vokus/string": "^0.0.3",
         "reflect-metadata": "0.1.13"
     },
     "publishConfig": {

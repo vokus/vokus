@@ -1,6 +1,6 @@
 {
     "name": "@vokus/http-server",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "@vokus/http-server",
     "repository": {
         "type": "git",
@@ -11,10 +11,10 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/dependency-injection": "^0.0.2",
-        "@vokus/environment": "^0.0.2",
-        "@vokus/file-system": "^0.0.2",
-        "@vokus/logger": "^0.0.2"
+        "@vokus/dependency-injection": "^0.0.3",
+        "@vokus/environment": "^0.0.3",
+        "@vokus/file-system": "^0.0.3",
+        "@vokus/logger": "^0.0.3"
     },
     "publishConfig": {
         "access": "public"
