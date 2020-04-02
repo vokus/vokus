@@ -9,6 +9,6 @@
     "devDependencies": {
         "@types/vokus__core": "latest",
         "@types/vokus__dependency-injection": "latest",
-        "@types/vokus__http-server": "latest",
+        "@types/vokus__http-server": "latest"
     }
 }
