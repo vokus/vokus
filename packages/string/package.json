@@ -10,11 +10,11 @@
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
+    "dependencies": {
+        "transliteration": "2.1.8"
+    },
     "publishConfig": {
         "access": "public"
     },
-    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20",
-    "dependencies": {
-        "transliteration": "2.1.8"
-    }
+    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20"
 }

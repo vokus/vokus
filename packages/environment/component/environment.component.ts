@@ -1,8 +1,7 @@
 import dotenv from 'dotenv';
-import { EnvironmentVariableError } from '../error/environment-variable.error';
+import path from 'path';
 import { EnvironmentVariableInterface } from '../interface/environment-variable.interface';
 import { FileSystemComponent } from '@vokus/file-system';
-import path from 'path';
 
 export class EnvironmentComponent {
     protected static readonly _contextProduction: string = 'production';
@@ -56,7 +55,7 @@ export class EnvironmentComponent {
     public static registerEnvironmentVariable(environmentVariable: EnvironmentVariableInterface): void {
         // check if already registered
         if ('undefined' !== typeof this._variables[environmentVariable.name]) {
-            throw new EnvironmentVariableError(environmentVariable, 'environment variable already registered');
+            throw new Error(`environment variable ${environmentVariable.name} already registered`);
         }
 
         // check if example and default in allowedValues
@@ -65,14 +64,18 @@ export class EnvironmentComponent {
                 typeof environmentVariable.default !== 'undefined' &&
                 !environmentVariable.allowedValues.includes(environmentVariable.default as never)
             ) {
-                throw new EnvironmentVariableError(environmentVariable, 'default value not in allowed values');
+                throw new Error(
+                    `problem with configuration of environment variable ${environmentVariable.name}: default value not in allowed values`,
+                );
             }
 
             if (
                 typeof environmentVariable.example !== 'undefined' &&
                 !environmentVariable.allowedValues.includes(environmentVariable.example as never)
             ) {
-                throw new EnvironmentVariableError(environmentVariable, 'example not in allowed values');
+                throw new Error(
+                    `problem with configuration of environment variable ${environmentVariable.name}: example not in allowed values`,
+                );
             }
         }
 
@@ -81,7 +84,9 @@ export class EnvironmentComponent {
             typeof environmentVariable.default !== 'undefined' &&
             typeof environmentVariable.default !== typeof environmentVariable.example
         ) {
-            throw new EnvironmentVariableError(environmentVariable, 'type of example not equal to default');
+            throw new Error(
+                `problem with configuration of ${environmentVariable.name}: type of example not equal to type of default`,
+            );
         }
 
         this._variables[environmentVariable.name] = environmentVariable;
@@ -153,8 +158,12 @@ export class EnvironmentComponent {
         let value = process.env[environmentVariable.name] as string | number | boolean;
 
         if (typeof value !== 'string' || value.length === 0) {
-            this._updateDotEnvFiles();
-            throw new EnvironmentVariableError(environmentVariable);
+            if ('undefined' !== typeof environmentVariable.default) {
+                value = environmentVariable.default;
+            } else {
+                this._updateDotEnvFiles();
+                throw new Error(`environment variable ${environmentVariable.name} was not set`);
+            }
         }
 
         if (typeof environmentVariable.example === 'string') {
@@ -166,7 +175,7 @@ export class EnvironmentComponent {
         // check if value is valid number
         if (Number.isNaN(value)) {
             this._updateDotEnvFiles();
-            throw new EnvironmentVariableError(environmentVariable);
+            throw new Error(`environment variable ${environmentVariable.name} is not a number`);
         }
 
         if (typeof environmentVariable.example === 'number') {
@@ -189,7 +198,7 @@ export class EnvironmentComponent {
         }
 
         this._updateDotEnvFiles();
-        throw new EnvironmentVariableError(environmentVariable);
+        throw new Error(`environment variable ${environmentVariable.name} not in the allowed values`);
     }
 
     protected static _updateDotEnvFiles(): void {

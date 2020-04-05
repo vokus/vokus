@@ -1,5 +1,6 @@
-import * as https from 'https';
-import * as path from 'path';
+import https from 'https';
+import path from 'path';
+import express from 'express';
 import { ServiceDecorator } from '@vokus/dependency-injection';
 import { LoggerService } from '@vokus/logger';
 import { HTTPServerConfig } from '../';
@@ -22,18 +23,17 @@ export class HTTPServerService {
     public async start(): Promise<void> {
         await this.readKeyAndCert();
 
+        const app = express();
+
         this._server = https.createServer(
             {
                 key: this._key,
                 cert: this._cert,
             },
-            (req, res) => {
-                res.writeHead(200);
-                res.end('hello world\n');
-            },
+            app,
         );
 
-        this._server.listen(3000);
+        this._server.listen(this._httpServerConfig.port);
 
         await this._loggerService.notice('started');
     }

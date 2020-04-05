@@ -1,11 +1,11 @@
-import path from 'path';
 import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
-import { FileSystemComponent } from '@vokus/file-system';
 import { StringComponent } from '@vokus/string';
 
 process.env.TEST_DECORATOR_BOOLEAN = '1';
 process.env.TEST_DECORATOR_NUMBER = '44';
 process.env.TEST_DECORATOR_STRING = 'test';
+process.env.TEST_INVALID_NUMBER_2 = 'test';
+process.env.TEST_INVALID_STRING_3 = 'any other string';
 
 function getEnvName(
     type: string,
@@ -84,6 +84,11 @@ const invalidEnvironmentVariables: { [name: string]: EnvironmentVariableInterfac
         required: true,
         allowedValues: [1],
     },
+    TEST_INVALID_NUMBER_2: {
+        name: 'TEST_INVALID_NUMBER_2',
+        example: 10,
+        required: true,
+    },
     TEST_INVALID_STRING: {
         name: 'TEST_INVALID_STRING',
         example: 'any test string',
@@ -95,6 +100,12 @@ const invalidEnvironmentVariables: { [name: string]: EnvironmentVariableInterfac
         example: 'any test string',
         required: false,
         default: 10,
+    },
+    TEST_INVALID_STRING_3: {
+        name: 'TEST_INVALID_STRING_3',
+        example: 'test',
+        required: true,
+        allowedValues: ['test'],
     },
 };
 
@@ -188,32 +199,30 @@ describe('EnvironmentComponent', () => {
             EnvironmentComponent.registerEnvironmentVariable(
                 environmentVariables.TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE,
             );
-        }).toThrowError(
-            'environment variable TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE not valid - example: 1 - environment variable already registered',
-        );
+        }).toThrowError('environment variable TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE already registered');
 
         expect(() => {
             EnvironmentComponent.registerEnvironmentVariable(invalidEnvironmentVariables.TEST_INVALID_BOOLEAN);
         }).toThrowError(
-            'environment variable TEST_INVALID_BOOLEAN not valid - example: 1 - allowed values: [ 0 ] - default value not in allowed values',
+            'problem with configuration of environment variable TEST_INVALID_BOOLEAN: default value not in allowed values',
         );
 
         expect(() => {
             EnvironmentComponent.registerEnvironmentVariable(invalidEnvironmentVariables.TEST_INVALID_NUMBER);
         }).toThrowError(
-            'environment variable TEST_INVALID_NUMBER not valid - example: 10 - allowed values: [ 1 ] - example not in allowed values',
+            'problem with configuration of environment variable TEST_INVALID_NUMBER: example not in allowed values',
         );
 
         expect(() => {
             EnvironmentComponent.registerEnvironmentVariable(invalidEnvironmentVariables.TEST_INVALID_STRING);
         }).toThrowError(
-            'environment variable TEST_INVALID_STRING not valid - example: any test string - allowed values: [ test ] - example not in allowed values',
+            'problem with configuration of environment variable TEST_INVALID_STRING: example not in allowed values',
         );
 
         expect(() => {
             EnvironmentComponent.registerEnvironmentVariable(invalidEnvironmentVariables.TEST_INVALID_STRING_2);
         }).toThrowError(
-            'environment variable TEST_INVALID_STRING_2 not valid - example: any test string - type of example not equal to default',
+            'problem with configuration of TEST_INVALID_STRING_2: type of example not equal to type of default',
         );
     });
 
@@ -229,7 +238,7 @@ describe('EnvironmentComponent', () => {
             EnvironmentComponent.getValueFromEnvironmentVariable(
                 environmentVariables.TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE,
             );
-        }).toThrowError('environment variable TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE not valid - example: 1');
+        }).toThrowError('environment variable TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE was not set');
 
         expect(
             EnvironmentComponent.getValueFromEnvironmentVariable({
@@ -239,30 +248,14 @@ describe('EnvironmentComponent', () => {
             }),
         ).toBe('test');
 
-        /*
+        // try to get a number with is a string
         expect(() => {
-            EnvironmentComponent.getValue(environmentVariables.TEST_ERROR_1);
-        }).toThrowError(
-            "environment variable 'TEST_ERROR_1' not valid - example: '-200' - allowed values: '-300 | 10'",
-        );
+            EnvironmentComponent.getValueFromEnvironmentVariable(invalidEnvironmentVariables.TEST_INVALID_NUMBER_2);
+        }).toThrowError('environment variable TEST_INVALID_NUMBER_2 is not a number');
 
+        // try to get a value which is not in the allowed values
         expect(() => {
-            EnvironmentComponent.getValue(environmentVariables.TEST_ERROR_2);
-        }).toThrowError(
-            "environment variable 'TEST_ERROR_2' not valid - example: 'error' - allowed values: 'error | test'",
-        );
-
-        expect(() => {
-            EnvironmentComponent.getValue(environmentVariables.TEST_ERROR_3);
-        }).toThrowError("environment variable 'TEST_ERROR_3' not valid - example: 'error 3'");
-
-        expect(() => {
-            EnvironmentComponent.getValue(environmentVariables.TEST_ERROR_4);
-        }).toThrowError("environment variable 'TEST_ERROR_4' not valid - example: '10'");
-
-        expect(() => {
-            EnvironmentComponent.getValue(environmentVariables.TEST_ERROR_5);
-        }).toThrowError("environment variable 'TEST_ERROR_5' not valid - example: '1'");
-        */
+            EnvironmentComponent.getValueFromEnvironmentVariable(invalidEnvironmentVariables.TEST_INVALID_STRING_3);
+        }).toThrowError('environment variable TEST_INVALID_STRING_3 not in the allowed values');
     });
 });
