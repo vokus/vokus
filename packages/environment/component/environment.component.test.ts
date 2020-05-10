@@ -1,11 +1,11 @@
-import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
-import { StringComponent } from '@vokus/string';
-
 process.env.TEST_DECORATOR_BOOLEAN = '1';
 process.env.TEST_DECORATOR_NUMBER = '44';
 process.env.TEST_DECORATOR_STRING = 'test';
 process.env.TEST_INVALID_NUMBER_2 = 'test';
 process.env.TEST_INVALID_STRING_3 = 'any other string';
+
+import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
+import { StringComponent } from '@vokus/string';
 
 function getEnvName(
     type: string,
