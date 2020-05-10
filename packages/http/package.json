@@ -17,11 +17,11 @@
         "@vokus/logger": "^0.0.4",
         "express": "4.17.1"
     },
+    "devDependencies": {
+        "@types/express": "4.17.4"
+    },
     "publishConfig": {
         "access": "public"
     },
-    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20",
-    "devDependencies": {
-        "@types/express": "4.17.4"
-    }
+    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20"
 }
