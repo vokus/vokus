@@ -16,7 +16,7 @@
         "@vokus/environment": "^0.0.4",
         "@vokus/file-system": "^0.0.4",
         "@vokus/string": "^0.0.4",
-        "typeorm": "0.2.24"
+        "typeorm": "0.2.25"
     },
     "publishConfig": {
         "access": "public"

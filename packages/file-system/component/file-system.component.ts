@@ -14,11 +14,11 @@ export class FileSystemComponent {
         return nodeFs.createWriteStream(path);
     }
 
-    public static async ensureDirectoryExists(path: string): Promise<void> {
+    public static async ensureDirectoryExists(path: string): Promise<string> {
         return nodeFs.promises.mkdir(path, { recursive: true });
     }
 
-    public static ensureDirectoryExistsSync(path: string): void {
+    public static ensureDirectoryExistsSync(path: string): string {
         return nodeFs.mkdirSync(path, { recursive: true });
     }
 

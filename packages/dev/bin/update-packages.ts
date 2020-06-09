@@ -2,6 +2,7 @@
 
 import path from 'path';
 import { FileSystemComponent } from '@vokus/file-system';
+import ncu from 'npm-check-updates';
 
 class UpdatePackages {
     protected static packagesPath = 'packages';
@@ -33,6 +34,11 @@ class UpdatePackages {
             };
 
             await FileSystemComponent.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
+
+            await ncu.run({
+                upgrade: true,
+                packageFile: pathToPackageJson
+            });
 
             const npmignoreContent =
                 '# ignore the .ts files' +
