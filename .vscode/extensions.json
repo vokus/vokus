@@ -6,6 +6,7 @@
         "editorconfig.editorconfig",
         "firsttris.vscode-jest-runner",
         "gruntfuggly.todo-tree",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "richie5um2.vscode-sort-json",
     ]
 }

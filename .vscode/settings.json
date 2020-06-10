@@ -1,17 +1,17 @@
 {
+    "editor.formatOnSave": true,
     "editor.rulers": [
         100
     ],
-    "editor.formatOnSave": true,
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "eslint.run": "onSave",
     "files.exclude": {
         "**/node_modules/": true,
-        "packages/**/*.js": true,
-        "packages/**/*.d.ts": true
+        "packages/**/*.d.ts": true,
+        "packages/**/*.js": true
     },
-    "npm.enableScriptExplorer": true,
-    "jestrunner.configPath": "jest-config-vscode.js",
     "javascript.implicitProjectConfig.experimentalDecorators": true,
-    "eslint.alwaysShowStatus": true,
-    "eslint.run": "onSave",
-    "eslint.format.enable": true
+    "jestrunner.configPath": "jest-config-vscode.js",
+    "npm.enableScriptExplorer": true
 }

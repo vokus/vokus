@@ -247,6 +247,7 @@ export class EnvironmentComponent {
         }
 
         const pathToExampleDotEnv = path.join(this.configPath, 'example.env');
+
         FileSystemComponent.ensureFileExistsSync(pathToExampleDotEnv);
         FileSystemComponent.writeFileSync(pathToExampleDotEnv, data.join('\n'));
     }
