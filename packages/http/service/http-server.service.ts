@@ -12,9 +12,8 @@ export class HTTPServerService {
     protected _server: https.Server;
     protected _loggerService: LoggerService;
     protected _httpServerConfig: HTTPServerConfig;
-    protected _key: string;
-    protected _cert: string;
     protected _express: Application;
+    protected _selfSignedCertificate: boolean;
 
     constructor(loggerService: LoggerService, httpServerConfig: HTTPServerConfig) {
         this._httpServerConfig = httpServerConfig;
@@ -22,64 +21,54 @@ export class HTTPServerService {
     }
 
     public async start(): Promise<void> {
-        await this.readKeyAndCert();
+        const pathToKey = path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem');
+        const pathToCert = path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem');
+
+        let key = undefined;
+        let cert = undefined;
+
+        // try to load certificate and key from config path
+        if ((await FileSystemComponent.isFile(pathToKey)) && (await FileSystemComponent.isFile(pathToCert))) {
+            key = await FileSystemComponent.readFile(pathToKey);
+            cert = await FileSystemComponent.readFile(pathToCert);
+        }
+
+        // load self signed certificate if not exists in config
+        if ('string' !== typeof key || 0 === key.length || 'string' !== typeof cert || 0 === cert.length) {
+            // throw exception if certicate and key does not exists in production context
+            if (EnvironmentComponent.isInContextProduction()) {
+                throw new Error(`${pathToKey} or ${pathToCert} does not exists`);
+            }
+
+            key = await FileSystemComponent.readFile(path.join(__dirname, '../self-signed-key.pem'));
+            cert = await FileSystemComponent.readFile(path.join(__dirname, '../self-signed-cert.pem'));
+
+            this._selfSignedCertificate = true;
+
+            this._loggerService.warning(
+                `${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`,
+            );
+        } else {
+            this._selfSignedCertificate = false;
+        }
 
         this._express = express();
 
         this._server = https.createServer(
             {
-                key: this._key,
-                cert: this._cert,
+                key: key,
+                cert: cert,
             },
             this._express,
         );
 
         this._server.listen(this._httpServerConfig.port);
 
-        await this._loggerService.notice('started');
+        await this._loggerService.notice(`started with port ${this._httpServerConfig.port}`);
     }
 
     public async stop(): Promise<void> {
         this._server.close();
-        await this._loggerService.notice('stopped');
-    }
-
-    protected async readKeyAndCert(): Promise<void> {
-        const pathToKey = path.join(EnvironmentComponent.configPath, 'http-server/key.pem');
-        const pathToCert = path.join(EnvironmentComponent.configPath, 'http-server/cert.pem');
-
-        if (await FileSystemComponent.isFile(pathToKey)) {
-            this._key = await FileSystemComponent.readFile(pathToKey);
-        }
-
-        if (await FileSystemComponent.isFile(pathToCert)) {
-            this._cert = await FileSystemComponent.readFile(pathToCert);
-        }
-
-        // check if key and cert valid
-        if (
-            'string' === typeof this._key &&
-            0 < this._key.length &&
-            'string' === typeof this._cert &&
-            0 < this._cert.length
-        ) {
-            return;
-        }
-
-        // load self signed certificate if not in context production
-        if (!EnvironmentComponent.isInContextProduction()) {
-            this._key = await FileSystemComponent.readFile(path.join(__dirname, '../config/key.pem'));
-            this._cert = await FileSystemComponent.readFile(path.join(__dirname, '../config/cert.pem'));
-            this._loggerService.warning(`${pathToKey} or ${pathToCert} does not exists, use a self signed certificate`);
-        }
-
-        if (
-            'string' !== typeof this._key ||
-            0 === this._key.length ||
-            'string' !== typeof this._cert ||
-            0 === this._cert.length
-        ) {
-            throw new Error(`cert or key does not exists or empty`);
-        }
+        await this._loggerService.notice(`stopped with port ${this._httpServerConfig.port}`);
     }
 }
