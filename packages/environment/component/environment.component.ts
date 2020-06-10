@@ -147,8 +147,9 @@ export class EnvironmentComponent {
     }
 
     protected static _loadContextSpecificDotEnv(): void {
-        FileSystemComponent.ensureFileExistsSync(this._values.NODE_ENV + '.env');
-        dotenv.config({ path: this._values.NODE_ENV + '.env' });
+        const pathToDotEnv = path.join(this.configPath, '.env');
+        FileSystemComponent.ensureFileExistsSync(pathToDotEnv);
+        dotenv.config({ path: pathToDotEnv });
         this._contextDotEnvLoaded = true;
     }
 

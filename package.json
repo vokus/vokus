@@ -28,7 +28,7 @@
         "setup": "rm -rf node_modules && npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
         "shields": "ts-node ./packages/dev/bin/shields",
         "test": "jest --config jest-config.js --detectOpenHandles",
-        "test-integration": "cd ./integration && npm update && ts-node ./index.ts",
+        "test-integration": "npm run lint && cd ./integration && npm update && ts-node ./index.ts",
         "tsc": "tsc",
         "update-packages": "ts-node ./packages/dev/bin/update-packages && sort-package-json 'package.json' 'packages/*/package.json'"
     },

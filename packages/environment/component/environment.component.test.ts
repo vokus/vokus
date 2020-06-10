@@ -5,6 +5,7 @@ process.env.TEST_INVALID_NUMBER_2 = 'test';
 process.env.TEST_INVALID_STRING_3 = 'any other string';
 
 import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
+import { FileSystemComponent } from '@vokus/file-system';
 import { StringComponent } from '@vokus/string';
 
 function getEnvName(
@@ -109,8 +110,6 @@ const invalidEnvironmentVariables: { [name: string]: EnvironmentVariableInterfac
     },
 };
 
-// console.log(environmentVariables);
-
 class Config {
     @EnvironmentVariableDecorator({
         name: 'TEST_DECORATOR_BOOLEAN',
@@ -148,8 +147,7 @@ class Config {
 }
 
 afterAll(async () => {
-    // await FileSystemComponent.remove(path.join(EnvironmentComponent.configPath, 'example.env'));
-    // await FileSystemComponent.remove(path.join(EnvironmentComponent.configPath, 'test.env'));
+    await FileSystemComponent.remove(EnvironmentComponent.configPath);
 });
 
 describe('EnvironmentComponent', () => {
@@ -239,6 +237,12 @@ describe('EnvironmentComponent', () => {
                 environmentVariables.TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE,
             );
         }).toThrowError('environment variable TEST_GENERATED_BOOLEAN_TRUE_TRUE_FALSE_FALSE was not set');
+
+        expect(
+            EnvironmentComponent.getValueFromEnvironmentVariable(
+                environmentVariables.TEST_GENERATED_BOOLEAN_TRUE_TRUE_TRUE_FALSE,
+            ),
+        ).toBe(true);
 
         expect(
             EnvironmentComponent.getValueFromEnvironmentVariable({
