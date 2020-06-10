@@ -13,11 +13,15 @@ export class HTTPServerService {
     protected _loggerService: LoggerService;
     protected _httpServerConfig: HTTPServerConfig;
     protected _express: Application;
-    protected _selfSignedCertificate: boolean;
+    protected _selfSigned: boolean;
 
     constructor(loggerService: LoggerService, httpServerConfig: HTTPServerConfig) {
         this._httpServerConfig = httpServerConfig;
         this._loggerService = loggerService;
+    }
+
+    public get selfSigned(): boolean {
+        return this._selfSigned;
     }
 
     public async start(): Promise<void> {
@@ -43,13 +47,13 @@ export class HTTPServerService {
             key = await FileSystemComponent.readFile(path.join(__dirname, '../self-signed-key.pem'));
             cert = await FileSystemComponent.readFile(path.join(__dirname, '../self-signed-cert.pem'));
 
-            this._selfSignedCertificate = true;
+            this._selfSigned = true;
 
             this._loggerService.warning(
                 `${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`,
             );
         } else {
-            this._selfSignedCertificate = false;
+            this._selfSigned = false;
         }
 
         this._express = express();
