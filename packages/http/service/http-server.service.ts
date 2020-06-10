@@ -3,6 +3,7 @@ import { EnvironmentComponent } from '../../environment';
 import { FileSystemComponent } from '../../file-system';
 import { HTTPServerConfig } from '../';
 import { LoggerService } from '@vokus/logger';
+import { MiddlewareInterface } from '../interface/middleware.interface';
 import { ServiceDecorator } from '@vokus/dependency-injection';
 import https from 'https';
 import path from 'path';
@@ -14,14 +15,11 @@ export class HTTPServerService {
     protected _httpServerConfig: HTTPServerConfig;
     protected _express: Application;
     protected _selfSigned: boolean;
+    protected _middlewares: { [key: string]: MiddlewareInterface };
 
     constructor(loggerService: LoggerService, httpServerConfig: HTTPServerConfig) {
         this._httpServerConfig = httpServerConfig;
         this._loggerService = loggerService;
-    }
-
-    public get selfSigned(): boolean {
-        return this._selfSigned;
     }
 
     public async start(): Promise<void> {
@@ -74,5 +72,13 @@ export class HTTPServerService {
     public async stop(): Promise<void> {
         this._server.close();
         await this._loggerService.notice(`stopped with port ${this._httpServerConfig.port}`);
+    }
+
+    public get selfSigned(): boolean {
+        return this._selfSigned;
+    }
+
+    public async registerMiddleware(middleware: MiddlewareInterface): Promise<void> {
+        this._middlewares[middleware.key] = middleware;
     }
 }

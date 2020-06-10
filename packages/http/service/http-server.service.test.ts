@@ -25,5 +25,7 @@ test('http-server', async () => {
         expect(e.message).toBe('self signed certificate');
     }
 
+    expect(httpServerService.selfSigned).toBe(true);
+
     await httpServerService.stop();
 });
