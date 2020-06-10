@@ -1,8 +1,8 @@
-import path from 'path';
-import { LoggerService } from '../';
 import { ContainerComponent } from '@vokus/dependency-injection';
 import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
+import { LoggerService } from '../';
+import path from 'path';
 
 const pathToLogDir = path.join(EnvironmentComponent.projectPath, 'var', EnvironmentComponent.context, 'log');
 

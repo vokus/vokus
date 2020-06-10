@@ -1,7 +1,7 @@
-import dotenv from 'dotenv';
-import path from 'path';
 import { EnvironmentVariableInterface } from '../interface/environment-variable.interface';
 import { FileSystemComponent } from '@vokus/file-system';
+import dotenv from 'dotenv';
+import path from 'path';
 
 export class EnvironmentComponent {
     protected static readonly _contextProduction: string = 'production';
@@ -54,7 +54,7 @@ export class EnvironmentComponent {
 
     public static registerEnvironmentVariable(environmentVariable: EnvironmentVariableInterface): void {
         // check if already registered
-        if ('undefined' !== typeof this._variables[environmentVariable.name]) {
+        if (typeof this._variables[environmentVariable.name] !== 'undefined') {
             throw new Error(`environment variable ${environmentVariable.name} already registered`);
         }
 
@@ -95,7 +95,7 @@ export class EnvironmentComponent {
         const orderedVariables: { [name: string]: EnvironmentVariableInterface } = {};
         Object.keys(this._variables)
             .sort()
-            .forEach(key => {
+            .forEach((key) => {
                 orderedVariables[key] = this._variables[key];
             });
 
@@ -127,7 +127,7 @@ export class EnvironmentComponent {
         environmentVariable: EnvironmentVariableInterface,
     ): string | number | boolean | undefined {
         // check if value already set and return that value
-        if ('undefined' !== typeof this._values[environmentVariable.name]) {
+        if (typeof this._values[environmentVariable.name] !== 'undefined') {
             return this._values[environmentVariable.name];
         }
 
@@ -158,7 +158,7 @@ export class EnvironmentComponent {
         let value = process.env[environmentVariable.name] as string | number | boolean;
 
         if (typeof value !== 'string' || value.length === 0) {
-            if ('undefined' !== typeof environmentVariable.default) {
+            if (typeof environmentVariable.default !== 'undefined') {
                 value = environmentVariable.default;
             } else {
                 this._updateDotEnvFiles();
@@ -205,7 +205,7 @@ export class EnvironmentComponent {
         const orderedVariables: { [name: string]: EnvironmentVariableInterface } = {};
         Object.keys(this._variables)
             .sort()
-            .forEach(key => {
+            .forEach((key) => {
                 orderedVariables[key] = this._variables[key];
             });
 
@@ -239,7 +239,7 @@ export class EnvironmentComponent {
 
             data.push(`# ${comments.join(' - ')}`);
 
-            if ('undefined' !== typeof environmentVariable.default) {
+            if (typeof environmentVariable.default !== 'undefined') {
                 data.push(`${environmentVariable.name}=${environmentVariable.default}`);
             } else {
                 data.push(`${environmentVariable.name}=`);

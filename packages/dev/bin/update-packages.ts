@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import path from 'path';
 import { FileSystemComponent } from '@vokus/file-system';
 import ncu from 'npm-check-updates';
+import path from 'path';
 
 class UpdatePackages {
     protected static packagesPath = 'packages';
@@ -37,7 +37,7 @@ class UpdatePackages {
 
             await ncu.run({
                 upgrade: true,
-                packageFile: pathToPackageJson
+                packageFile: pathToPackageJson,
             });
 
             const npmignoreContent =

@@ -1,7 +1,7 @@
 import { ConfigDecorator } from '../decorator/config.decorator';
+import { ContainerComponent } from './container.component';
 import { ControllerDecorator } from '../decorator/controller.decorator';
 import { ServiceDecorator } from '../decorator/service.decorator';
-import { ContainerComponent } from './container.component';
 
 @ConfigDecorator()
 class Test1Config {}

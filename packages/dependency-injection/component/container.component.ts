@@ -6,6 +6,7 @@ export class ContainerComponent {
     protected static _created = false;
     protected static _metaData: MetaInterface[] = [];
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public static register(Function: any): void {
         // check if already created and throw error
         if (this._created) {
@@ -42,6 +43,7 @@ export class ContainerComponent {
         });
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public static async create<T>(Function: any): Promise<T> {
         if (this._created) {
             throw new Error('create() not allowed after create() call');
@@ -90,6 +92,7 @@ export class ContainerComponent {
         return meta.instance;
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected static async getMetaByFunction(Function: any): Promise<MetaInterface> {
         for (const meta of this._metaData) {
             if (Function === meta.function) {

@@ -1,11 +1,11 @@
+import express, { Application } from 'express';
+import { EnvironmentComponent } from '../../environment';
+import { FileSystemComponent } from '../../file-system';
+import { HTTPServerConfig } from '../';
+import { LoggerService } from '@vokus/logger';
+import { ServiceDecorator } from '@vokus/dependency-injection';
 import https from 'https';
 import path from 'path';
-import express, { Application } from 'express';
-import { ServiceDecorator } from '@vokus/dependency-injection';
-import { LoggerService } from '@vokus/logger';
-import { HTTPServerConfig } from '../';
-import { FileSystemComponent } from '../../file-system';
-import { EnvironmentComponent } from '../../environment';
 
 @ServiceDecorator()
 export class HTTPServerService {

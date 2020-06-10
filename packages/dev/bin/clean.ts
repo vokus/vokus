@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import nodePath from 'path';
+
 import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
+import nodePath from 'path';
 
 class Clean {
     public static async run(): Promise<void> {

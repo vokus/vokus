@@ -54,11 +54,11 @@ for (const type of ['boolean', 'number', 'string']) {
                         environmentVariable.allowedValues = [];
                         environmentVariable.allowedValues.push(example as never);
 
-                        if ('string' === typeof example) {
+                        if (typeof example === 'string') {
                             environmentVariable.allowedValues.push('any other string' as never);
                         }
 
-                        if ('number' === typeof example) {
+                        if (typeof example === 'number') {
                             environmentVariable.allowedValues.push(12 as never);
                         }
                     }

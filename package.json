@@ -2,11 +2,11 @@
     "name": "vokus",
     "private": true,
     "scripts": {
-        "badges": "ts-node ./packages/dev/bin/badge",
+        "shields": "ts-node ./packages/dev/bin/shields",
         "bootstrap": "lerna bootstrap",
-        "clean": "rm -rf node_modules && npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
-        "lint": "eslint . --ext ts --fix",
+        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
         "publish": "npm run clean && npm run update-packages && npm run lint && npm run test && npm run tsc && lerna publish && npm run clean",
+        "setup": "rm -rf node_modules && npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
         "test": "jest --config jest-config.js --detectOpenHandles",
         "test-integration": "cd ./integration && npm update && ts-node ./index.ts",
         "tsc": "tsc",
@@ -30,6 +30,29 @@
         "ts-node": "8.10.2",
         "typescript": "3.9.5"
     },
+    "shields": [
+        {
+            "key": "coverage",
+            "label": "coverage",
+            "message": "100%",
+            "color": "blue",
+            "style": "flat-square"
+        },
+        {
+            "key": "code-style",
+            "label": "code style",
+            "message": "pretier",
+            "color": "ff69b4",
+            "style": "flat-square"
+        },
+        {
+            "key": "linter",
+            "label": "linter",
+            "message": "eslint",
+            "color": "4b32C3",
+            "style": "flat-square"
+        }
+    ],
     "engines": {
         "node": ">= 14.4"
     }

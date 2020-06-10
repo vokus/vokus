@@ -1,12 +1,12 @@
-import https from 'https';
 import { RequestOptionsType } from '../type/request-options.type';
 import { Response } from '../core/response';
+import https from 'https';
 
 export class HTTPClientComponent {
     protected _options: RequestOptionsType;
 
     constructor(options?: RequestOptionsType) {
-        if ('object' !== typeof options) {
+        if (typeof options !== 'object') {
             options = {};
         }
 
@@ -34,14 +34,14 @@ export class HTTPClientComponent {
 
         return new Promise((resolve, reject) => {
             https
-                .request(options, res => {
+                .request(options, (res) => {
                     res.setEncoding('utf8');
                     let body = '';
-                    res.on('data', chunk => {
+                    res.on('data', (chunk) => {
                         body += chunk;
                     });
                     res.on('end', () => {
-                        if ('number' !== typeof res.statusCode) {
+                        if (typeof res.statusCode !== 'number') {
                             throw new Error('no status code');
                         }
 

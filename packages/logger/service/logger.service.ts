@@ -1,7 +1,7 @@
-import { EnvironmentComponent } from '@vokus/environment';
-import { LogEntity } from '../entity/log.entity';
 import * as nodePath from 'path';
+import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
+import { LogEntity } from '../entity/log.entity';
 import { ServiceDecorator } from '@vokus/dependency-injection';
 
 @ServiceDecorator()
