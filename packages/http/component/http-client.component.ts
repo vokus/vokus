@@ -6,7 +6,7 @@ export class HTTPClientComponent {
     protected _options: RequestOptionsType;
 
     constructor(options?: RequestOptionsType) {
-        if (typeof options !== 'object') {
+        if ('object' !== typeof options) {
             options = {};
         }
 
@@ -41,7 +41,7 @@ export class HTTPClientComponent {
                         body += chunk;
                     });
                     res.on('end', () => {
-                        if (typeof res.statusCode !== 'number') {
+                        if ('number' !== typeof res.statusCode) {
                             throw new Error('no status code');
                         }
 

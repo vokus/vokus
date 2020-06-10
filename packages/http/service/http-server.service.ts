@@ -58,10 +58,10 @@ export class HTTPServerService {
 
         // check if key and cert valid
         if (
-            typeof this._key === 'string' &&
-            this._key.length > 0 &&
-            typeof this._cert === 'string' &&
-            this._cert.length > 0
+            'string' === typeof this._key &&
+            0 < this._key.length &&
+            'string' === typeof this._cert &&
+            0 < this._cert.length
         ) {
             return;
         }
@@ -74,10 +74,10 @@ export class HTTPServerService {
         }
 
         if (
-            typeof this._key !== 'string' ||
-            this._key.length === 0 ||
-            typeof this._cert !== 'string' ||
-            this._cert.length === 0
+            'string' !== typeof this._key ||
+            0 === this._key.length ||
+            'string' !== typeof this._cert ||
+            0 === this._cert.length
         ) {
             throw new Error(`cert or key does not exists or empty`);
         }

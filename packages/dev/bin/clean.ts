@@ -12,14 +12,14 @@ class Clean {
     protected static async cleanDirectory(path: string): Promise<void> {
         const entries = await FileSystemComponent.readDirectory(path);
 
-        if (entries.length === 0) {
+        if (0 === entries.length) {
             await FileSystemComponent.remove(path);
         }
 
         for (const entry of entries) {
             const fullPath = nodePath.join(path, entry);
 
-            if (entry === 'node_modules') {
+            if ('node_modules' === entry) {
                 await FileSystemComponent.remove(fullPath);
             }
 

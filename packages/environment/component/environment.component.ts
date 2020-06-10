@@ -54,14 +54,14 @@ export class EnvironmentComponent {
 
     public static registerEnvironmentVariable(environmentVariable: EnvironmentVariableInterface): void {
         // check if already registered
-        if (typeof this._variables[environmentVariable.name] !== 'undefined') {
+        if ('undefined' !== typeof this._variables[environmentVariable.name]) {
             throw new Error(`environment variable ${environmentVariable.name} already registered`);
         }
 
         // check if example and default in allowedValues
-        if (typeof environmentVariable.allowedValues === 'object') {
+        if ('object' === typeof environmentVariable.allowedValues) {
             if (
-                typeof environmentVariable.default !== 'undefined' &&
+                'undefined' !== typeof environmentVariable.default &&
                 !environmentVariable.allowedValues.includes(environmentVariable.default as never)
             ) {
                 throw new Error(
@@ -70,7 +70,7 @@ export class EnvironmentComponent {
             }
 
             if (
-                typeof environmentVariable.example !== 'undefined' &&
+                'undefined' !== typeof environmentVariable.example &&
                 !environmentVariable.allowedValues.includes(environmentVariable.example as never)
             ) {
                 throw new Error(
@@ -81,7 +81,7 @@ export class EnvironmentComponent {
 
         // check if type of default equal to type of example
         if (
-            typeof environmentVariable.default !== 'undefined' &&
+            'undefined' !== typeof environmentVariable.default &&
             typeof environmentVariable.default !== typeof environmentVariable.example
         ) {
             throw new Error(
@@ -127,7 +127,7 @@ export class EnvironmentComponent {
         environmentVariable: EnvironmentVariableInterface,
     ): string | number | boolean | undefined {
         // check if value already set and return that value
-        if (typeof this._values[environmentVariable.name] !== 'undefined') {
+        if ('undefined' !== typeof this._values[environmentVariable.name]) {
             return this._values[environmentVariable.name];
         }
 
@@ -157,8 +157,8 @@ export class EnvironmentComponent {
     ): string | number | boolean | undefined {
         let value = process.env[environmentVariable.name] as string | number | boolean;
 
-        if (typeof value !== 'string' || value.length === 0) {
-            if (typeof environmentVariable.default !== 'undefined') {
+        if ('string' !== typeof value || 0 === value.length) {
+            if ('undefined' !== typeof environmentVariable.default) {
                 value = environmentVariable.default;
             } else {
                 this._updateDotEnvFiles();
@@ -166,7 +166,7 @@ export class EnvironmentComponent {
             }
         }
 
-        if (typeof environmentVariable.example === 'string') {
+        if ('string' === typeof environmentVariable.example) {
             return this._checkEnvironmentVariableValue(environmentVariable, value);
         }
 
@@ -178,7 +178,7 @@ export class EnvironmentComponent {
             throw new Error(`environment variable ${environmentVariable.name} is not a number`);
         }
 
-        if (typeof environmentVariable.example === 'number') {
+        if ('number' === typeof environmentVariable.example) {
             return this._checkEnvironmentVariableValue(environmentVariable, value);
         }
 
@@ -190,7 +190,7 @@ export class EnvironmentComponent {
         value: string | number | boolean,
     ): string | number | boolean {
         if (
-            typeof environmentVariable.allowedValues !== 'object' ||
+            'object' !== typeof environmentVariable.allowedValues ||
             (environmentVariable.allowedValues.includes(value as never) &&
                 environmentVariable.allowedValues.includes(environmentVariable.example as never))
         ) {
@@ -214,18 +214,18 @@ export class EnvironmentComponent {
         const data = [];
 
         for (const environmentVariable of Object.values(this._variables)) {
-            if (environmentVariable.name === 'NODE_ENV') {
+            if ('NODE_ENV' === environmentVariable.name) {
                 continue;
             }
             let example = environmentVariable.example;
 
-            if (typeof example === 'boolean') {
+            if ('boolean' === typeof example) {
                 example = Number(example);
             }
 
             const comments = [];
 
-            if (undefined === environmentVariable.required || environmentVariable.required === true) {
+            if (undefined === environmentVariable.required || true === environmentVariable.required) {
                 comments.push('required');
             } else {
                 comments.push('optional');
@@ -233,13 +233,13 @@ export class EnvironmentComponent {
 
             comments.push(`example: ${environmentVariable.example}`);
 
-            if (typeof environmentVariable.allowedValues === 'object') {
+            if ('object' === typeof environmentVariable.allowedValues) {
                 comments.push(`allowed: ${environmentVariable.allowedValues.join(' | ')}`);
             }
 
             data.push(`# ${comments.join(' - ')}`);
 
-            if (typeof environmentVariable.default !== 'undefined') {
+            if ('undefined' !== typeof environmentVariable.default) {
                 data.push(`${environmentVariable.name}=${environmentVariable.default}`);
             } else {
                 data.push(`${environmentVariable.name}=`);

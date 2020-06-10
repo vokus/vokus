@@ -4,7 +4,7 @@
     "scripts": {
         "shields": "ts-node ./packages/dev/bin/shields",
         "bootstrap": "lerna bootstrap",
-        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+        "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
         "publish": "npm run clean && npm run update-packages && npm run lint && npm run test && npm run tsc && lerna publish && npm run clean",
         "setup": "rm -rf node_modules && npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
         "test": "jest --config jest-config.js --detectOpenHandles",

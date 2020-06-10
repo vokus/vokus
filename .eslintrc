@@ -11,6 +11,10 @@
     },
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
-        "sort-imports": "error"
+        "sort-imports": "error",
+        "yoda": [
+            "error",
+            "always"
+        ]
     }
 }
