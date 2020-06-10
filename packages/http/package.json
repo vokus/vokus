@@ -15,9 +15,11 @@
         "@vokus/environment": "^0.0.4",
         "@vokus/file-system": "^0.0.4",
         "@vokus/logger": "^0.0.4",
+        "cookie-parser": "1.4.5",
         "express": "4.17.1"
     },
     "devDependencies": {
+        "@types/cookie-parser": "1.4.2",
         "@types/express": "4.17.6"
     },
     "publishConfig": {

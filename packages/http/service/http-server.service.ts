@@ -56,6 +56,8 @@ export class HTTPServerService {
 
         this._express = express();
 
+        this.addMiddlewaresToExpress();
+
         this._server = https.createServer(
             {
                 key: key,
@@ -78,7 +80,17 @@ export class HTTPServerService {
         return this._selfSigned;
     }
 
+    public get middlewares(): { [key: string]: MiddlewareInterface } {
+        return this._middlewares;
+    }
+
     public async registerMiddleware(middleware: MiddlewareInterface): Promise<void> {
         this._middlewares[middleware.key] = middleware;
+    }
+
+    protected async addMiddlewaresToExpress(): Promise<void> {
+        for (const key in this._middlewares) {
+            this._express.use(this._middlewares[key].function);
+        }
     }
 }

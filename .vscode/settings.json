@@ -9,7 +9,9 @@
     "files.exclude": {
         "**/node_modules/": true,
         "packages/**/*.d.ts": true,
-        "packages/**/*.js": true
+        "packages/**/*.js": true,
+        "**/.npmignore": true,
+        "**/.npmrc": true
     },
     "javascript.implicitProjectConfig.experimentalDecorators": true,
     "jestrunner.configPath": "jest-config-vscode.js",

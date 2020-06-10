@@ -1,8 +1,13 @@
 import { ContainerComponent } from '@vokus/dependency-injection';
 import { HTTPServerService } from '@vokus/http-server';
 
-(async (): Promise<void> => {
-    const httpServerService: HTTPServerService = await ContainerComponent.create(HTTPServerService);
+class Application {
+    constructor(cmsService: CMSService, httpServerService: HTTPServerService) {
+        cmsService.start();
+        httpServerService.start();
+    }
+}
 
-    await httpServerService.start();
+(async (): Promise<void> => {
+    await ContainerComponent.create(Application);
 })();

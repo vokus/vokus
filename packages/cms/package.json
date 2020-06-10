@@ -1,0 +1,20 @@
+{
+    "dependencies": {
+        "@vokus/http": "^0.0.4"
+    },
+    "description": "@vokus/cms",
+    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20",
+    "license": "MIT",
+    "main": "index.js",
+    "name": "@vokus/cms",
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "directory": "packages/cms",
+        "type": "git",
+        "url": "https://github.com/vokus/vokus"
+    },
+    "types": "index.d.ts",
+    "version": "0.0.4"
+}
