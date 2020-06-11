@@ -55,6 +55,9 @@ export class LoggerService {
         // trim message
         message = message.trim();
 
+        // remove the path from the project for security reasons
+        message = message.replace(new RegExp(EnvironmentComponent.projectPath + '/', 'g'), '');
+
         // remove line breaks from message
         message = message.replace(/(\r?\n|\r)/gm, ' ');
 

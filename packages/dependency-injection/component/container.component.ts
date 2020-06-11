@@ -33,8 +33,7 @@ export class ContainerComponent {
         // get key from function name
         const key = StringComponent.slugify(Function.name).replace('-' + type, '');
 
-        // add meta data object to global meta data
-        this._metaData.push({
+        const meta = {
             function: Function,
             name: Function.name,
             key: key,
@@ -42,7 +41,10 @@ export class ContainerComponent {
             replacedBy: undefined,
             instance: undefined,
             instantiatedBy: undefined,
-        });
+        };
+
+        // add meta data object to global meta data
+        this._metaData.push(meta);
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -61,7 +63,19 @@ export class ContainerComponent {
             meta = meta.replacedBy;
         }
 
-        if (undefined !== meta.instance) {
+        // create a new instance if is type of logger
+        if (
+            'function' === typeof meta.function.prototype.emergency &&
+            'function' === typeof meta.function.prototype.alert &&
+            'function' === typeof meta.function.prototype.critical &&
+            'function' === typeof meta.function.prototype.error &&
+            'function' === typeof meta.function.prototype.warning &&
+            'function' === typeof meta.function.prototype.notice &&
+            'function' === typeof meta.function.prototype.info &&
+            'function' === typeof meta.function.prototype.debug
+        ) {
+            meta = Object.assign({}, meta);
+        } else if (undefined !== meta.instance) {
             return meta.instance;
         }
 
