@@ -1,10 +1,12 @@
 import 'reflect-metadata';
-import { MetaInterface } from '@vokus/core';
+
+import { MetaType } from '../type/meta.type';
 import { StringComponent } from '@vokus/string';
+
 export class ContainerComponent {
     protected static _allowedTypes: string[] = ['config', 'component', 'controller', 'middleware', 'service'];
     protected static _created = false;
-    protected static _metaData: MetaInterface[] = [];
+    protected static _metaData: MetaType[] = [];
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public static register(Function: any): void {
@@ -54,7 +56,7 @@ export class ContainerComponent {
         return await this.createInstance(await this.getMeta(Function), await this.getMeta(ContainerComponent));
     }
 
-    protected static async createInstance(meta: MetaInterface, instantiatedByMeta: MetaInterface): Promise<any> {
+    protected static async createInstance(meta: MetaType, instantiatedByMeta: MetaType): Promise<any> {
         if (meta.replacedBy !== undefined) {
             meta = meta.replacedBy;
         }
@@ -80,7 +82,7 @@ export class ContainerComponent {
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected static async getMeta(Function: any): Promise<MetaInterface> {
+    protected static async getMeta(Function: any): Promise<MetaType> {
         for (const meta of this._metaData) {
             if (Function === meta.function) {
                 return meta;

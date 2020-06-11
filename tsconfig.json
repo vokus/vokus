@@ -11,7 +11,7 @@
         "esModuleInterop": true
     },
     "include": [
-        "packages/**/*", "archive/core.module.ts",
+        "packages/**/*",
     ],
     "exclude": [
         "node_modules",
