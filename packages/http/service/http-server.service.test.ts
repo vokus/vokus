@@ -8,6 +8,14 @@ import { HTTPClientComponent } from '../component/http-client.component';
 import { HTTPServerService } from '../';
 import path from 'path';
 
+beforeAll(async () => {
+    await FileSystemComponent.remove(EnvironmentComponent.configPath);
+});
+
+afterAll(async () => {
+    await FileSystemComponent.remove(EnvironmentComponent.configPath);
+});
+
 test('http-server', async () => {
     const httpServerService: HTTPServerService = await ContainerComponent.create(HTTPServerService);
 
@@ -47,15 +55,24 @@ test('http-server', async () => {
 
     expect(httpServerService.middlewares.length).toBe(1);
 
-    const pathToSelfSignedKey = path.join(__dirname, '../self-signed-key.pem');
-    const pathToSelfSignedCert = path.join(__dirname, '../self-signed-cert.pem');
-
-    const pathToKey = path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem');
-    const pathToCert = path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem');
-
-    await FileSystemComponent.copyFile(pathToSelfSignedKey, pathToKey);
-    await FileSystemComponent.copyFile(pathToSelfSignedCert, pathToCert);
+    await FileSystemComponent.copyFile(
+        path.join(__dirname, '../self-signed-key.pem'),
+        path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem'),
+    );
+    await FileSystemComponent.copyFile(
+        path.join(__dirname, '../self-signed-cert.pem'),
+        path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem'),
+    );
 
     await httpServerService.start();
+
+    httpClient = new HTTPClientComponent({
+        rejectUnauthorized: false,
+    });
+
+    response = await httpClient.get('https://localhost:3000/');
+
+    expect(response.statusCode).toBe(404);
+
     await httpServerService.stop();
 });
