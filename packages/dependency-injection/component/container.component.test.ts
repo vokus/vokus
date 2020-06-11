@@ -104,6 +104,8 @@ test('container', async () => {
         error = e;
     }
 
+    ContainerComponent.register(Test4Service);
+
     expect(error).toEqual(new Error('can not register "TestException" - type "exception" not allowed'));
 
     try {
@@ -114,15 +116,11 @@ test('container', async () => {
 
     expect(error).toEqual(new Error('class "Test5Service" is not registered'));
 
+    const test3Service: Test3Service = await ContainerComponent.create(Test3Service);
+
+    expect(typeof test3Service).toBe('object');
+
     const test4Service: Test4Service = await ContainerComponent.create(Test4Service);
-
-    try {
-        await ContainerComponent.create(Test4Service);
-    } catch (e) {
-        error = e;
-    }
-
-    expect(error).toEqual(new Error('create() not allowed after create() call'));
 
     expect(() => {
         ContainerComponent.register(Test4Service);
@@ -140,6 +138,4 @@ test('container', async () => {
     expect(test4Service.test1Service instanceof Test3Service).toBe(true);
 
     expect(test4Service.test1Controller.test1Config instanceof Test3Config).toBe(true);
-
-    expect(ContainerComponent.metaData.length).toBe(11);
 });

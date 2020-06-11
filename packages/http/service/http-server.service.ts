@@ -3,6 +3,7 @@ import { EnvironmentComponent } from '../../environment';
 import { FileSystemComponent } from '../../file-system';
 import { HTTPServerConfig } from '../';
 import { LoggerService } from '@vokus/logger';
+import { MiddlewareConfigType } from '../type/middleware-config.type';
 import { MiddlewareInterface } from '../interface/middleware.interface';
 import { ServiceDecorator } from '@vokus/dependency-injection';
 import https from 'https';
@@ -15,7 +16,7 @@ export class HTTPServerService {
     protected _httpServerConfig: HTTPServerConfig;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _middlewares: { [key: string]: MiddlewareInterface } = {};
+    protected _middlewares: MiddlewareConfigType[] = [];
 
     constructor(loggerService: LoggerService, httpServerConfig: HTTPServerConfig) {
         this._httpServerConfig = httpServerConfig;
@@ -80,17 +81,25 @@ export class HTTPServerService {
         return this._selfSigned;
     }
 
-    public get middlewares(): { [key: string]: MiddlewareInterface } {
+    public get middlewares(): MiddlewareConfigType[] {
         return this._middlewares;
     }
 
-    public async registerMiddleware(middleware: MiddlewareInterface): Promise<void> {
-        this._middlewares[middleware.key] = middleware;
+    public get listening(): boolean {
+        return this._server.listening;
+    }
+
+    public async registerMiddleware(middleware: MiddlewareInterface, after?: string, before?: string): Promise<void> {
+        this._middlewares.push({
+            after: after,
+            before: before,
+            middleware: middleware,
+        });
     }
 
     protected async addMiddlewaresToExpress(): Promise<void> {
-        for (const key in this._middlewares) {
-            this._express.use(this._middlewares[key].function);
+        for (const middlewareConfig of this._middlewares) {
+            this._express.use(middlewareConfig.middleware.handle.bind(middlewareConfig.middleware));
         }
     }
 }

@@ -45,26 +45,13 @@ export class ContainerComponent {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     public static async create<T>(Function: any): Promise<T> {
-        if (this._created) {
-            throw new Error('create() not allowed after create() call');
+        if (!this._created) {
+            this.register(ContainerComponent);
+            await this.enrichMetaData();
+            this._created = true;
         }
 
-        this.register(ContainerComponent);
-
-        const instantiateByMeta = await this.getMetaByFunction(ContainerComponent);
-        const meta = await this.getMetaByFunction(Function);
-
-        await this.enrichMetaData();
-
-        const instance = await this.createInstance(meta, instantiateByMeta);
-
-        this._created = true;
-
-        return instance;
-    }
-
-    public static get metaData(): any {
-        return this._metaData;
+        return await this.createInstance(await this.getMeta(Function), await this.getMeta(ContainerComponent));
     }
 
     protected static async createInstance(meta: MetaInterface, instantiatedByMeta: MetaInterface): Promise<any> {
@@ -83,7 +70,7 @@ export class ContainerComponent {
         const instancesToInject = [];
 
         for (const childFunction of children) {
-            instancesToInject.push(await this.createInstance(await this.getMetaByFunction(childFunction), meta));
+            instancesToInject.push(await this.createInstance(await this.getMeta(childFunction), meta));
         }
 
         meta.instance = new meta.function(...instancesToInject);
@@ -93,7 +80,7 @@ export class ContainerComponent {
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    protected static async getMetaByFunction(Function: any): Promise<MetaInterface> {
+    protected static async getMeta(Function: any): Promise<MetaInterface> {
         for (const meta of this._metaData) {
             if (Function === meta.function) {
                 return meta;
