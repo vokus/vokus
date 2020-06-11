@@ -11,8 +11,6 @@ export class HTTPServerConfig {
     })
     protected _port: number;
 
-    protected _selfSignedCertificate: string;
-
     public get port(): number {
         return this._port;
     }

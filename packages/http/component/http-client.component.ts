@@ -41,11 +41,7 @@ export class HTTPClientComponent {
                         body += chunk;
                     });
                     res.on('end', () => {
-                        if ('number' !== typeof res.statusCode) {
-                            throw new Error('no status code');
-                        }
-
-                        resolve(new Response(res.statusCode, body));
+                        resolve(new Response(Number(res.statusCode), body));
                     });
                 })
                 .on('error', reject)

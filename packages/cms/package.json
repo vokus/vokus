@@ -11,7 +11,8 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/http": "^0.0.4"
+        "@vokus/http": "^0.0.4",
+        "@vokus/dependency-injection": "^0.0.4"
     },
     "publishConfig": {
         "access": "public"

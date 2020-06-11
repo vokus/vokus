@@ -15,7 +15,7 @@ export class HTTPServerService {
     protected _httpServerConfig: HTTPServerConfig;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _middlewares: { [key: string]: MiddlewareInterface };
+    protected _middlewares: { [key: string]: MiddlewareInterface } = {};
 
     constructor(loggerService: LoggerService, httpServerConfig: HTTPServerConfig) {
         this._httpServerConfig = httpServerConfig;

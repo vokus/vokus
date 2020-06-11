@@ -1,5 +1,7 @@
 import { CookieParserMiddleware, HTTPServerService } from '@vokus/http';
+import { ServiceDecorator } from '@vokus/dependency-injection';
 
+@ServiceDecorator()
 export class CMSService {
     protected _httpServerService: HTTPServerService;
     protected _cookieParserMiddleware: CookieParserMiddleware;
