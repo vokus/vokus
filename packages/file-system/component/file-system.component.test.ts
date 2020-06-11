@@ -33,6 +33,26 @@ describe('FileSystemComponent', () => {
         expect(FileSystemComponent.readFileSync(testPath)).toBe('append-file-sync-append-file-sync');
     });
 
+    test('copyFile', async () => {
+        const testSrc = path.join(pathToTestDir, 'copy-file-src');
+        const testDest = path.join(pathToTestDir, 'copy-file-dest');
+
+        await FileSystemComponent.ensureFileExists(testSrc);
+        await FileSystemComponent.copyFile(testSrc, testDest);
+
+        expect(await FileSystemComponent.isFile(testDest)).toBe(true);
+    });
+
+    test('copyFileSync', async () => {
+        const testSrc = path.join(pathToTestDir, 'copy-file-sync-src');
+        const testDest = path.join(pathToTestDir, 'copy-file-sync-dest');
+
+        FileSystemComponent.ensureFileExistsSync(testSrc);
+        FileSystemComponent.copyFileSync(testSrc, testDest);
+
+        expect(FileSystemComponent.isFileSync(testDest)).toBe(true);
+    });
+
     test('createWriteStream', async () => {
         const testPath = path.join(pathToTestDir, 'create-write-stream');
 

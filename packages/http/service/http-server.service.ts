@@ -24,35 +24,21 @@ export class HTTPServerService {
     }
 
     public async start(): Promise<void> {
-        const pathToKey = path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem');
-        const pathToCert = path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem');
+        this._selfSigned = false;
 
-        let key = undefined;
-        let cert = undefined;
+        let pathToKey = path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem');
+        let pathToCert = path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem');
 
         // try to load certificate and key from config path
-        if ((await FileSystemComponent.isFile(pathToKey)) && (await FileSystemComponent.isFile(pathToCert))) {
-            key = await FileSystemComponent.readFile(pathToKey);
-            cert = await FileSystemComponent.readFile(pathToCert);
-        }
-
-        // load self signed certificate if not exists in config
-        if ('string' !== typeof key || 0 === key.length || 'string' !== typeof cert || 0 === cert.length) {
-            // throw exception if certicate and key does not exists in production context
-            if (EnvironmentComponent.isInContextProduction()) {
-                throw new Error(`${pathToKey} or ${pathToCert} does not exists`);
-            }
-
-            key = await FileSystemComponent.readFile(path.join(__dirname, '../self-signed-key.pem'));
-            cert = await FileSystemComponent.readFile(path.join(__dirname, '../self-signed-cert.pem'));
-
-            this._selfSigned = true;
-
+        if (!(await FileSystemComponent.isFile(pathToKey)) || !(await FileSystemComponent.isFile(pathToCert))) {
             this._loggerService.warning(
                 `${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`,
             );
-        } else {
-            this._selfSigned = false;
+
+            this._selfSigned = true;
+
+            pathToKey = path.join(__dirname, '../self-signed-key.pem');
+            pathToCert = path.join(__dirname, '../self-signed-cert.pem');
         }
 
         this._express = express();
@@ -61,8 +47,8 @@ export class HTTPServerService {
 
         this._server = https.createServer(
             {
-                key: key,
-                cert: cert,
+                key: await FileSystemComponent.readFile(pathToKey),
+                cert: await FileSystemComponent.readFile(pathToCert),
             },
             this._express,
         );
@@ -86,7 +72,7 @@ export class HTTPServerService {
     }
 
     public get listening(): boolean {
-        return this._server.listening;
+        return 'object' === typeof this._server && this._server.listening;
     }
 
     public async registerMiddleware(middleware: MiddlewareInterface, after?: string, before?: string): Promise<void> {

@@ -14,6 +14,16 @@ export class FileSystemComponent {
         return nodeFs.createWriteStream(path);
     }
 
+    public static copyFileSync(src: string, dest: string, flags?: number): void {
+        this.ensureFileExistsSync(dest);
+        return nodeFs.copyFileSync(src, dest, flags);
+    }
+
+    public static async copyFile(src: string, dest: string, flags?: number): Promise<void> {
+        await this.ensureFileExists(dest);
+        return nodeFs.promises.copyFile(src, dest, flags);
+    }
+
     public static async ensureDirectoryExists(path: string): Promise<string> {
         return nodeFs.promises.mkdir(path, { recursive: true });
     }
