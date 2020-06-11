@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { MetaInterface } from '@vokus/core';
 import { StringComponent } from '@vokus/string';
 export class ContainerComponent {
-    protected static _allowedTypes: string[] = ['config', 'component', 'controller', 'service'];
+    protected static _allowedTypes: string[] = ['config', 'component', 'controller', 'middleware', 'service'];
     protected static _created = false;
     protected static _metaData: MetaInterface[] = [];
 

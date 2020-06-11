@@ -1,3 +1,4 @@
+import { CMSService } from '@vokus/cms';
 import { ContainerComponent } from '@vokus/dependency-injection';
 import { HTTPServerService } from '@vokus/http-server';
 

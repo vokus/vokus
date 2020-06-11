@@ -1,1 +1,1 @@
-export * from './core/cms';
+export * from './service/cms.service';
