@@ -1,11 +1,10 @@
-import { RequestOptionsType } from '../type/request-options.type';
+import https, { RequestOptions } from 'https';
 import { Response } from '../core/response';
-import https from 'https';
 
 export class HTTPClientComponent {
-    protected _options: RequestOptionsType;
+    protected _options: RequestOptions;
 
-    constructor(options?: RequestOptionsType) {
+    constructor(options?: RequestOptions) {
         if ('object' !== typeof options) {
             options = {};
         }
@@ -16,7 +15,7 @@ export class HTTPClientComponent {
     public async get(url: string): Promise<Response> {
         const parsedUrl = new URL(url);
 
-        const options: RequestOptionsType = {
+        const options: RequestOptions = {
             method: 'GET',
             host: parsedUrl.host,
             hostname: parsedUrl.hostname,
@@ -27,7 +26,7 @@ export class HTTPClientComponent {
         return this.request(options);
     }
 
-    public async request(options: RequestOptionsType): Promise<Response> {
+    public async request(options: RequestOptions): Promise<Response> {
         options = Object.assign(this._options, options);
 
         options.protocol = 'https:';
