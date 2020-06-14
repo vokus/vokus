@@ -1,6 +1,6 @@
 {
     "name": "@vokus/cms",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "@vokus/cms",
     "repository": {
         "type": "git",
@@ -11,8 +11,8 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/dependency-injection": "^0.0.4",
-        "@vokus/http": "^0.0.4"
+        "@vokus/dependency-injection": "^0.0.5",
+        "@vokus/http": "^0.0.5"
     },
     "publishConfig": {
         "access": "public"
