@@ -17,7 +17,7 @@ export class CMSService {
         this._accessLogMiddleware = accessLogMiddleware;
     }
 
-    public async start(): Promise<void> {
+    async start(): Promise<void> {
         await this._httpServerService.registerMiddleware(this._accessLogMiddleware);
         await this._httpServerService.registerMiddleware(this._cookieParserMiddleware);
     }

@@ -12,7 +12,7 @@ export class HTTPClientComponent {
         this._options = options;
     }
 
-    public async get(url: string): Promise<Response> {
+    async get(url: string): Promise<Response> {
         const parsedUrl = new URL(url);
 
         const options: RequestOptions = {
@@ -26,7 +26,7 @@ export class HTTPClientComponent {
         return this.request(options);
     }
 
-    public async request(options: RequestOptions): Promise<Response> {
+    async request(options: RequestOptions): Promise<Response> {
         options = Object.assign(this._options, options);
 
         options.protocol = 'https:';

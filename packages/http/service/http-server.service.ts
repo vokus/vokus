@@ -23,7 +23,7 @@ export class HTTPServerService {
         this._loggerService = loggerService;
     }
 
-    public async start(): Promise<void> {
+    async start(): Promise<void> {
         this._selfSigned = false;
 
         let pathToKey = path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem');
@@ -58,24 +58,24 @@ export class HTTPServerService {
         await this._loggerService.notice(`started with port ${this._httpServerConfig.port}`);
     }
 
-    public async stop(): Promise<void> {
+    async stop(): Promise<void> {
         this._server.close();
         await this._loggerService.notice(`stopped with port ${this._httpServerConfig.port}`);
     }
 
-    public get selfSigned(): boolean {
+    get selfSigned(): boolean {
         return this._selfSigned;
     }
 
-    public get middlewares(): MiddlewareConfigType[] {
+    get middlewares(): MiddlewareConfigType[] {
         return this._middlewares;
     }
 
-    public get listening(): boolean {
+    get listening(): boolean {
         return 'object' === typeof this._server && this._server.listening;
     }
 
-    public async registerMiddleware(middleware: MiddlewareInterface, after?: string, before?: string): Promise<void> {
+    async registerMiddleware(middleware: MiddlewareInterface, after?: string, before?: string): Promise<void> {
         this._middlewares.push({
             after: after,
             before: before,

@@ -11,7 +11,7 @@ export class HTTPServerConfig {
     })
     protected _port: number;
 
-    public get port(): number {
+    get port(): number {
         return this._port;
     }
 }

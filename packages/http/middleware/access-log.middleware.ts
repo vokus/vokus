@@ -7,11 +7,11 @@ import express from 'express';
 export class AccessLogMiddleware implements MiddlewareInterface {
     protected _logger: LoggerService;
 
-    public constructor(logger: LoggerService) {
+    constructor(logger: LoggerService) {
         this._logger = logger;
     }
 
-    public async handle(req: express.Request, res: express.Response, next: () => void): Promise<void> {
+    async handle(req: express.Request, res: express.Response, next: () => void): Promise<void> {
         await this._logger.info(req.url);
 
         return next();

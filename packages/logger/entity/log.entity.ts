@@ -3,22 +3,22 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class LogEntity {
     @PrimaryGeneratedColumn()
-    public id: number;
+    id: number;
 
     @Column()
-    public code: number;
+    code: number;
 
     @Column()
-    public date: Date;
+    date: Date;
 
     @Column({ type: 'text' })
-    public message: string;
+    message: string;
 
     @Column({ type: 'varchar' })
-    public contextType: string | undefined;
+    contextType: string | undefined;
 
     @Column({ type: 'varchar' })
-    public contextKey: string | undefined;
+    contextKey: string | undefined;
 
     constructor(
         code: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7,
@@ -34,7 +34,7 @@ export class LogEntity {
         this.message = message;
     }
 
-    public get level(): string {
+    get level(): string {
         switch (this.code) {
             case 0:
                 return 'emergency';

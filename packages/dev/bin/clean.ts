@@ -5,7 +5,7 @@ import { FileSystemComponent } from '@vokus/file-system';
 import nodePath from 'path';
 
 class Clean {
-    public static async run(): Promise<void> {
+    static async run(): Promise<void> {
         await this.cleanDirectory(nodePath.join(EnvironmentComponent.projectPath, 'packages'));
     }
 

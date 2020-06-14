@@ -9,7 +9,7 @@ export class ContainerComponent {
     protected static _metaData: MetaType[] = [];
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    public static register(Function: any): void {
+    static register(Function: any): void {
         // check if already created and throw error
         if (this._created) {
             throw new Error('register() not allowed after create() call');
@@ -48,7 +48,7 @@ export class ContainerComponent {
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    public static async create<T>(Function: any): Promise<T> {
+    static async create<T>(Function: any): Promise<T> {
         if (!this._created) {
             this.register(ContainerComponent);
             await this.enrichMetaData();

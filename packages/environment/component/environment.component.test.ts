@@ -133,15 +133,15 @@ class Config {
     })
     protected _testString: string;
 
-    public get testBoolean(): boolean {
+    get testBoolean(): boolean {
         return this._testBoolean;
     }
 
-    public get testNumber(): number {
+    get testNumber(): number {
         return this._testNumber;
     }
 
-    public get testString(): string {
+    get testString(): string {
         return this._testString;
     }
 }

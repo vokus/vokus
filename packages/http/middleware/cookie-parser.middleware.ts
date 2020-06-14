@@ -5,7 +5,7 @@ import express from 'express';
 
 @MiddlewareDecorator()
 export class CookieParserMiddleware implements MiddlewareInterface {
-    public async handle(req: express.Request, res: express.Response, next: () => void): Promise<void> {
+    async handle(req: express.Request, res: express.Response, next: () => void): Promise<void> {
         return cookieParser()(req, res, next);
     }
 }

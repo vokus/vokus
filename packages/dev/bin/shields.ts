@@ -7,7 +7,7 @@ import https from 'https';
 import path from 'path';
 
 class Shields {
-    public static async run(): Promise<void> {
+    static async run(): Promise<void> {
         // get shields from package.json
         const shields: BadgeInterface[] = JSON.parse(
             await FileSystemComponent.readFile(path.join(EnvironmentComponent.projectPath, 'package.json')),

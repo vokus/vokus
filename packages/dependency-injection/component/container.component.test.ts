@@ -14,7 +14,7 @@ class Test3Config extends Test1Config {}
 
 @ControllerDecorator()
 class Test1Controller {
-    public test1Config: Test1Config;
+    test1Config: Test1Config;
 
     constructor(test1Config: Test1Config) {
         this.test1Config = test1Config;
@@ -26,35 +26,35 @@ class Test2Controller extends Test1Controller {}
 
 @ServiceDecorator()
 class TestLoggerService {
-    public async emergency(message: string): Promise<void> {
+    async emergency(message: string): Promise<void> {
         message;
     }
 
-    public async alert(message: string): Promise<void> {
+    async alert(message: string): Promise<void> {
         message;
     }
 
-    public async critical(message: string): Promise<void> {
+    async critical(message: string): Promise<void> {
         message;
     }
 
-    public async error(message: string): Promise<void> {
+    async error(message: string): Promise<void> {
         message;
     }
 
-    public async warning(message: string): Promise<void> {
+    async warning(message: string): Promise<void> {
         message;
     }
 
-    public async notice(message: string): Promise<void> {
+    async notice(message: string): Promise<void> {
         message;
     }
 
-    public async info(message: string): Promise<void> {
+    async info(message: string): Promise<void> {
         message;
     }
 
-    public async debug(message: string): Promise<void> {
+    async debug(message: string): Promise<void> {
         message;
     }
 }
@@ -72,11 +72,11 @@ class Test3Service extends Test2Service {}
 
 @ServiceDecorator()
 class Test4Service {
-    public test1Config: Test1Config;
-    public test2Config: Test2Config;
-    public test1Controller: Test1Controller;
-    public test1Service: Test1Service;
-    public testLogger: TestLoggerService;
+    test1Config: Test1Config;
+    test2Config: Test2Config;
+    test1Controller: Test1Controller;
+    test1Service: Test1Service;
+    testLogger: TestLoggerService;
 
     constructor(
         test1Config: Test1Config,

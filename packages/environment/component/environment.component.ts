@@ -14,45 +14,45 @@ export class EnvironmentComponent {
     protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
     protected static _values: { [name: string]: string | number | boolean | undefined } = {};
 
-    public static get context(): string {
+    static get context(): string {
         this.ensureContextVariableExists();
 
         return String(this._values.NODE_ENV);
     }
 
-    public static isInContextProduction(): boolean {
+    static isInContextProduction(): boolean {
         return this.context === this._contextProduction;
     }
 
-    public static isInContextAcceptance(): boolean {
+    static isInContextAcceptance(): boolean {
         return this.context === this._contextAcceptance;
     }
 
-    public static isInContextStaging(): boolean {
+    static isInContextStaging(): boolean {
         return this.context === this._contextStaging;
     }
 
-    public static isInContextTest(): boolean {
+    static isInContextTest(): boolean {
         return this.context === this._contextTest;
     }
 
-    public static isInContextDevelopment(): boolean {
+    static isInContextDevelopment(): boolean {
         return this.context === this._contextDevelopment;
     }
 
-    public static get projectPath(): string {
+    static get projectPath(): string {
         return process.cwd();
     }
 
-    public static get publicPath(): string {
+    static get publicPath(): string {
         return path.join(process.cwd(), 'public');
     }
 
-    public static get configPath(): string {
+    static get configPath(): string {
         return path.join(process.cwd(), 'config');
     }
 
-    public static registerEnvironmentVariable(environmentVariable: EnvironmentVariableInterface): void {
+    static registerEnvironmentVariable(environmentVariable: EnvironmentVariableInterface): void {
         // check if already registered
         if ('undefined' !== typeof this._variables[environmentVariable.name]) {
             throw new Error(`environment variable ${environmentVariable.name} already registered`);
@@ -123,7 +123,7 @@ export class EnvironmentComponent {
         }
     }
 
-    public static getValueFromEnvironmentVariable(
+    static getValueFromEnvironmentVariable(
         environmentVariable: EnvironmentVariableInterface,
     ): string | number | boolean | undefined {
         // check if value already set and return that value

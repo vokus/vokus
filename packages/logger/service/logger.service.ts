@@ -6,35 +6,35 @@ import { ServiceDecorator } from '@vokus/dependency-injection';
 
 @ServiceDecorator()
 export class LoggerService {
-    public async emergency(message: string): Promise<void> {
+    async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }
 
-    public async alert(message: string): Promise<void> {
+    async alert(message: string): Promise<void> {
         await this.log(1, message);
     }
 
-    public async critical(message: string): Promise<void> {
+    async critical(message: string): Promise<void> {
         await this.log(2, message);
     }
 
-    public async error(message: string): Promise<void> {
+    async error(message: string): Promise<void> {
         await this.log(3, message);
     }
 
-    public async warning(message: string): Promise<void> {
+    async warning(message: string): Promise<void> {
         await this.log(4, message);
     }
 
-    public async notice(message: string): Promise<void> {
+    async notice(message: string): Promise<void> {
         await this.log(5, message);
     }
 
-    public async info(message: string): Promise<void> {
+    async info(message: string): Promise<void> {
         await this.log(6, message);
     }
 
-    public async debug(message: string): Promise<void> {
+    async debug(message: string): Promise<void> {
         await this.log(7, message);
     }
 
@@ -103,6 +103,7 @@ export class LoggerService {
             // check if log file exists and create if not
             await FileSystemComponent.ensureFileExists(logFilePath);
 
+            // TODO: add log rotation
             // check if log rotation is necessary
             // await this._rotateLogFile(logFile);
 

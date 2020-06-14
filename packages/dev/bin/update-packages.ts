@@ -7,7 +7,7 @@ import path from 'path';
 class UpdatePackages {
     protected static packagesPath = 'packages';
 
-    public static async run(): Promise<void> {
+    static async run(): Promise<void> {
         for (const name of await FileSystemComponent.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
             if (name.startsWith('.')) {
