@@ -1,5 +1,5 @@
-import * as express from 'express';
+import { Request, Response } from 'express';
 
 export interface MiddlewareInterface {
-    handle(req: express.Request, res: express.Response, next: () => void): void;
+    handle(req: Request, res: Response, next: () => void): void;
 }

@@ -1,7 +1,7 @@
+import { Request, Response } from 'express';
 import { LoggerService } from '@vokus/logger';
 import { MiddlewareDecorator } from '@vokus/dependency-injection';
 import { MiddlewareInterface } from '../interface/middleware.interface';
-import express from 'express';
 
 @MiddlewareDecorator()
 export class AccessLogMiddleware implements MiddlewareInterface {
@@ -11,7 +11,7 @@ export class AccessLogMiddleware implements MiddlewareInterface {
         this._logger = logger;
     }
 
-    async handle(req: express.Request, res: express.Response, next: () => void): Promise<void> {
+    async handle(req: Request, res: Response, next: () => void): Promise<void> {
         await this._logger.info(req.url);
 
         return next();
