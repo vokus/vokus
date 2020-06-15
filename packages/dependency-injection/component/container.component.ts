@@ -9,7 +9,7 @@ export class ContainerComponent {
     protected static _metaData: MetaType[] = [];
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    static register(Function: any): void {
+    static register(Function: any, options?: any): void {
         // check if already created and throw error
         if (this._created) {
             throw new Error('register() not allowed after create() call');
@@ -41,6 +41,7 @@ export class ContainerComponent {
             replacedBy: undefined,
             instance: undefined,
             instantiatedBy: undefined,
+            options: options,
         };
 
         // add meta data object to global meta data
