@@ -1,5 +1,6 @@
 import https, { RequestOptions } from 'https';
 import { Response } from '../core/response';
+import http from 'http';
 
 export class HTTPClientComponent {
     protected _options: RequestOptions;
@@ -40,7 +41,16 @@ export class HTTPClientComponent {
                         body += chunk;
                     });
                     res.on('end', () => {
-                        resolve(new Response(Number(res.statusCode), body));
+                        const response: Response = Object.create(http.ServerResponse.prototype);
+
+                        response.writeHead(Number(res.statusCode), {
+                            'Content-Length': Buffer.byteLength(body),
+                            'Content-Type': 'text/plain',
+                        });
+
+                        response.write(body);
+
+                        resolve(response);
                     });
                 })
                 .on('error', reject)
