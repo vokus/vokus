@@ -1,8 +1,0 @@
-{
-    "name": "example",
-    "private": true,
-    "dependencies": {
-        "@vokus/dependency-injection": "0.0.4",
-        "@vokus/http-server": "0.0.4"
-    }
-}
