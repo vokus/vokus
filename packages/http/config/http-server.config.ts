@@ -1,7 +1,7 @@
-import { Config } from '@vokus/dependency-injection';
+import { ConfigDecorator } from '@vokus/dependency-injection';
 import { EnvironmentVariable } from '@vokus/environment';
 
-@Config()
+@ConfigDecorator()
 export class HTTPServerConfig {
     @EnvironmentVariable({
         name: 'HTTP_SERVER_PORT',

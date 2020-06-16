@@ -1,6 +1,6 @@
 import { ContainerComponent } from '../component/container.component';
 
-export const Route = (options?: {
+export const RouteDecorator = (options?: {
     name: string;
     methods: string[];
     path: string;

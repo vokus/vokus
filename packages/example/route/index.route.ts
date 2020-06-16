@@ -1,7 +1,7 @@
 import { Request, Response } from '@vokus/http';
-import { Route } from '@vokus/dependency-injection';
+import { RouteDecorator } from '@vokus/dependency-injection';
 
-@Route({
+@RouteDecorator({
     name: '/vokus/example',
     methods: ['get'],
     path: '/vokus/example',

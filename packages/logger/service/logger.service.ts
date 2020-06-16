@@ -2,9 +2,9 @@ import * as nodePath from 'path';
 import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
 import { LogEntity } from '../entity/log.entity';
-import { Service } from '@vokus/dependency-injection';
+import { ServiceDecorator } from '@vokus/dependency-injection';
 
-@Service()
+@ServiceDecorator()
 export class LoggerService {
     async emergency(message: string): Promise<void> {
         await this.log(0, message);

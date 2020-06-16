@@ -1,18 +1,18 @@
-import { Config } from '../decorator/config.decorator';
+import { ConfigDecorator } from '../decorator/config.decorator';
 import { ContainerComponent } from './container.component';
-import { Route } from '../decorator/route.decorator';
-import { Service } from '../decorator/service.decorator';
+import { RouteDecorator } from '../decorator/route.decorator';
+import { ServiceDecorator } from '../decorator/service.decorator';
 
-@Config()
+@ConfigDecorator()
 class Test1Config {}
 
-@Config()
+@ConfigDecorator()
 class Test2Config extends Test1Config {}
 
-@Config()
+@ConfigDecorator()
 class Test3Config extends Test1Config {}
 
-@Route()
+@RouteDecorator()
 class Test1Route {
     test1Config: Test1Config;
 
@@ -21,10 +21,10 @@ class Test1Route {
     }
 }
 
-@Route()
+@RouteDecorator()
 class Test2Route extends Test1Route {}
 
-@Service()
+@ServiceDecorator()
 class TestLoggerService {
     async emergency(message: string): Promise<void> {
         message;
@@ -59,16 +59,16 @@ class TestLoggerService {
     }
 }
 
-@Service()
+@ServiceDecorator()
 class Test1Service {}
 
-@Service()
+@ServiceDecorator()
 class Test2Service extends Test1Service {}
 
-@Service()
+@ServiceDecorator()
 class Test3Service extends Test2Service {}
 
-@Service()
+@ServiceDecorator()
 class Test4Service {
     test1Config: Test1Config;
     test2Config: Test2Config;
