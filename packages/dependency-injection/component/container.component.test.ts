@@ -1,6 +1,6 @@
 import { ConfigDecorator } from '../decorator/config.decorator';
 import { ContainerComponent } from './container.component';
-import { ControllerDecorator } from '../decorator/controller.decorator';
+import { RouteDecorator } from '../decorator/route.decorator';
 import { ServiceDecorator } from '../decorator/service.decorator';
 
 @ConfigDecorator()
@@ -12,8 +12,8 @@ class Test2Config extends Test1Config {}
 @ConfigDecorator()
 class Test3Config extends Test1Config {}
 
-@ControllerDecorator()
-class Test1Controller {
+@RouteDecorator()
+class Test1Route {
     test1Config: Test1Config;
 
     constructor(test1Config: Test1Config) {
@@ -21,8 +21,8 @@ class Test1Controller {
     }
 }
 
-@ControllerDecorator()
-class Test2Controller extends Test1Controller {}
+@RouteDecorator()
+class Test2Route extends Test1Route {}
 
 @ServiceDecorator()
 class TestLoggerService {
@@ -74,20 +74,20 @@ class Test3Service extends Test2Service {}
 class Test4Service {
     test1Config: Test1Config;
     test2Config: Test2Config;
-    test1Controller: Test1Controller;
+    test1Route: Test1Route;
     test1Service: Test1Service;
     testLogger: TestLoggerService;
 
     constructor(
         test1Config: Test1Config,
         test2Config: Test2Config,
-        test1Controller: Test1Controller,
+        test1Route: Test1Route,
         test1Service: Test1Service,
         testLogger: TestLoggerService,
     ) {
         this.test1Config = test1Config;
         this.test2Config = test2Config;
-        this.test1Controller = test1Controller;
+        this.test1Route = test1Route;
         this.test1Service = test1Service;
         this.testLogger = testLogger;
     }
@@ -130,12 +130,12 @@ test('container', async () => {
     expect(test4Service.test2Config instanceof Test2Config).toBe(true);
     expect(test4Service.test1Config instanceof Test3Config).toBe(true);
 
-    expect(test4Service.test1Controller instanceof Test1Controller).toBe(true);
-    expect(test4Service.test1Controller instanceof Test2Controller).toBe(true);
+    expect(test4Service.test1Route instanceof Test1Route).toBe(true);
+    expect(test4Service.test1Route instanceof Test2Route).toBe(true);
 
     expect(test4Service.test1Service instanceof Test1Service).toBe(true);
     expect(test4Service.test1Service instanceof Test2Service).toBe(true);
     expect(test4Service.test1Service instanceof Test3Service).toBe(true);
 
-    expect(test4Service.test1Controller.test1Config instanceof Test3Config).toBe(true);
+    expect(test4Service.test1Route.test1Config instanceof Test3Config).toBe(true);
 });

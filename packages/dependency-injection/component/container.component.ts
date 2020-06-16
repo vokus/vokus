@@ -4,7 +4,7 @@ import { MetaType } from '../type/meta.type';
 import { StringComponent } from '@vokus/string';
 
 export class ContainerComponent {
-    protected static _allowedTypes: string[] = ['config', 'component', 'controller', 'middleware', 'service'];
+    protected static _allowedTypes: string[] = ['config', 'component', 'route', 'middleware', 'service'];
     protected static _created = false;
     protected static _metaData: MetaType[] = [];
 

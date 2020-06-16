@@ -1,12 +1,12 @@
 import { Request, Response } from '@vokus/http';
-import { ControllerDecorator } from '@vokus/dependency-injection';
+import { RouteDecorator } from '@vokus/dependency-injection';
 
-@ControllerDecorator({
+@RouteDecorator({
     name: '/vokus/example',
     methods: ['get'],
     path: '/vokus/example',
 })
-export class IndexController {
+export class IndexRoute {
     async handle(req: Request, res: Response): Promise<void> {
         return res.render('vokus/example/index');
     }

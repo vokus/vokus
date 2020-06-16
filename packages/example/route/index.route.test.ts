@@ -4,7 +4,7 @@ import { ApplicationService } from '../service/application.service';
 import { ContainerComponent } from '@vokus/dependency-injection';
 import { HTTPClientComponent } from '@vokus/http';
 
-test('index-controller', async () => {
+test('index-route', async () => {
     const app: ApplicationService = await ContainerComponent.create(ApplicationService);
     await app.start();
 
