@@ -4,7 +4,6 @@ import { MetaType } from '../type/meta.type';
 import { StringComponent } from '@vokus/string';
 
 export class Container {
-    protected static _allowedTypes: string[] = ['config', 'component', 'route', 'middleware', 'service'];
     protected static _created = false;
     protected static _metaData: MetaType[] = [];
 
@@ -23,11 +22,6 @@ export class Container {
             if (Function === meta.function) {
                 return;
             }
-        }
-
-        // check if type allowed
-        if (!this._allowedTypes.includes(type)) {
-            throw new Error(`can not register "${Function.name}" - type "${type}" not allowed`);
         }
 
         // get key from function name
