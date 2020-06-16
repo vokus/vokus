@@ -1,4 +1,4 @@
-import { Container } from '@vokus/dependency-injection';
+import { ContainerComponent } from '@vokus/dependency-injection';
 import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
 import { LoggerService } from '../';
@@ -28,7 +28,7 @@ test('logger', async () => {
         loggerService.warning('warning message'),
     ]);
 
-    loggerService = await Container.create(LoggerService);
+    loggerService = await ContainerComponent.create(LoggerService);
 
     await Promise.all([
         loggerService.alert('alert message'),

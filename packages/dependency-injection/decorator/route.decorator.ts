@@ -1,4 +1,4 @@
-import { Container } from '../component/container.component';
+import { ContainerComponent } from '../component/container.component';
 
 export const Route = (options?: {
     name: string;
@@ -7,6 +7,6 @@ export const Route = (options?: {
     roles?: string[];
 }): ClassDecorator => {
     return (target): void => {
-        Container.register(target, 'route', options);
+        ContainerComponent.register(target, 'route', options);
     };
 };

@@ -1,13 +1,13 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { Container } from '@vokus/dependency-injection';
+import { ContainerComponent } from '@vokus/dependency-injection';
 import { CookieParserMiddleware } from './cookie-parser.middleware';
 import { HTTPClientComponent } from '../component/http-client.component';
 import { HTTPServerService } from '../';
 
 test('access-log', async () => {
-    const httpServerService: HTTPServerService = await Container.create(HTTPServerService);
-    const cookieParserMiddleware: CookieParserMiddleware = await Container.create(CookieParserMiddleware);
+    const httpServerService: HTTPServerService = await ContainerComponent.create(HTTPServerService);
+    const cookieParserMiddleware: CookieParserMiddleware = await ContainerComponent.create(CookieParserMiddleware);
 
     await httpServerService.registerMiddleware(cookieParserMiddleware);
 

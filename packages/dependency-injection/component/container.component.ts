@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { MetaType } from '../type/meta.type';
 import { StringComponent } from '@vokus/string';
 
-export class Container {
+export class ContainerComponent {
     protected static _created = false;
     protected static _metaData: MetaType[] = [];
 
@@ -44,12 +44,12 @@ export class Container {
 
     static async create<T>(Function: any): Promise<T> {
         if (!this._created) {
-            this.register(Container, 'component');
+            this.register(ContainerComponent, 'component');
             await this.enrichMetaData();
             this._created = true;
         }
 
-        return await this.createInstance(await this.getMeta(Function), await this.getMeta(Container));
+        return await this.createInstance(await this.getMeta(Function), await this.getMeta(ContainerComponent));
     }
 
     protected static async createInstance(meta: MetaType, instantiatedByMeta: MetaType): Promise<any> {
