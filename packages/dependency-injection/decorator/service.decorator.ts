@@ -1,7 +1,7 @@
-import { ContainerComponent } from '../component/container.component';
+import { Container } from '../component/container.component';
 
-export const ServiceDecorator = (): ClassDecorator => {
+export const Service = (): ClassDecorator => {
     return (target): void => {
-        ContainerComponent.register(target);
+        Container.register(target, 'service');
     };
 };

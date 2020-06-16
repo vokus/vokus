@@ -1,8 +1,8 @@
 import { CMSService } from '@vokus/cms';
 import { HTTPServerService } from '@vokus/http';
-import { ServiceDecorator } from '@vokus/dependency-injection';
+import { Service } from '@vokus/dependency-injection';
 
-@ServiceDecorator()
+@Service()
 export class ApplicationService {
     protected _cmsService: CMSService;
     protected _httpServerService: HTTPServerService;

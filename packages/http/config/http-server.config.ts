@@ -1,9 +1,9 @@
-import { ConfigDecorator } from '@vokus/dependency-injection';
-import { EnvironmentVariableDecorator } from '@vokus/environment';
+import { Config } from '@vokus/dependency-injection';
+import { EnvironmentVariable } from '@vokus/environment';
 
-@ConfigDecorator()
+@Config()
 export class HTTPServerConfig {
-    @EnvironmentVariableDecorator({
+    @EnvironmentVariable({
         name: 'HTTP_SERVER_PORT',
         example: 443,
         required: true,

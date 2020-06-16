@@ -1,9 +1,9 @@
 import { CMSService } from '../index';
-import { ContainerComponent } from '@vokus/dependency-injection';
+import { Container } from '@vokus/dependency-injection';
 
 describe('CMSService', () => {
     test('start', async () => {
-        const cmsService: CMSService = await ContainerComponent.create(CMSService);
+        const cmsService: CMSService = await Container.create(CMSService);
 
         await cmsService.start();
     });

@@ -1,7 +1,7 @@
-import { ContainerComponent } from '../component/container.component';
+import { Container } from '../component/container.component';
 
-export const MiddlewareDecorator = (options?: { before?: string; after?: string }): ClassDecorator => {
+export const Middleware = (options?: { before?: string; after?: string }): ClassDecorator => {
     return (target): void => {
-        ContainerComponent.register(target, options);
+        Container.register(target, 'middleware', options);
     };
 };

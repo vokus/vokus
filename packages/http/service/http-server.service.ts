@@ -5,11 +5,11 @@ import { HTTPServerConfig } from '../';
 import { LoggerService } from '@vokus/logger';
 import { MiddlewareConfigType } from '../type/middleware-config.type';
 import { MiddlewareInterface } from '../interface/middleware.interface';
-import { ServiceDecorator } from '@vokus/dependency-injection';
+import { Service } from '@vokus/dependency-injection';
 import https from 'https';
 import path from 'path';
 
-@ServiceDecorator()
+@Service()
 export class HTTPServerService {
     protected _server: https.Server;
     protected _loggerService: LoggerService;

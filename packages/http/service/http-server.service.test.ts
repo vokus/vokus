@@ -1,7 +1,7 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
 import { AccessLogMiddleware } from '../middleware/access-log.middleware';
-import { ContainerComponent } from '@vokus/dependency-injection';
+import { Container } from '@vokus/dependency-injection';
 import { EnvironmentComponent } from '@vokus/environment';
 import { FileSystemComponent } from '../../logger/node_modules/@vokus/file-system';
 import { HTTPClientComponent } from '../component/http-client.component';
@@ -17,9 +17,9 @@ afterAll(async () => {
 });
 
 test('http-server', async () => {
-    const httpServerService: HTTPServerService = await ContainerComponent.create(HTTPServerService);
+    const httpServerService: HTTPServerService = await Container.create(HTTPServerService);
 
-    const accessLogMiddleware: AccessLogMiddleware = await ContainerComponent.create(AccessLogMiddleware);
+    const accessLogMiddleware: AccessLogMiddleware = await Container.create(AccessLogMiddleware);
 
     expect(httpServerService.middlewares.length).toBe(0);
 

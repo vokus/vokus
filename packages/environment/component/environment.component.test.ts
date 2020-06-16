@@ -4,7 +4,7 @@ process.env.TEST_DECORATOR_STRING = 'test';
 process.env.TEST_INVALID_NUMBER_2 = 'test';
 process.env.TEST_INVALID_STRING_3 = 'any other string';
 
-import { EnvironmentComponent, EnvironmentVariableDecorator, EnvironmentVariableInterface } from '../index';
+import { EnvironmentComponent, EnvironmentVariable, EnvironmentVariableInterface } from '../index';
 import { FileSystemComponent } from '@vokus/file-system';
 import { StringComponent } from '@vokus/string';
 
@@ -111,14 +111,14 @@ const invalidEnvironmentVariables: { [name: string]: EnvironmentVariableInterfac
 };
 
 class Config {
-    @EnvironmentVariableDecorator({
+    @EnvironmentVariable({
         name: 'TEST_DECORATOR_BOOLEAN',
         example: true,
         required: true,
     })
     protected _testBoolean: boolean;
 
-    @EnvironmentVariableDecorator({
+    @EnvironmentVariable({
         name: 'TEST_DECORATOR_NUMBER',
         example: 14,
         required: false,
@@ -126,7 +126,7 @@ class Config {
     })
     protected _testNumber: number;
 
-    @EnvironmentVariableDecorator({
+    @EnvironmentVariable({
         name: 'TEST_DECORATOR_STRING',
         example: 'any test string',
         required: true,

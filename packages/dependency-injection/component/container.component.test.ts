@@ -1,18 +1,18 @@
-import { ConfigDecorator } from '../decorator/config.decorator';
-import { ContainerComponent } from './container.component';
-import { RouteDecorator } from '../decorator/route.decorator';
-import { ServiceDecorator } from '../decorator/service.decorator';
+import { Config } from '../decorator/config.decorator';
+import { Container } from './container.component';
+import { Route } from '../decorator/route.decorator';
+import { Service } from '../decorator/service.decorator';
 
-@ConfigDecorator()
+@Config()
 class Test1Config {}
 
-@ConfigDecorator()
+@Config()
 class Test2Config extends Test1Config {}
 
-@ConfigDecorator()
+@Config()
 class Test3Config extends Test1Config {}
 
-@RouteDecorator()
+@Route()
 class Test1Route {
     test1Config: Test1Config;
 
@@ -21,10 +21,10 @@ class Test1Route {
     }
 }
 
-@RouteDecorator()
+@Route()
 class Test2Route extends Test1Route {}
 
-@ServiceDecorator()
+@Service()
 class TestLoggerService {
     async emergency(message: string): Promise<void> {
         message;
@@ -59,18 +59,16 @@ class TestLoggerService {
     }
 }
 
-class TestException {}
-
-@ServiceDecorator()
+@Service()
 class Test1Service {}
 
-@ServiceDecorator()
+@Service()
 class Test2Service extends Test1Service {}
 
-@ServiceDecorator()
+@Service()
 class Test3Service extends Test2Service {}
 
-@ServiceDecorator()
+@Service()
 class Test4Service {
     test1Config: Test1Config;
     test2Config: Test2Config;
@@ -98,32 +96,24 @@ class Test5Service {}
 test('container', async () => {
     let error: Error = new Error();
 
-    try {
-        ContainerComponent.register(TestException);
-    } catch (e) {
-        error = e;
-    }
-
-    ContainerComponent.register(Test4Service);
-
-    expect(error).toEqual(new Error('can not register "TestException" - type "exception" not allowed'));
+    Container.register(Test4Service, 'service');
 
     try {
-        await ContainerComponent.create(Test5Service);
+        await Container.create(Test5Service);
     } catch (e) {
         error = e;
     }
 
     expect(error).toEqual(new Error('class "Test5Service" is not registered'));
 
-    const test3Service: Test3Service = await ContainerComponent.create(Test3Service);
+    const test3Service: Test3Service = await Container.create(Test3Service);
 
     expect(typeof test3Service).toBe('object');
 
-    const test4Service: Test4Service = await ContainerComponent.create(Test4Service);
+    const test4Service: Test4Service = await Container.create(Test4Service);
 
     expect(() => {
-        ContainerComponent.register(Test4Service);
+        Container.register(Test4Service, 'service');
     }).toThrowError('register() not allowed after create() call');
 
     expect(test4Service.test1Config instanceof Test1Config).toBe(true);

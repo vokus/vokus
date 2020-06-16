@@ -3,13 +3,16 @@ import 'reflect-metadata';
 import { MetaType } from '../type/meta.type';
 import { StringComponent } from '@vokus/string';
 
-export class ContainerComponent {
+export class Container {
     protected static _allowedTypes: string[] = ['config', 'component', 'route', 'middleware', 'service'];
     protected static _created = false;
     protected static _metaData: MetaType[] = [];
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    static register(Function: any, options?: any): void {
+    static register(
+        Function: any,
+        type: 'config' | 'component' | 'route' | 'middleware' | 'service',
+        options?: any,
+    ): void {
         // check if already created and throw error
         if (this._created) {
             throw new Error('register() not allowed after create() call');
@@ -21,9 +24,6 @@ export class ContainerComponent {
                 return;
             }
         }
-
-        // get type from function name
-        const type = StringComponent.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
 
         // check if type allowed
         if (!this._allowedTypes.includes(type)) {
@@ -48,15 +48,14 @@ export class ContainerComponent {
         this._metaData.push(meta);
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     static async create<T>(Function: any): Promise<T> {
         if (!this._created) {
-            this.register(ContainerComponent);
+            this.register(Container, 'component');
             await this.enrichMetaData();
             this._created = true;
         }
 
-        return await this.createInstance(await this.getMeta(Function), await this.getMeta(ContainerComponent));
+        return await this.createInstance(await this.getMeta(Function), await this.getMeta(Container));
     }
 
     protected static async createInstance(meta: MetaType, instantiatedByMeta: MetaType): Promise<any> {
@@ -96,7 +95,6 @@ export class ContainerComponent {
         return meta.instance;
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     protected static async getMeta(Function: any): Promise<MetaType> {
         for (const meta of this._metaData) {
             if (Function === meta.function) {

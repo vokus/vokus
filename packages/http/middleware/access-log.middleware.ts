@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { LoggerService } from '@vokus/logger';
-import { MiddlewareDecorator } from '@vokus/dependency-injection';
+import { Middleware } from '@vokus/dependency-injection';
 import { MiddlewareInterface } from '../interface/middleware.interface';
 
-@MiddlewareDecorator()
+@Middleware()
 export class AccessLogMiddleware implements MiddlewareInterface {
     protected _logger: LoggerService;
 
