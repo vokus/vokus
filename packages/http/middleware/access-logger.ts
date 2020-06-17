@@ -1,11 +1,12 @@
 import { LoggerService } from '@vokus/logger';
-import { MiddlewareDecorator } from '@vokus/dependency-injection';
-import { MiddlewareInterface } from '../interface/middleware.interface';
+
+import { Injectable } from '@vokus/dependency-injection';
+import { MiddlewareInterface } from '../interface/middleware';
 import { Request } from '../core/request';
 import { Response } from '../core/response';
 
-@MiddlewareDecorator()
-export class AccessLogMiddleware implements MiddlewareInterface {
+@Injectable()
+export class AccessLoggerMiddleware implements MiddlewareInterface {
     protected _logger: LoggerService;
 
     constructor(logger: LoggerService) {

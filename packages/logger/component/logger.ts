@@ -1,10 +1,10 @@
 import * as nodePath from 'path';
-import { EnvironmentComponent } from '@vokus/environment';
+import { Environment } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
+import { Injectable } from '@vokus/dependency-injection';
 import { LogEntity } from '../entity/log.entity';
-import { ServiceDecorator } from '@vokus/dependency-injection';
 
-@ServiceDecorator()
+@Injectable()
 export class LoggerService {
     async emergency(message: string): Promise<void> {
         await this.log(0, message);
@@ -56,7 +56,7 @@ export class LoggerService {
         message = message.trim();
 
         // remove the path from the project for security reasons
-        message = message.replace(new RegExp(EnvironmentComponent.projectPath + '/', 'g'), '');
+        message = message.replace(new RegExp(Environment.projectPath + '/', 'g'), '');
 
         // remove line breaks from message
         message = message.replace(/(\r?\n|\r)/gm, ' ');
@@ -68,21 +68,15 @@ export class LoggerService {
 
     protected async _writeLog(log: LogEntity): Promise<void> {
         const logFilePaths = [
-            nodePath.join(
-                EnvironmentComponent.projectPath,
-                'var',
-                EnvironmentComponent.context,
-                'log',
-                log.level + '.log',
-            ),
+            nodePath.join(Environment.projectPath, 'var', Environment.context, 'log', log.level + '.log'),
         ];
 
         if (undefined !== log.contextKey && undefined !== log.contextType) {
             logFilePaths.push(
                 nodePath.join(
-                    EnvironmentComponent.projectPath,
+                    Environment.projectPath,
                     'var',
-                    EnvironmentComponent.context,
+                    Environment.context,
                     'log',
                     log.contextType,
                     log.contextKey,

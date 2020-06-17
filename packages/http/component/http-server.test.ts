@@ -1,29 +1,32 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { AccessLogMiddleware } from '../middleware/access-log.middleware';
-import { ContainerComponent } from '@vokus/dependency-injection';
-import { EnvironmentComponent } from '@vokus/environment';
-import { FileSystemComponent } from '../../logger/node_modules/@vokus/file-system';
-import { HTTPClientComponent } from '../component/http-client.component';
-import { HTTPServerService } from '../';
+import { HTTPClient } from './http-client';
+import { AccessLoggerMiddleware } from '../middleware/access-logger';
+import { Environment } from '@vokus/environment';
+import { FileSystem } from '@vokus/logger/node_modules/@vokus/file-system';
+
+import { ObjectManager } from '@vokus/dependency-injection';
+
+import { HTTPServer } from '..';
+
 import path from 'path';
 
 beforeAll(async () => {
-    await FileSystemComponent.remove(EnvironmentComponent.configPath);
+    await FileSystem.remove(Environment.configPath);
 });
 
 afterAll(async () => {
-    await FileSystemComponent.remove(EnvironmentComponent.configPath);
+    await FileSystem.remove(Environment.configPath);
 });
 
 test('http-server', async () => {
-    const httpServerService: HTTPServerService = await ContainerComponent.create(HTTPServerService);
+    const httpServerService: HTTPServer = await ObjectManager.get(HTTPServer);
 
-    const accessLogMiddleware: AccessLogMiddleware = await ContainerComponent.create(AccessLogMiddleware);
+    const accessLoggerMiddleware: AccessLoggerMiddleware = await ObjectManager.get(AccessLoggerMiddleware);
 
     expect(httpServerService.middlewares.length).toBe(0);
 
-    await httpServerService.registerMiddleware(accessLogMiddleware);
+    await httpServerService.registerMiddleware(accessLoggerMiddleware);
 
     expect(httpServerService.listening).toBe(false);
 

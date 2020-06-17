@@ -1,9 +1,9 @@
-import { EnvironmentVariableInterface } from '../interface/environment-variable.interface';
+import { EnvironmentVariableInterface } from '../interface/environment-variable';
 import { FileSystemComponent } from '@vokus/file-system';
 import dotenv from 'dotenv';
 import path from 'path';
 
-export class EnvironmentComponent {
+export class Environment {
     protected static readonly _contextProduction: string = 'production';
     protected static readonly _contextAcceptance: string = 'acceptance';
     protected static readonly _contextStaging: string = 'staging';

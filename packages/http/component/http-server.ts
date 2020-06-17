@@ -1,16 +1,17 @@
 import express, { Application } from 'express';
-import { EnvironmentComponent } from '../../environment';
-import { FileSystemComponent } from '../../file-system';
-import { HTTPServerConfig } from '../';
+import { Environment } from '@vokus/environment';
+import { FileSystem } from '../../file-system';
+import { HTTPServerConfig } from '..';
+import { Injectable } from '@vokus/dependency-injection';
 import { LoggerService } from '@vokus/logger';
-import { MiddlewareConfigType } from '../type/middleware-config.type';
-import { MiddlewareInterface } from '../interface/middleware.interface';
-import { ServiceDecorator } from '@vokus/dependency-injection';
+import { MiddlewareConfigType } from '../type/middleware-config';
+import { MiddlewareInterface } from '../interface/middleware';
+
 import https from 'https';
 import path from 'path';
 
-@ServiceDecorator()
-export class HTTPServerService {
+@Injectable()
+export class HTTPServer {
     protected _server: https.Server;
     protected _loggerService: LoggerService;
     protected _httpServerConfig: HTTPServerConfig;
@@ -26,11 +27,11 @@ export class HTTPServerService {
     async start(): Promise<void> {
         this._selfSigned = false;
 
-        let pathToKey = path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem');
-        let pathToCert = path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem');
+        let pathToKey = path.join(Environment.configPath, 'http-server', 'key.pem');
+        let pathToCert = path.join(Environment.configPath, 'http-server', 'cert.pem');
 
         // try to load certificate and key from config path
-        if (!(await FileSystemComponent.isFile(pathToKey)) || !(await FileSystemComponent.isFile(pathToCert))) {
+        if (!(await FileSystem.isFile(pathToKey)) || !(await FileSystem.isFile(pathToCert))) {
             this._loggerService.warning(
                 `${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`,
             );
@@ -47,8 +48,8 @@ export class HTTPServerService {
 
         this._server = https.createServer(
             {
-                key: await FileSystemComponent.readFile(pathToKey),
-                cert: await FileSystemComponent.readFile(pathToCert),
+                key: await FileSystem.readFile(pathToKey),
+                cert: await FileSystem.readFile(pathToCert),
             },
             this._express,
         );

@@ -1,10 +1,10 @@
-import { ContainerComponent } from '@vokus/dependency-injection';
-import { EnvironmentComponent } from '@vokus/environment';
+import { Environment } from '@vokus/environment';
 import { FileSystemComponent } from '@vokus/file-system';
-import { LoggerService } from '../';
+import { LoggerService } from '..';
+import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 
-const pathToLogDir = path.join(EnvironmentComponent.projectPath, 'var', EnvironmentComponent.context, 'log');
+const pathToLogDir = path.join(Environment.projectPath, 'var', Environment.context, 'log');
 
 beforeAll(async () => {
     await FileSystemComponent.remove(pathToLogDir);
@@ -28,7 +28,7 @@ test('logger', async () => {
         loggerService.warning('warning message'),
     ]);
 
-    loggerService = await ContainerComponent.create(LoggerService);
+    loggerService = await ObjectManager.get(LoggerService);
 
     await Promise.all([
         loggerService.alert('alert message'),

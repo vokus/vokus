@@ -1,18 +1,16 @@
-import { ConfigDecorator } from '../decorator/config.decorator';
-import { ContainerComponent } from './container.component';
-import { RouteDecorator } from '../decorator/route.decorator';
-import { ServiceDecorator } from '../decorator/service.decorator';
+import { Injectable } from '../decorator/injectable';
+import { ObjectManager } from './object-manager';
 
-@ConfigDecorator()
+@Injectable()
 class Test1Config {}
 
-@ConfigDecorator()
+@Injectable()
 class Test2Config extends Test1Config {}
 
-@ConfigDecorator()
+@Injectable()
 class Test3Config extends Test1Config {}
 
-@RouteDecorator()
+@Injectable()
 class Test1Route {
     test1Config: Test1Config;
 
@@ -21,10 +19,10 @@ class Test1Route {
     }
 }
 
-@RouteDecorator()
+@Injectable()
 class Test2Route extends Test1Route {}
 
-@ServiceDecorator()
+@Injectable()
 class TestLoggerService {
     async emergency(message: string): Promise<void> {
         message;
@@ -59,16 +57,16 @@ class TestLoggerService {
     }
 }
 
-@ServiceDecorator()
+@Injectable()
 class Test1Service {}
 
-@ServiceDecorator()
+@Injectable()
 class Test2Service extends Test1Service {}
 
-@ServiceDecorator()
+@Injectable()
 class Test3Service extends Test2Service {}
 
-@ServiceDecorator()
+@Injectable()
 class Test4Service {
     test1Config: Test1Config;
     test2Config: Test2Config;
@@ -96,24 +94,24 @@ class Test5Service {}
 test('container', async () => {
     let error: Error = new Error();
 
-    ContainerComponent.register(Test4Service, 'service');
+    ObjectManager.register(Test4Service);
 
     try {
-        await ContainerComponent.create(Test5Service);
+        await ObjectManager.get(Test5Service);
     } catch (e) {
         error = e;
     }
 
     expect(error).toEqual(new Error('class "Test5Service" is not registered'));
 
-    const test3Service: Test3Service = await ContainerComponent.create(Test3Service);
+    const test3Service: Test3Service = await ObjectManager.get(Test3Service);
 
     expect(typeof test3Service).toBe('object');
 
-    const test4Service: Test4Service = await ContainerComponent.create(Test4Service);
+    const test4Service: Test4Service = await ObjectManager.get(Test4Service);
 
     expect(() => {
-        ContainerComponent.register(Test4Service, 'service');
+        ObjectManager.register(Test4Service);
     }).toThrowError('register() not allowed after create() call');
 
     expect(test4Service.test1Config instanceof Test1Config).toBe(true);

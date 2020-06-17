@@ -1,1 +1,1 @@
-export * from './service/logger.service';
+export * from './component/logger';

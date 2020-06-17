@@ -1,17 +1,13 @@
 import 'reflect-metadata';
 
-import { MetaType } from '../type/meta.type';
+import { MetaType } from '../type/meta';
 import { StringComponent } from '@vokus/string';
 
-export class ContainerComponent {
+export class ObjectManager {
     protected static _created = false;
     protected static _metaData: MetaType[] = [];
 
-    static register(
-        Function: any,
-        type: 'config' | 'component' | 'route' | 'middleware' | 'service',
-        options?: any,
-    ): void {
+    static register(Function: any): void {
         // check if already created and throw error
         if (this._created) {
             throw new Error('register() not allowed after create() call');
@@ -22,6 +18,14 @@ export class ContainerComponent {
             if (Function === meta.function) {
                 return;
             }
+        }
+
+        // get type from function name
+        let type = StringComponent.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
+
+        // check if type allowed
+        if (!['controller', 'middleware'].includes(type)) {
+            type = 'component';
         }
 
         // get key from function name
@@ -35,21 +39,20 @@ export class ContainerComponent {
             replacedBy: undefined,
             instance: undefined,
             instantiatedBy: undefined,
-            options: options,
         };
 
         // add meta data object to global meta data
         this._metaData.push(meta);
     }
 
-    static async create<T>(Function: any): Promise<T> {
+    static async get<T>(Function: any): Promise<T> {
         if (!this._created) {
-            this.register(ContainerComponent, 'component');
+            this.register(ObjectManager);
             await this.enrichMetaData();
             this._created = true;
         }
 
-        return await this.createInstance(await this.getMeta(Function), await this.getMeta(ContainerComponent));
+        return await this.createInstance(await this.getMeta(Function), await this.getMeta(ObjectManager));
     }
 
     protected static async createInstance(meta: MetaType, instantiatedByMeta: MetaType): Promise<any> {

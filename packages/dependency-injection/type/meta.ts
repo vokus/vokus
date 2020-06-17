@@ -6,5 +6,4 @@ export type MetaType = {
     replacedBy: MetaType | undefined;
     instance: any;
     instantiatedBy: MetaType | undefined;
-    options: any;
 };

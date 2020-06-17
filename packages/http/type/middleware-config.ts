@@ -1,4 +1,4 @@
-import { MiddlewareInterface } from '../interface/middleware.interface';
+import { MiddlewareInterface } from '../interface/middleware';
 
 export type MiddlewareConfigType = {
     after?: string;
