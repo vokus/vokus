@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { BadgeInterface } from '../interface/badge.interface';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import https from 'https';
@@ -9,9 +8,13 @@ import path from 'path';
 class Shields {
     static async run(): Promise<void> {
         // get shields from package.json
-        const shields: BadgeInterface[] = JSON.parse(
-            await FileSystem.readFile(path.join(Environment.projectPath, 'package.json')),
-        ).shields;
+        const shields: {
+            key: string;
+            label: string;
+            message: string;
+            color: string;
+            style: string;
+        }[] = JSON.parse(await FileSystem.readFile(path.join(Environment.projectPath, '.shields.json')));
 
         // request shields from shield.io and write them to shields folder
         for (const shield of shields) {

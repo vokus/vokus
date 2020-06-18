@@ -1,0 +1,21 @@
+{
+    "name": "@vokus/shields",
+    "version": "0.0.5",
+    "description": "@vokus/shields",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vokus/vokus",
+        "directory": "packages/shields"
+    },
+    "license": "MIT",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "dependencies": {
+        "@vokus/environment": "^0.0.5",
+        "@vokus/file-system": "^0.0.5"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20"
+}

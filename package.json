@@ -7,7 +7,7 @@
         "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
         "publish": "npm run setup && npm run update-packages && npm run lint && npm run test && npm run tsc && lerna publish && npm run setup",
         "setup": "npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
-        "shields": "ts-node ./packages/dev/bin/shields",
+        "shields": "ts-node ./packages/shields",
         "test": "jest --config jest-config.js --detectOpenHandles",
         "tsc": "tsc",
         "update-packages": "ts-node ./packages/dev/bin/update-packages && sort-package-json 'package.json' 'packages/*/package.json'"
@@ -31,28 +31,5 @@
     },
     "engines": {
         "node": ">= 14.4"
-    },
-    "shields": [
-        {
-            "color": "blue",
-            "key": "coverage",
-            "label": "coverage",
-            "message": "100%",
-            "style": "flat-square"
-        },
-        {
-            "color": "ff69b4",
-            "key": "code-style",
-            "label": "code style",
-            "message": "pretier",
-            "style": "flat-square"
-        },
-        {
-            "color": "4b32C3",
-            "key": "linter",
-            "label": "linter",
-            "message": "eslint",
-            "style": "flat-square"
-        }
-    ]
+    }
 }

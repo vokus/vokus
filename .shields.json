@@ -1,0 +1,23 @@
+[
+    {
+        "color": "blue",
+        "key": "coverage",
+        "label": "coverage",
+        "message": "100%",
+        "style": "flat-square"
+    },
+    {
+        "color": "ff69b4",
+        "key": "code-style",
+        "label": "code style",
+        "message": "pretier",
+        "style": "flat-square"
+    },
+    {
+        "color": "4b32C3",
+        "key": "linter",
+        "label": "linter",
+        "message": "eslint",
+        "style": "flat-square"
+    }
+]
