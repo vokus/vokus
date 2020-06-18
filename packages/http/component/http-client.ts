@@ -2,7 +2,7 @@ import https, { RequestOptions } from 'https';
 import { Response } from '../core/response';
 import http from 'http';
 
-export class HTTPClientComponent {
+export class HTTPClient {
     protected _options: RequestOptions;
 
     constructor(options?: RequestOptions) {

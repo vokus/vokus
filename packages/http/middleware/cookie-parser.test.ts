@@ -1,9 +1,9 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { ObjectManager } from '@vokus/dependency-injection';
-import { CookieParserMiddleware } from './cookie-parser.middleware';
+import { CookieParserMiddleware } from './cookie-parser';
 import { HTTPClient } from '../component/http-client';
 import { HTTPServer } from '..';
+import { ObjectManager } from '@vokus/dependency-injection';
 
 test('access-log', async () => {
     const httpServer: HTTPServer = await ObjectManager.get(HTTPServer);

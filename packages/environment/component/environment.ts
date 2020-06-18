@@ -1,5 +1,5 @@
 import { EnvironmentVariableInterface } from '../interface/environment-variable';
-import { FileSystemComponent } from '@vokus/file-system';
+import { FileSystem } from '@vokus/file-system';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -148,7 +148,7 @@ export class Environment {
 
     protected static _loadContextSpecificDotEnv(): void {
         const pathToDotEnv = path.join(this.configPath, '.env');
-        FileSystemComponent.ensureFileExistsSync(pathToDotEnv);
+        FileSystem.ensureFileExistsSync(pathToDotEnv);
         dotenv.config({ path: pathToDotEnv });
         this._contextDotEnvLoaded = true;
     }
@@ -249,7 +249,7 @@ export class Environment {
 
         const pathToExampleDotEnv = path.join(this.configPath, 'example.env');
 
-        FileSystemComponent.ensureFileExistsSync(pathToExampleDotEnv);
-        FileSystemComponent.writeFileSync(pathToExampleDotEnv, data.join('\n'));
+        FileSystem.ensureFileExistsSync(pathToExampleDotEnv);
+        FileSystem.writeFileSync(pathToExampleDotEnv, data.join('\n'));
     }
 }

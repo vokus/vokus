@@ -1,6 +1,6 @@
 import * as nodePath from 'path';
 import { Environment } from '@vokus/environment';
-import { FileSystemComponent } from '@vokus/file-system';
+import { FileSystem } from '@vokus/file-system';
 import { Injectable } from '@vokus/dependency-injection';
 import { LogEntity } from '../entity/log.entity';
 
@@ -95,14 +95,14 @@ export class LoggerService {
 
         for (const logFilePath of logFilePaths) {
             // check if log file exists and create if not
-            await FileSystemComponent.ensureFileExists(logFilePath);
+            await FileSystem.ensureFileExists(logFilePath);
 
             // TODO: add log rotation
             // check if log rotation is necessary
             // await this._rotateLogFile(logFile);
 
             // write line to log file
-            await FileSystemComponent.appendFile(
+            await FileSystem.appendFile(
                 logFilePath,
                 output
                     .join(' ')

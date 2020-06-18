@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import { MetaType } from '../type/meta';
-import { StringComponent } from '@vokus/string';
+import { String } from '@vokus/string';
 
 export class ObjectManager {
     protected static _created = false;
@@ -21,7 +21,7 @@ export class ObjectManager {
         }
 
         // get type from function name
-        let type = StringComponent.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
+        let type = String.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
 
         // check if type allowed
         if (!['controller', 'middleware'].includes(type)) {
@@ -29,7 +29,7 @@ export class ObjectManager {
         }
 
         // get key from function name
-        const key = StringComponent.slugify(Function.name).replace('-' + type, '');
+        const key = String.slugify(Function.name).replace('-' + type, '');
 
         const meta = {
             function: Function,

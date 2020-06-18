@@ -1,5 +1,5 @@
 import { Environment } from '@vokus/environment';
-import { FileSystemComponent } from '@vokus/file-system';
+import { FileSystem } from '@vokus/file-system';
 import { LoggerService } from '..';
 import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
@@ -7,11 +7,11 @@ import path from 'path';
 const pathToLogDir = path.join(Environment.projectPath, 'var', Environment.context, 'log');
 
 beforeAll(async () => {
-    await FileSystemComponent.remove(pathToLogDir);
+    await FileSystem.remove(pathToLogDir);
 });
 
 afterAll(async () => {
-    await FileSystemComponent.remove(pathToLogDir);
+    await FileSystem.remove(pathToLogDir);
 });
 
 test('logger', async () => {
@@ -41,7 +41,7 @@ test('logger', async () => {
         loggerService.warning('warning message'),
     ]);
 
-    expect(await FileSystemComponent.readDirectory(pathToLogDir)).toEqual([
+    expect(await FileSystem.readDirectory(pathToLogDir)).toEqual([
         'alert.log',
         'component',
         'critical.log',
@@ -53,7 +53,7 @@ test('logger', async () => {
         'warning.log',
     ]);
 
-    expect(await FileSystemComponent.readDirectory(path.join(pathToLogDir, 'component', 'container'))).toEqual([
+    expect(await FileSystem.readDirectory(path.join(pathToLogDir, 'component', 'container'))).toEqual([
         'alert.log',
         'critical.log',
         'debug.log',

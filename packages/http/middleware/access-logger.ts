@@ -1,6 +1,5 @@
-import { LoggerService } from '@vokus/logger';
-
 import { Injectable } from '@vokus/dependency-injection';
+import { LoggerService } from '@vokus/logger';
 import { MiddlewareInterface } from '../interface/middleware';
 import { Request } from '../core/request';
 import { Response } from '../core/response';

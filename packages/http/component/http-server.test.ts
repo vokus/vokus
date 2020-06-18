@@ -1,14 +1,11 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { HTTPClient } from './http-client';
 import { AccessLoggerMiddleware } from '../middleware/access-logger';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/logger/node_modules/@vokus/file-system';
-
-import { ObjectManager } from '@vokus/dependency-injection';
-
+import { HTTPClient } from './http-client';
 import { HTTPServer } from '..';
-
+import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 
 beforeAll(async () => {
@@ -34,7 +31,7 @@ test('http-server', async () => {
 
     expect(httpServerService.listening).toBe(true);
 
-    let httpClient = new HTTPClientComponent({
+    let httpClient = new HTTPClient({
         rejectUnauthorized: false,
     });
 
@@ -42,7 +39,7 @@ test('http-server', async () => {
 
     expect(response.statusCode).toBe(404);
 
-    httpClient = new HTTPClientComponent();
+    httpClient = new HTTPClient();
 
     try {
         response = await httpClient.get('https://localhost:3000/');
@@ -58,18 +55,18 @@ test('http-server', async () => {
 
     expect(httpServerService.middlewares.length).toBe(1);
 
-    await FileSystemComponent.copyFile(
+    await FileSystem.copyFile(
         path.join(__dirname, '../self-signed-key.pem'),
-        path.join(EnvironmentComponent.configPath, 'http-server', 'key.pem'),
+        path.join(Environment.configPath, 'http-server', 'key.pem'),
     );
-    await FileSystemComponent.copyFile(
+    await FileSystem.copyFile(
         path.join(__dirname, '../self-signed-cert.pem'),
-        path.join(EnvironmentComponent.configPath, 'http-server', 'cert.pem'),
+        path.join(Environment.configPath, 'http-server', 'cert.pem'),
     );
 
     await httpServerService.start();
 
-    httpClient = new HTTPClientComponent({
+    httpClient = new HTTPClient({
         rejectUnauthorized: false,
     });
 

@@ -1,9 +1,9 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
 import { AccessLoggerMiddleware } from './access-logger';
-import { ObjectManager } from '@vokus/dependency-injection';
 import { HTTPClient } from '../component/http-client';
-import { HTTPServer } from '..';
+import { HTTPServer } from '../component/http-server';
+import { ObjectManager } from '@vokus/dependency-injection';
 
 test('access-log', async () => {
     const httpServerService: HTTPServer = await ObjectManager.get(HTTPServer);

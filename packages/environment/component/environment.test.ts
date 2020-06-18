@@ -5,8 +5,8 @@ process.env.TEST_INVALID_NUMBER_2 = 'test';
 process.env.TEST_INVALID_STRING_3 = 'any other string';
 
 import { Environment, EnvironmentVariable, EnvironmentVariableInterface } from '../index';
-import { FileSystemComponent } from '@vokus/file-system';
-import { StringComponent } from '@vokus/string';
+import { FileSystem } from '@vokus/file-system';
+import { String } from '@vokus/string';
 
 function getEnvName(
     type: string,
@@ -18,11 +18,11 @@ function getEnvName(
     return [
         'test',
         'generated',
-        StringComponent.slugify(type, '_'),
-        StringComponent.slugify(String(example), '_'),
-        StringComponent.slugify(String(required), '_'),
-        StringComponent.slugify(String(defaultValue), '_'),
-        StringComponent.slugify(String(allowedValues), '_'),
+        String.slugify(type, '_'),
+        String.slugify(example.toString(), '_'),
+        String.slugify(required.toString(), '_'),
+        String.slugify(defaultValue.toString(), '_'),
+        String.slugify(allowedValues.toString(), '_'),
     ]
         .join('_')
         .toUpperCase();
@@ -147,7 +147,7 @@ class Config {
 }
 
 afterAll(async () => {
-    await FileSystemComponent.remove(Environment.configPath);
+    await FileSystem.remove(Environment.configPath);
 });
 
 describe('Environment', () => {
