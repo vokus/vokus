@@ -10,6 +10,7 @@
         "**/node_modules/": true,
         "packages/**/*.d.ts": true,
         "packages/**/*.js": true,
+        "**/.npmignore": true,
         "**/.npmrc": true
     },
     "javascript.implicitProjectConfig.experimentalDecorators": true,
