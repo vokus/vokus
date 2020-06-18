@@ -3,7 +3,7 @@ import { Environment } from '@vokus/environment';
 import { FileSystem } from '../../file-system';
 import { HTTPServerConfig } from '..';
 import { Injectable } from '@vokus/dependency-injection';
-import { LoggerService } from '@vokus/logger';
+import { Logger } from '@vokus/logger';
 import { MiddlewareConfigType } from '../type/middleware-config';
 import { MiddlewareInterface } from '../interface/middleware';
 
@@ -13,15 +13,15 @@ import path from 'path';
 @Injectable()
 export class HTTPServer {
     protected _server: https.Server;
-    protected _loggerService: LoggerService;
+    protected _logger: Logger;
     protected _httpServerConfig: HTTPServerConfig;
     protected _express: Application;
     protected _selfSigned: boolean;
     protected _middlewares: MiddlewareConfigType[] = [];
 
-    constructor(loggerService: LoggerService, httpServerConfig: HTTPServerConfig) {
+    constructor(logger: Logger, httpServerConfig: HTTPServerConfig) {
         this._httpServerConfig = httpServerConfig;
-        this._loggerService = loggerService;
+        this._logger = logger;
     }
 
     async start(): Promise<void> {
@@ -32,9 +32,7 @@ export class HTTPServer {
 
         // try to load certificate and key from config path
         if (!(await FileSystem.isFile(pathToKey)) || !(await FileSystem.isFile(pathToCert))) {
-            this._loggerService.warning(
-                `${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`,
-            );
+            this._logger.warning(`${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`);
 
             this._selfSigned = true;
 
@@ -56,12 +54,12 @@ export class HTTPServer {
 
         this._server.listen(this._httpServerConfig.port);
 
-        await this._loggerService.notice(`started with port ${this._httpServerConfig.port}`);
+        await this._logger.notice(`started with port ${this._httpServerConfig.port}`);
     }
 
     async stop(): Promise<void> {
         this._server.close();
-        await this._loggerService.notice(`stopped with port ${this._httpServerConfig.port}`);
+        await this._logger.notice(`stopped with port ${this._httpServerConfig.port}`);
     }
 
     get selfSigned(): boolean {

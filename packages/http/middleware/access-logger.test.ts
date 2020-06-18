@@ -6,12 +6,12 @@ import { HTTPServer } from '../component/http-server';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 test('access-log', async () => {
-    const httpServerService: HTTPServer = await ObjectManager.get(HTTPServer);
+    const httpServer: HTTPServer = await ObjectManager.get(HTTPServer);
     const accessLogMiddleware: AccessLoggerMiddleware = await ObjectManager.get(AccessLoggerMiddleware);
 
-    await httpServerService.registerMiddleware(accessLogMiddleware);
+    await httpServer.registerMiddleware(accessLogMiddleware);
 
-    await httpServerService.start();
+    await httpServer.start();
 
     const httpClient = new HTTPClient({
         rejectUnauthorized: false,
@@ -21,5 +21,5 @@ test('access-log', async () => {
 
     expect(response.statusCode).toBe(404);
 
-    await httpServerService.stop();
+    await httpServer.stop();
 });

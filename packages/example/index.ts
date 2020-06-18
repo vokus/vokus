@@ -1,11 +1,11 @@
 import { CMSMiddlewares, CMSRoutes } from '@vokus/cms';
-import { ContainerComponent } from '@vokus/dependency-injection';
-import { HTTPServerService } from '@vokus/http';
+import { HTTPServer } from '@vokus/http';
+import { ObjectManager } from '@vokus/dependency-injection';
 
 (async (): Promise<void> => {
-    const http: HTTPServerService = await ContainerComponent.create(HTTPServerService);
+    const httpServer: HTTPServer = await ObjectManager.get(HTTPServer);
 
     // await http.registerRoutes(CMSRoutes);
     // await http.registerMiddlewares(CMSMiddlewares);
-    await http.start();
+    await httpServer.start();
 })();

@@ -23,7 +23,7 @@ class Test1Route {
 class Test2Route extends Test1Route {}
 
 @Injectable()
-class TestLoggerService {
+class TestLogger {
     async emergency(message: string): Promise<void> {
         message;
     }
@@ -58,72 +58,72 @@ class TestLoggerService {
 }
 
 @Injectable()
-class Test1Service {}
+class Test1Component {}
 
 @Injectable()
-class Test2Service extends Test1Service {}
+class Test2Compoennt extends Test1Component {}
 
 @Injectable()
-class Test3Service extends Test2Service {}
+class Test3Component extends Test2Compoennt {}
 
 @Injectable()
-class Test4Service {
+class Test4Component {
     test1Config: Test1Config;
     test2Config: Test2Config;
     test1Route: Test1Route;
-    test1Service: Test1Service;
-    testLogger: TestLoggerService;
+    test1Component: Test1Component;
+    testLogger: TestLogger;
 
     constructor(
         test1Config: Test1Config,
         test2Config: Test2Config,
         test1Route: Test1Route,
-        test1Service: Test1Service,
-        testLogger: TestLoggerService,
+        test1Component: Test1Component,
+        testLogger: TestLogger,
     ) {
         this.test1Config = test1Config;
         this.test2Config = test2Config;
         this.test1Route = test1Route;
-        this.test1Service = test1Service;
+        this.test1Component = test1Component;
         this.testLogger = testLogger;
     }
 }
 
-class Test5Service {}
+class Test5Component {}
 
 test('container', async () => {
     let error: Error = new Error();
 
-    ObjectManager.register(Test4Service);
+    ObjectManager.register(Test4Component);
 
     try {
-        await ObjectManager.get(Test5Service);
+        await ObjectManager.get(Test5Component);
     } catch (e) {
         error = e;
     }
 
-    expect(error).toEqual(new Error('class "Test5Service" is not registered'));
+    expect(error).toEqual(new Error('class "Test5Component" is not registered'));
 
-    const test3Service: Test3Service = await ObjectManager.get(Test3Service);
+    const test3Component: Test3Component = await ObjectManager.get(Test3Component);
 
-    expect(typeof test3Service).toBe('object');
+    expect(typeof test3Component).toBe('object');
 
-    const test4Service: Test4Service = await ObjectManager.get(Test4Service);
+    const test4Component: Test4Component = await ObjectManager.get(Test4Component);
 
     expect(() => {
-        ObjectManager.register(Test4Service);
+        ObjectManager.register(Test4Component);
     }).toThrowError('register() not allowed after create() call');
 
-    expect(test4Service.test1Config instanceof Test1Config).toBe(true);
-    expect(test4Service.test2Config instanceof Test2Config).toBe(true);
-    expect(test4Service.test1Config instanceof Test3Config).toBe(true);
+    expect(test4Component.test1Config instanceof Test1Config).toBe(true);
+    expect(test4Component.test2Config instanceof Test2Config).toBe(true);
+    expect(test4Component.test1Config instanceof Test3Config).toBe(true);
 
-    expect(test4Service.test1Route instanceof Test1Route).toBe(true);
-    expect(test4Service.test1Route instanceof Test2Route).toBe(true);
+    expect(test4Component.test1Route instanceof Test1Route).toBe(true);
+    expect(test4Component.test1Route instanceof Test2Route).toBe(true);
 
-    expect(test4Service.test1Service instanceof Test1Service).toBe(true);
-    expect(test4Service.test1Service instanceof Test2Service).toBe(true);
-    expect(test4Service.test1Service instanceof Test3Service).toBe(true);
+    expect(test4Component.test1Component instanceof Test1Component).toBe(true);
+    expect(test4Component.test1Component instanceof Test2Compoennt).toBe(true);
+    expect(test4Component.test1Component instanceof Test3Component).toBe(true);
 
-    expect(test4Service.test1Route.test1Config instanceof Test3Config).toBe(true);
+    expect(test4Component.test1Route.test1Config instanceof Test3Config).toBe(true);
 });

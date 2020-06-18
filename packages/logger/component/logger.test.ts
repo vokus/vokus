@@ -1,6 +1,6 @@
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { LoggerService } from '..';
+import { Logger } from '..';
 import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 
@@ -15,30 +15,30 @@ afterAll(async () => {
 });
 
 test('logger', async () => {
-    let loggerService: LoggerService = new LoggerService();
+    let logger: Logger = new Logger();
 
     await Promise.all([
-        loggerService.alert('alert message'),
-        loggerService.critical('critical message'),
-        loggerService.debug('debug message'),
-        loggerService.emergency('emergency message'),
-        loggerService.error('error message'),
-        loggerService.info('info message'),
-        loggerService.notice('notice message'),
-        loggerService.warning('warning message'),
+        logger.alert('alert message'),
+        logger.critical('critical message'),
+        logger.debug('debug message'),
+        logger.emergency('emergency message'),
+        logger.error('error message'),
+        logger.info('info message'),
+        logger.notice('notice message'),
+        logger.warning('warning message'),
     ]);
 
-    loggerService = await ObjectManager.get(LoggerService);
+    logger = await ObjectManager.get(Logger);
 
     await Promise.all([
-        loggerService.alert('alert message'),
-        loggerService.critical('critical message'),
-        loggerService.debug('debug message'),
-        loggerService.emergency('emergency message'),
-        loggerService.error('error message'),
-        loggerService.info('info message'),
-        loggerService.notice('notice message'),
-        loggerService.warning('warning message'),
+        logger.alert('alert message'),
+        logger.critical('critical message'),
+        logger.debug('debug message'),
+        logger.emergency('emergency message'),
+        logger.error('error message'),
+        logger.info('info message'),
+        logger.notice('notice message'),
+        logger.warning('warning message'),
     ]);
 
     expect(await FileSystem.readDirectory(pathToLogDir)).toEqual([
@@ -53,7 +53,7 @@ test('logger', async () => {
         'warning.log',
     ]);
 
-    expect(await FileSystem.readDirectory(path.join(pathToLogDir, 'component', 'container'))).toEqual([
+    expect(await FileSystem.readDirectory(path.join(pathToLogDir, 'component', 'object-manager'))).toEqual([
         'alert.log',
         'critical.log',
         'debug.log',

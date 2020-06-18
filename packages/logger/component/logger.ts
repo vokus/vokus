@@ -5,7 +5,7 @@ import { Injectable } from '@vokus/dependency-injection';
 import { LogEntity } from '../entity/log.entity';
 
 @Injectable()
-export class LoggerService {
+export class Logger {
     async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }

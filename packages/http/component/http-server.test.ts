@@ -17,19 +17,19 @@ afterAll(async () => {
 });
 
 test('http-server', async () => {
-    const httpServerService: HTTPServer = await ObjectManager.get(HTTPServer);
+    const httpServer: HTTPServer = await ObjectManager.get(HTTPServer);
 
     const accessLoggerMiddleware: AccessLoggerMiddleware = await ObjectManager.get(AccessLoggerMiddleware);
 
-    expect(httpServerService.middlewares.length).toBe(0);
+    expect(httpServer.middlewares.length).toBe(0);
 
-    await httpServerService.registerMiddleware(accessLoggerMiddleware);
+    await httpServer.registerMiddleware(accessLoggerMiddleware);
 
-    expect(httpServerService.listening).toBe(false);
+    expect(httpServer.listening).toBe(false);
 
-    await httpServerService.start();
+    await httpServer.start();
 
-    expect(httpServerService.listening).toBe(true);
+    expect(httpServer.listening).toBe(true);
 
     let httpClient = new HTTPClient({
         rejectUnauthorized: false,
@@ -47,13 +47,13 @@ test('http-server', async () => {
         expect(e.message).toBe('self signed certificate');
     }
 
-    expect(httpServerService.selfSigned).toBe(true);
+    expect(httpServer.selfSigned).toBe(true);
 
-    await httpServerService.stop();
+    await httpServer.stop();
 
-    expect(httpServerService.listening).toBe(false);
+    expect(httpServer.listening).toBe(false);
 
-    expect(httpServerService.middlewares.length).toBe(1);
+    expect(httpServer.middlewares.length).toBe(1);
 
     await FileSystem.copyFile(
         path.join(__dirname, '../self-signed-key.pem'),
@@ -64,7 +64,7 @@ test('http-server', async () => {
         path.join(Environment.configPath, 'http-server', 'cert.pem'),
     );
 
-    await httpServerService.start();
+    await httpServer.start();
 
     httpClient = new HTTPClient({
         rejectUnauthorized: false,
@@ -74,5 +74,5 @@ test('http-server', async () => {
 
     expect(response.statusCode).toBe(404);
 
-    await httpServerService.stop();
+    await httpServer.stop();
 });
