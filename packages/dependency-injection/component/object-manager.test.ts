@@ -1,3 +1,5 @@
+// TODO: optimize
+
 import { Injectable } from '../decorator/injectable';
 import { ObjectManager } from './object-manager';
 
