@@ -1,11 +1,20 @@
 import 'reflect-metadata';
 
-import { MetaType } from '../type/meta';
 import { String } from '@vokus/string';
+
+type Meta = {
+    function: any;
+    name: string;
+    key: string;
+    type: string;
+    replacedBy: Meta | undefined;
+    instance: any;
+    instantiatedBy: Meta | undefined;
+};
 
 export class ObjectManager {
     protected static _created = false;
-    protected static _metaData: MetaType[] = [];
+    protected static _metaData: Meta[] = [];
 
     static register(Function: any): void {
         // check if already created and throw error
@@ -55,7 +64,7 @@ export class ObjectManager {
         return await this.createInstance(await this.getMeta(Function), await this.getMeta(ObjectManager));
     }
 
-    protected static async createInstance(meta: MetaType, instantiatedByMeta: MetaType): Promise<any> {
+    protected static async createInstance(meta: Meta, instantiatedByMeta: Meta): Promise<any> {
         if (meta.replacedBy !== undefined) {
             meta = meta.replacedBy;
         }
@@ -92,7 +101,7 @@ export class ObjectManager {
         return meta.instance;
     }
 
-    protected static async getMeta(Function: any): Promise<MetaType> {
+    protected static async getMeta(Function: any): Promise<Meta> {
         for (const meta of this._metaData) {
             if (Function === meta.function) {
                 return meta;

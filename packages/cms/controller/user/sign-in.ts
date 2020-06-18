@@ -1,5 +1,5 @@
 import { Request, Response } from '@vokus/http';
-import { Injectable } from '../../../http/node_modules/@vokus/dependency-injection';
+import { Injectable } from '@vokus/dependency-injection';
 
 @Injectable()
 export class SignInController {

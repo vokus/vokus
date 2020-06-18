@@ -6,7 +6,7 @@ module.exports = {
         '!<rootDir>/packages/dev/**/*.ts'
     ],
     coverageReporters: ['text'],
-    coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js', 'index.ts', 'index.js'],
+    coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js', '<rootDir>/packages/example/index.ts', '<rootDir>/packages/example/index.js'],
     coverageThreshold: {
         global: {
             branches: 100,
