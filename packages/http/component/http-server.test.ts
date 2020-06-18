@@ -1,6 +1,5 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { AccessLoggerMiddleware } from '../middleware/access-logger';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/logger/node_modules/@vokus/file-system';
 import { HTTPClient } from './http-client';
@@ -18,12 +17,6 @@ afterAll(async () => {
 
 test('http-server', async () => {
     const httpServer: HTTPServer = await ObjectManager.get(HTTPServer);
-
-    const accessLoggerMiddleware: AccessLoggerMiddleware = await ObjectManager.get(AccessLoggerMiddleware);
-
-    expect(httpServer.middlewares.length).toBe(0);
-
-    await httpServer.registerMiddleware(accessLoggerMiddleware);
 
     expect(httpServer.listening).toBe(false);
 
@@ -52,8 +45,6 @@ test('http-server', async () => {
     await httpServer.stop();
 
     expect(httpServer.listening).toBe(false);
-
-    expect(httpServer.middlewares.length).toBe(1);
 
     await FileSystem.copyFile(
         path.join(__dirname, '../self-signed-key.pem'),

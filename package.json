@@ -6,7 +6,7 @@
         "example": "ts-node ./packages/example/index.ts",
         "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
         "publish": "npm run setup && npm run update-packages && npm run lint && npm run test && npm run tsc && lerna publish && npm run setup",
-        "setup": "rm -rf node_modules && npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
+        "setup": "npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap",
         "shields": "ts-node ./packages/dev/bin/shields",
         "test": "jest --config jest-config.js --detectOpenHandles",
         "tsc": "tsc",

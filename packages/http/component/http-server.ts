@@ -1,26 +1,31 @@
+import { Environment, EnvironmentVariable } from '@vokus/environment';
 import express, { Application } from 'express';
-import { Environment } from '@vokus/environment';
 import { FileSystem } from '../../file-system';
-import { HTTPServerConfig } from '..';
 import { Injectable } from '@vokus/dependency-injection';
 import { Logger } from '@vokus/logger';
-import { MiddlewareConfigType } from '../type/middleware-config';
-import { MiddlewareInterface } from '../interface/middleware';
-
+import { MiddlewareConfigInterface } from '../interface/middleware-config';
+import { RouteConfigInterface } from '../interface/route-config';
 import https from 'https';
 import path from 'path';
 
 @Injectable()
 export class HTTPServer {
+    @EnvironmentVariable({
+        name: 'HTTP_SERVER_PORT',
+        example: 443,
+        required: true,
+        default: 443,
+    })
+    protected _port: number;
+
     protected _server: https.Server;
     protected _logger: Logger;
-    protected _httpServerConfig: HTTPServerConfig;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _middlewares: MiddlewareConfigType[] = [];
+    protected _middlewareConfiguration: MiddlewareConfigInterface[] = [];
+    protected _routeConfiguration: RouteConfigInterface[] = [];
 
-    constructor(logger: Logger, httpServerConfig: HTTPServerConfig) {
-        this._httpServerConfig = httpServerConfig;
+    constructor(logger: Logger) {
         this._logger = logger;
     }
 
@@ -42,8 +47,6 @@ export class HTTPServer {
 
         this._express = express();
 
-        this.addMiddlewaresToExpress();
-
         this._server = https.createServer(
             {
                 key: await FileSystem.readFile(pathToKey),
@@ -52,39 +55,33 @@ export class HTTPServer {
             this._express,
         );
 
-        this._server.listen(this._httpServerConfig.port);
+        this._server.listen(this._port);
 
-        await this._logger.notice(`started with port ${this._httpServerConfig.port}`);
+        await this._logger.notice(`started with port ${this._port}`);
     }
 
     async stop(): Promise<void> {
         this._server.close();
-        await this._logger.notice(`stopped with port ${this._httpServerConfig.port}`);
+        await this._logger.notice(`stopped with port ${this._port}`);
     }
 
     get selfSigned(): boolean {
         return this._selfSigned;
     }
 
-    get middlewares(): MiddlewareConfigType[] {
-        return this._middlewares;
+    get middlewareConfiguration(): MiddlewareConfigInterface[] {
+        return this._middlewareConfiguration;
     }
 
     get listening(): boolean {
         return 'object' === typeof this._server && this._server.listening;
     }
 
-    async registerMiddleware(middleware: MiddlewareInterface, after?: string, before?: string): Promise<void> {
-        this._middlewares.push({
-            after: after,
-            before: before,
-            middleware: middleware,
-        });
+    async addMiddlewareConfiguration(middlewareConfiguration: MiddlewareConfigInterface[]): Promise<void> {
+        this._middlewareConfiguration = this._middlewareConfiguration.concat(middlewareConfiguration);
     }
 
-    protected async addMiddlewaresToExpress(): Promise<void> {
-        for (const middlewareConfig of this._middlewares) {
-            this._express.use(middlewareConfig.middleware.handle.bind(middlewareConfig.middleware));
-        }
+    async addRouteConfiguration(routeConfiguration: RouteConfigInterface[]): Promise<void> {
+        this._routeConfiguration = this._routeConfiguration.concat(routeConfiguration);
     }
 }
