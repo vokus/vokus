@@ -8,19 +8,20 @@ import { SignInController } from './controller/user/sign-in';
 
 export const CMSRoutes: RouteConfigInterface[] = [
     {
-        key: 'user/sign-in',
-        path: 'user/sign-in',
         controller: SignInController,
+        key: 'user/sign-in',
+        method: 'get',
+        path: 'user/sign-in',
     },
 ];
 
 export const CMSMiddlewares: MiddlewareConfigInterface[] = [
     {
         key: 'cookie-parser',
-        controller: CookieParserMiddleware,
+        middleware: CookieParserMiddleware,
     },
     {
         key: 'access-logger',
-        controller: AccessLoggerMiddleware,
+        middleware: AccessLoggerMiddleware,
     },
 ];

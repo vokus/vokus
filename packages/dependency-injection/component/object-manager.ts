@@ -4,12 +4,12 @@ import { String } from '@vokus/string';
 
 type Meta = {
     function: any;
-    name: string;
-    key: string;
-    type: string;
-    replacedBy: Meta | undefined;
     instance: any;
     instantiatedBy: Meta | undefined;
+    key: string;
+    name: string;
+    replacedBy: Meta | undefined;
+    type: string;
 };
 
 export class ObjectManager {
@@ -42,12 +42,12 @@ export class ObjectManager {
 
         const meta = {
             function: Function,
-            name: Function.name,
-            key: key,
-            type: type,
-            replacedBy: undefined,
             instance: undefined,
             instantiatedBy: undefined,
+            key: key,
+            name: Function.name,
+            replacedBy: undefined,
+            type: type,
         };
 
         // add meta data object to global meta data

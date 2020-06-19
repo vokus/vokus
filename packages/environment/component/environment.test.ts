@@ -42,8 +42,8 @@ for (const type of ['boolean', 'number', 'string']) {
                     const name = getEnvName(type, example, required, defaultValue, allowedValues);
 
                     const environmentVariable: EnvironmentVariableInterface = {
-                        name: name,
                         example: example,
+                        name: name,
                         required: required,
                     };
 
@@ -73,62 +73,62 @@ for (const type of ['boolean', 'number', 'string']) {
 
 const invalidEnvironmentVariables: { [name: string]: EnvironmentVariableInterface } = {
     TEST_INVALID_BOOLEAN: {
-        name: 'TEST_INVALID_BOOLEAN',
-        example: true,
-        required: true,
         allowedValues: [false],
         default: true,
+        example: true,
+        name: 'TEST_INVALID_BOOLEAN',
+        required: true,
     },
     TEST_INVALID_NUMBER: {
-        name: 'TEST_INVALID_NUMBER',
-        example: 10,
-        required: true,
         allowedValues: [1],
+        example: 10,
+        name: 'TEST_INVALID_NUMBER',
+        required: true,
     },
     TEST_INVALID_NUMBER_2: {
-        name: 'TEST_INVALID_NUMBER_2',
         example: 10,
+        name: 'TEST_INVALID_NUMBER_2',
         required: true,
     },
     TEST_INVALID_STRING: {
-        name: 'TEST_INVALID_STRING',
-        example: 'any test string',
-        required: false,
         allowedValues: ['test'],
+        example: 'any test string',
+        name: 'TEST_INVALID_STRING',
+        required: false,
     },
     TEST_INVALID_STRING_2: {
-        name: 'TEST_INVALID_STRING_2',
-        example: 'any test string',
-        required: false,
         default: 10,
+        example: 'any test string',
+        name: 'TEST_INVALID_STRING_2',
+        required: false,
     },
     TEST_INVALID_STRING_3: {
-        name: 'TEST_INVALID_STRING_3',
-        example: 'test',
-        required: true,
         allowedValues: ['test'],
+        example: 'test',
+        name: 'TEST_INVALID_STRING_3',
+        required: true,
     },
 };
 
 class Config {
     @EnvironmentVariable({
-        name: 'TEST_DECORATOR_BOOLEAN',
         example: true,
+        name: 'TEST_DECORATOR_BOOLEAN',
         required: true,
     })
     protected _testBoolean: boolean;
 
     @EnvironmentVariable({
-        name: 'TEST_DECORATOR_NUMBER',
-        example: 14,
-        required: false,
         default: 10,
+        example: 14,
+        name: 'TEST_DECORATOR_NUMBER',
+        required: false,
     })
     protected _testNumber: number;
 
     @EnvironmentVariable({
-        name: 'TEST_DECORATOR_STRING',
         example: 'any test string',
+        name: 'TEST_DECORATOR_STRING',
         required: true,
     })
     protected _testString: string;
@@ -244,8 +244,8 @@ describe('Environment', () => {
 
         expect(
             Environment.getValueFromEnvironmentVariable({
-                name: 'TEST_DECORATOR_STRING',
                 example: 'any test string',
+                name: 'TEST_DECORATOR_STRING',
                 required: true,
             }),
         ).toBe('test');

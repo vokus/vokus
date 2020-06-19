@@ -1,9 +1,11 @@
 import { Environment, EnvironmentVariable } from '@vokus/environment';
+import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
+import { ControllerInterface } from '../interface/controller';
 import { FileSystem } from '../../file-system';
-import { Injectable } from '@vokus/dependency-injection';
 import { Logger } from '@vokus/logger';
 import { MiddlewareConfigInterface } from '../interface/middleware-config';
+import { MiddlewareInterface } from '../interface/middleware';
 import { RouteConfigInterface } from '../interface/route-config';
 import https from 'https';
 import path from 'path';
@@ -11,10 +13,10 @@ import path from 'path';
 @Injectable()
 export class HTTPServer {
     @EnvironmentVariable({
-        name: 'HTTP_SERVER_PORT',
-        example: 443,
-        required: true,
         default: 443,
+        example: 443,
+        name: 'HTTP_SERVER_PORT',
+        required: true,
     })
     protected _port: number;
 
@@ -47,10 +49,12 @@ export class HTTPServer {
 
         this._express = express();
 
+        await this._addMiddlewares();
+
         this._server = https.createServer(
             {
-                key: await FileSystem.readFile(pathToKey),
                 cert: await FileSystem.readFile(pathToCert),
+                key: await FileSystem.readFile(pathToKey),
             },
             this._express,
         );
@@ -83,5 +87,34 @@ export class HTTPServer {
 
     async addRouteConfiguration(routeConfiguration: RouteConfigInterface[]): Promise<void> {
         this._routeConfiguration = this._routeConfiguration.concat(routeConfiguration);
+    }
+
+    protected async _addMiddlewares(): Promise<void> {
+        // TODO: sort middlewares by after and before
+
+        for (const middlewareConfig of this._middlewareConfiguration) {
+            const middleware: MiddlewareInterface = await ObjectManager.get(middlewareConfig.middleware);
+
+            this._express.use(middleware.handle.bind(middleware));
+        }
+
+        for (const routeConfiguration of this._routeConfiguration) {
+            const controller: ControllerInterface = await ObjectManager.get(routeConfiguration.controller);
+
+            switch (routeConfiguration.method) {
+                case 'get':
+                    this._express.get(routeConfiguration.path, controller.handle.bind(controller));
+                    break;
+                case 'post':
+                    this._express.post(routeConfiguration.path, controller.handle.bind(controller));
+                    break;
+                case 'put':
+                    this._express.put(routeConfiguration.path, controller.handle.bind(controller));
+                    break;
+                case 'delete':
+                    this._express.delete(routeConfiguration.path, controller.handle.bind(controller));
+                    break;
+            }
+        }
     }
 }

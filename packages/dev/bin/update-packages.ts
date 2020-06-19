@@ -28,16 +28,16 @@ class UpdatePackages {
                 access: 'public',
             };
             packageJson.repository = {
+                directory: path.join(this.packagesPath, name),
                 type: 'git',
                 url: 'https://github.com/vokus/vokus',
-                directory: path.join(this.packagesPath, name),
             };
 
             await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
             await ncu.run({
-                upgrade: true,
                 packageFile: pathToPackageJson,
+                upgrade: true,
             });
 
             const npmignoreContent =

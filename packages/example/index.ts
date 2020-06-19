@@ -1,7 +1,9 @@
+process.env.HTTP_SERVER_PORT = '3000';
+
 import { Application } from './app';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 (async (): Promise<void> => {
     const app: Application = await ObjectManager.get(Application);
-    app.start();
+    await app.start();
 })();

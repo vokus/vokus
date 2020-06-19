@@ -22,6 +22,6 @@ export class String {
     static slugify(text: string, separator = '-'): string {
         text = text.replace(/([a-z\d])([A-Z])/g, '$1 $2');
 
-        return slugify(text, { separator: separator, allowedChars: 'a-zA-Z0-9' + separator });
+        return slugify(text, { allowedChars: 'a-zA-Z0-9' + separator, separator: separator });
     }
 }

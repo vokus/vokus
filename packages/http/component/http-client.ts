@@ -17,11 +17,11 @@ export class HTTPClient {
         const parsedUrl = new URL(url);
 
         const options: RequestOptions = {
-            method: 'GET',
             host: parsedUrl.host,
             hostname: parsedUrl.hostname,
-            port: parsedUrl.port,
+            method: 'GET',
             path: parsedUrl.pathname,
+            port: parsedUrl.port,
         };
 
         return this.request(options);

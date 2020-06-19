@@ -106,10 +106,6 @@ export class Environment {
         // register NODE_ENV if not exists
         if (undefined === this._values.NODE_ENV) {
             this.registerEnvironmentVariable({
-                name: 'NODE_ENV',
-                example: 'production',
-                required: true,
-                default: 'production',
                 allowedValues: [
                     this._contextProduction,
                     this._contextAcceptance,
@@ -117,6 +113,10 @@ export class Environment {
                     this._contextTest,
                     this._contextDevelopment,
                 ],
+                default: 'production',
+                example: 'production',
+                name: 'NODE_ENV',
+                required: true,
             });
 
             this._values.NODE_ENV = this.getValueFromProcessEnv(this._variables.NODE_ENV);

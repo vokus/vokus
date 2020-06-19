@@ -1,6 +1,6 @@
 export interface MiddlewareConfigInterface {
     key: string;
-    controller: any;
+    middleware: any;
     after?: string;
     before?: string;
 }
