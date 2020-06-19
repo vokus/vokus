@@ -4,9 +4,10 @@ import express, { Application } from 'express';
 import { ControllerInterface } from '../interface/controller';
 import { FileSystem } from '../../file-system';
 import { Logger } from '@vokus/logger';
-import { MiddlewareConfigInterface } from '../interface/middleware-config';
+import { MiddlewareConfigurationInterface } from '../interface/middleware-configuration';
 import { MiddlewareInterface } from '../interface/middleware';
-import { RouteConfigInterface } from '../interface/route-config';
+import { RouteConfigurationInterface } from '../interface/route-configuration';
+import { Template } from '@vokus/template';
 import https from 'https';
 import path from 'path';
 
@@ -20,15 +21,17 @@ export class HTTPServer {
     })
     protected _port: number;
 
+    protected _template: Template;
     protected _server: https.Server;
     protected _logger: Logger;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _middlewareConfiguration: MiddlewareConfigInterface[] = [];
-    protected _routeConfiguration: RouteConfigInterface[] = [];
+    protected _middlewareConfiguration: MiddlewareConfigurationInterface[] = [];
+    protected _routeConfiguration: RouteConfigurationInterface[] = [];
 
-    constructor(logger: Logger) {
+    constructor(logger: Logger, template: Template) {
         this._logger = logger;
+        this._template = template;
     }
 
     async start(): Promise<void> {
@@ -48,6 +51,8 @@ export class HTTPServer {
         }
 
         this._express = express();
+
+        this._express.engine('pug', this._template.render.bind(this._template));
 
         await this._addMiddlewares();
 
@@ -73,7 +78,7 @@ export class HTTPServer {
         return this._selfSigned;
     }
 
-    get middlewareConfiguration(): MiddlewareConfigInterface[] {
+    get middlewareConfiguration(): MiddlewareConfigurationInterface[] {
         return this._middlewareConfiguration;
     }
 
@@ -81,11 +86,11 @@ export class HTTPServer {
         return 'object' === typeof this._server && this._server.listening;
     }
 
-    async addMiddlewareConfiguration(middlewareConfiguration: MiddlewareConfigInterface[]): Promise<void> {
+    async addMiddlewareConfiguration(middlewareConfiguration: MiddlewareConfigurationInterface[]): Promise<void> {
         this._middlewareConfiguration = this._middlewareConfiguration.concat(middlewareConfiguration);
     }
 
-    async addRouteConfiguration(routeConfiguration: RouteConfigInterface[]): Promise<void> {
+    async addRouteConfiguration(routeConfiguration: RouteConfigurationInterface[]): Promise<void> {
         this._routeConfiguration = this._routeConfiguration.concat(routeConfiguration);
     }
 
