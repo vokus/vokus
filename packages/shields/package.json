@@ -11,8 +11,10 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
+        "@vokus/dependency-injection": "^0.0.5",
         "@vokus/environment": "^0.0.5",
-        "@vokus/file-system": "^0.0.5"
+        "@vokus/file-system": "^0.0.5",
+        "@vokus/http": "^0.0.5"
     },
     "publishConfig": {
         "access": "public"

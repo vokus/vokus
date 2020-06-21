@@ -24,22 +24,9 @@ test('http-server', async () => {
 
     expect(httpServer.listening).toBe(true);
 
-    let httpClient = new HTTPClient({
-        rejectUnauthorized: false,
-    });
+    const httpClient: HTTPClient = await ObjectManager.get(HTTPClient);
 
-    let response = await httpClient.get('https://localhost:3000/');
-
-    expect(response.statusCode).toBe(404);
-
-    httpClient = new HTTPClient();
-
-    try {
-        response = await httpClient.get('https://localhost:3000/');
-    } catch (e) {
-        expect(e.message).toBe('self signed certificate');
-    }
-
+    expect((await httpClient.get('https://localhost:3000/')).statusCode).toBe(404);
     expect(httpServer.selfSigned).toBe(true);
 
     await httpServer.stop();
@@ -57,13 +44,7 @@ test('http-server', async () => {
 
     await httpServer.start();
 
-    httpClient = new HTTPClient({
-        rejectUnauthorized: false,
-    });
-
-    response = await httpClient.get('https://localhost:3000/');
-
-    expect(response.statusCode).toBe(404);
+    expect((await httpClient.get('https://localhost:3000/')).statusCode).toBe(404);
 
     await httpServer.stop();
 });

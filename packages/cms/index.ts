@@ -5,7 +5,7 @@ import {
     RouteConfigurationInterface,
 } from '@vokus/http';
 import { SignInController } from './controller/user/sign-in';
-import { TemplateConfigurationInterface } from '../template/interface/template-configuration';
+import { TemplateConfigurationInterface } from '@vokus/template';
 
 export const CMSRoutes: RouteConfigurationInterface[] = [
     {

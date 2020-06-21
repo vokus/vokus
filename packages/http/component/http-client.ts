@@ -1,19 +1,16 @@
 import https, { RequestOptions } from 'https';
-import { Response } from '../core/response';
-import http from 'http';
+import { Environment } from '@vokus/environment';
+import { Injectable } from '@vokus/dependency-injection';
 
+@Injectable()
 export class HTTPClient {
-    protected _options: RequestOptions;
+    protected _options: RequestOptions = {};
 
-    constructor(options?: RequestOptions) {
-        if ('object' !== typeof options) {
-            options = {};
-        }
-
-        this._options = options;
+    constructor() {
+        this._options.rejectUnauthorized = false; // TODO: find better way
     }
 
-    async get(url: string): Promise<Response> {
+    async get(url: string): Promise<{ statusCode: number; body: string }> {
         const parsedUrl = new URL(url);
 
         const options: RequestOptions = {
@@ -27,7 +24,7 @@ export class HTTPClient {
         return this.request(options);
     }
 
-    async request(options: RequestOptions): Promise<Response> {
+    async request(options: RequestOptions): Promise<{ statusCode: number; body: string }> {
         options = Object.assign(this._options, options);
 
         options.protocol = 'https:';
@@ -41,16 +38,7 @@ export class HTTPClient {
                         body += chunk;
                     });
                     res.on('end', () => {
-                        const response: Response = Object.create(http.ServerResponse.prototype);
-
-                        response.writeHead(Number(res.statusCode), {
-                            'Content-Length': Buffer.byteLength(body),
-                            'Content-Type': 'text/plain',
-                        });
-
-                        response.write(body);
-
-                        resolve(response);
+                        resolve({ body: body, statusCode: Number(res.statusCode) });
                     });
                 })
                 .on('error', reject)
