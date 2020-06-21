@@ -10,6 +10,7 @@ import { RouteConfigurationInterface } from '../interface/route-configuration';
 import { Template } from '@vokus/template';
 import https from 'https';
 import path from 'path';
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 
 @Injectable()
 export class HTTPServer {
@@ -56,7 +57,7 @@ export class HTTPServer {
 
         this._express.engine('pug', this._template.render.bind(this._template));
 
-        await this._addMiddlewares();
+        await this._registerMiddlewares();
 
         this._server = https.createServer(
             {
@@ -96,15 +97,42 @@ export class HTTPServer {
         this._routeConfiguration = this._routeConfiguration.concat(routeConfiguration);
     }
 
-    protected async _addMiddlewares(): Promise<void> {
+    protected async _registerMiddlewares(): Promise<void> {
+        // ensure fake router middleware exists
+        let routerExists = false;
+        for (const middlewareConfig of this._middlewareConfiguration) {
+            if ('router' === middlewareConfig.key) {
+                routerExists = true;
+                break;
+            }
+        }
+
+        if (!routerExists) {
+            await this.addMiddlewareConfiguration([
+                {
+                    key: 'router',
+                    middleware: null,
+                },
+            ]);
+        }
+
         // TODO: sort middlewares by after and before
 
+        this._sortBeforeAfter(this._middlewareConfiguration);
+
         for (const middlewareConfig of this._middlewareConfiguration) {
+            if ('router' === middlewareConfig.key) {
+                await this._registerRoutes();
+                continue;
+            }
+
             const middleware: MiddlewareInterface = await ObjectManager.get(middlewareConfig.middleware);
 
             this._express.use(middleware.handle.bind(middleware));
         }
+    }
 
+    protected async _registerRoutes(): Promise<void> {
         for (const routeConfiguration of this._routeConfiguration) {
             const controller: ControllerInterface = await ObjectManager.get(routeConfiguration.controller);
 
@@ -123,5 +151,54 @@ export class HTTPServer {
                     break;
             }
         }
+    }
+
+    protected async _sortBeforeAfter(arr: { key: string; before?: string; after?: string }[]): Promise<any> {
+        ['a', 'c', 'e', 'b', 'd', 'f'];
+
+        const items: any = {
+            a: {
+                before: 'b',
+            },
+            b: {
+                after: 'c',
+            },
+            c: {
+                after: 'a',
+                before: 'b',
+            },
+            d: {
+                after: 'b',
+            },
+            e: {
+                after: 'c',
+                before: 'd',
+            },
+            f: {},
+        };
+
+        // add key to keys
+        for (const key in items) {
+            if ('undefined' === typeof items[key].offset) {
+                items[key].offset = 1;
+            }
+
+            const after = items[key].after;
+            const before = items[key].before;
+
+            for (const innerKey in items) {
+                let add = false;
+
+                if (innerKey === after) {
+                    add = true;
+                }
+
+                if (add) {
+                    items[innerKey].offset++;
+                }
+            }
+        }
+
+        console.log(items);
     }
 }
