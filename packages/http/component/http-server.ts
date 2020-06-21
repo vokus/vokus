@@ -156,49 +156,56 @@ export class HTTPServer {
     protected async _sortBeforeAfter(arr: { key: string; before?: string; after?: string }[]): Promise<any> {
         ['a', 'c', 'e', 'b', 'd', 'f'];
 
-        const items: any = {
-            a: {
+        const items: any = [
+            {
                 before: 'b',
+                key: 'a',
             },
-            b: {
+            {
                 after: 'c',
+                key: 'b',
             },
-            c: {
+            {
                 after: 'a',
                 before: 'b',
+                key: 'c',
             },
-            d: {
+            {
                 after: 'b',
+                key: 'd',
             },
-            e: {
+            {
                 after: 'c',
                 before: 'd',
+                key: 'e',
             },
-            f: {},
-        };
+            {
+                key: 'f',
+            },
+        ];
+
+        const keys: string[] = [];
 
         // add key to keys
-        for (const key in items) {
-            if ('undefined' === typeof items[key].offset) {
-                items[key].offset = 1;
-            }
-
-            const after = items[key].after;
-            const before = items[key].before;
-
-            for (const innerKey in items) {
-                let add = false;
-
-                if (innerKey === after) {
-                    add = true;
-                }
-
-                if (add) {
-                    items[innerKey].offset++;
-                }
+        for (const item of items) {
+            if (!keys.includes(item.key)) {
+                keys.push(item.key);
             }
         }
 
-        console.log(items);
+        // add key to keys
+        for (const item of items) {
+            const key = item.key;
+            const after = item.after;
+            const before = item.before;
+
+            if (!keys.includes(item.key)) {
+                keys.push(item.key);
+            }
+        }
+
+
+
+        console.log(keys);
     }
 }
