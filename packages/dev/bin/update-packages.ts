@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { FileSystem } from '@vokus/file-system';
+import { ObjectManager } from '@vokus/dependency-injection';
 import ncu from 'npm-check-updates';
 import path from 'path';
-import { ObjectManager } from '@vokus/dependency-injection';
 
 class UpdatePackages {
     protected static packagesPath = 'packages';

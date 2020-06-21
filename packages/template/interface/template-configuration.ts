@@ -1,4 +1,4 @@
 export interface TemplateConfigurationInterface {
-    path: string;
-    viewHelpers: any[];
+    paths: string[];
+    viewHelpers?: any[];
 }
