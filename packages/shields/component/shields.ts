@@ -6,9 +6,11 @@ import path from 'path';
 
 @Injectable()
 export class Shields {
+    protected _fileSystem: FileSystem;
     protected _httpClient: HTTPClient;
 
-    constructor(httpClient: HTTPClient) {
+    constructor(fileSystem: FileSystem, httpClient: HTTPClient) {
+        this._fileSystem = fileSystem;
         this._httpClient = httpClient;
     }
 
@@ -19,13 +21,13 @@ export class Shields {
             message: string;
             color: string;
             style: string;
-        }[] = JSON.parse(await FileSystem.readFile(path.join(Environment.projectPath, '.shields.json')));
+        }[] = JSON.parse(await this._fileSystem.readFile(path.join(Environment.projectPath, '.shields.json')));
 
         // request shields from shield.io and write them to shields folder
         for (const shield of shields) {
             const pathToShield = path.join(Environment.projectPath, 'shields', shield.key + '.svg');
 
-            await FileSystem.ensureFileExists(pathToShield);
+            await this._fileSystem.ensureFileExists(pathToShield);
 
             const res = await this._httpClient.get(
                 'https://img.shields.io/static/v1?label=' +
@@ -38,7 +40,7 @@ export class Shields {
                     shield.style,
             );
 
-            await FileSystem.writeFile(pathToShield, res.body);
+            await this._fileSystem.writeFile(pathToShield, res.body);
         }
     }
 }

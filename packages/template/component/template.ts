@@ -7,6 +7,11 @@ import pug from 'pug';
 export class Template {
     protected _paths: string[];
     protected _templates: { [key: string]: any } = {};
+    protected _fileSystem: FileSystem;
+
+    constructor(fileSystem: FileSystem) {
+        this._fileSystem = fileSystem;
+    }
 
     async start() {
         for (const path of this._paths) {
@@ -53,11 +58,11 @@ export class Template {
     }
 
     protected async _compileTemplates(path: string) {
-        if (await FileSystem.isDirectory(path)) {
-            for (const fileName of await FileSystem.readDirectory(path)) {
+        if (await this._fileSystem.isDirectory(path)) {
+            for (const fileName of await this._fileSystem.readDirectory(path)) {
                 await this._compileTemplates(nodePath.join(path, fileName));
             }
-        } else if (await FileSystem.isFile(path)) {
+        } else if (await this._fileSystem.isFile(path)) {
             this._templates[path] = pug.compileFile(path, {
                 filename: path,
             });

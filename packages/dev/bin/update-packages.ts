@@ -3,12 +3,15 @@
 import { FileSystem } from '@vokus/file-system';
 import ncu from 'npm-check-updates';
 import path from 'path';
+import { ObjectManager } from '@vokus/dependency-injection';
 
 class UpdatePackages {
     protected static packagesPath = 'packages';
 
     static async run(): Promise<void> {
-        for (const name of await FileSystem.readDirectory(this.packagesPath)) {
+        const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+
+        for (const name of await fileSystem.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
             if (name.startsWith('.')) {
                 continue;
@@ -17,7 +20,7 @@ class UpdatePackages {
             const pathToPackageJson = path.join(this.packagesPath, name, 'package.json');
             const pathToNpmIgnore = path.join(this.packagesPath, name, '.npmignore');
             const pathToNpmrc = path.join(this.packagesPath, name, '.npmrc');
-            const packageJson = JSON.parse(await FileSystem.readFile(pathToPackageJson));
+            const packageJson = JSON.parse(await fileSystem.readFile(pathToPackageJson));
 
             packageJson.name = '@vokus/' + name;
             packageJson.description = '@vokus/' + name;
@@ -33,7 +36,7 @@ class UpdatePackages {
                 url: 'https://github.com/vokus/vokus',
             };
 
-            await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
+            await fileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
             await ncu.run({
                 packageFile: pathToPackageJson,
@@ -50,11 +53,11 @@ class UpdatePackages {
                 '!*.d.ts' +
                 '\n';
 
-            await FileSystem.writeFile(pathToNpmIgnore, npmignoreContent);
+            await fileSystem.writeFile(pathToNpmIgnore, npmignoreContent);
 
             const npmrcContent = 'engine-strict=true' + '\n' + 'package-lock=false' + '\n';
 
-            await FileSystem.writeFile(pathToNpmrc, npmrcContent);
+            await fileSystem.writeFile(pathToNpmrc, npmrcContent);
         }
     }
 }

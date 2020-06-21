@@ -6,6 +6,7 @@ process.env.TEST_INVALID_STRING_3 = 'any other string';
 
 import { Environment, EnvironmentVariable, EnvironmentVariableInterface } from '../index';
 import { FileSystem } from '@vokus/file-system';
+import { ObjectManager } from '@vokus/dependency-injection';
 import { String } from '@vokus/string';
 
 function getEnvName(
@@ -147,7 +148,8 @@ class Config {
 }
 
 afterAll(async () => {
-    await FileSystem.remove(Environment.configPath);
+    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+    await fileSystem.remove(Environment.configPath);
 });
 
 describe('Environment', () => {

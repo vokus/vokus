@@ -2,7 +2,7 @@ import { Environment, EnvironmentVariable } from '@vokus/environment';
 import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
 import { ControllerInterface } from '../interface/controller';
-import { FileSystem } from '../../file-system';
+import { FileSystem } from '@vokus/file-system';
 import { Logger } from '@vokus/logger';
 import { MiddlewareConfigurationInterface } from '../interface/middleware-configuration';
 import { MiddlewareInterface } from '../interface/middleware';
@@ -21,6 +21,7 @@ export class HTTPServer {
     })
     protected _port: number;
 
+    protected _fileSystem: FileSystem;
     protected _template: Template;
     protected _server: https.Server;
     protected _logger: Logger;
@@ -29,7 +30,8 @@ export class HTTPServer {
     protected _middlewareConfiguration: MiddlewareConfigurationInterface[] = [];
     protected _routeConfiguration: RouteConfigurationInterface[] = [];
 
-    constructor(logger: Logger, template: Template) {
+    constructor(fileSystem: FileSystem, logger: Logger, template: Template) {
+        this._fileSystem = fileSystem;
         this._logger = logger;
         this._template = template;
     }
@@ -41,7 +43,7 @@ export class HTTPServer {
         let pathToCert = path.join(Environment.configPath, 'http-server', 'cert.pem');
 
         // try to load certificate and key from config path
-        if (!(await FileSystem.isFile(pathToKey)) || !(await FileSystem.isFile(pathToCert))) {
+        if (!(await this._fileSystem.isFile(pathToKey)) || !(await this._fileSystem.isFile(pathToCert))) {
             this._logger.warning(`${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`);
 
             this._selfSigned = true;
@@ -58,8 +60,8 @@ export class HTTPServer {
 
         this._server = https.createServer(
             {
-                cert: await FileSystem.readFile(pathToCert),
-                key: await FileSystem.readFile(pathToKey),
+                cert: await this._fileSystem.readFile(pathToCert),
+                key: await this._fileSystem.readFile(pathToKey),
             },
             this._express,
         );

@@ -7,15 +7,18 @@ import path from 'path';
 const pathToLogDir = path.join(Environment.projectPath, 'var', Environment.context, 'log');
 
 beforeAll(async () => {
-    await FileSystem.remove(pathToLogDir);
+    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+    await fileSystem.remove(pathToLogDir);
 });
 
 afterAll(async () => {
-    await FileSystem.remove(pathToLogDir);
+    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+    await fileSystem.remove(pathToLogDir);
 });
 
 test('logger', async () => {
-    let logger: Logger = new Logger();
+    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+    let logger: Logger = new Logger(fileSystem);
 
     await Promise.all([
         logger.alert('alert message'),
@@ -41,7 +44,7 @@ test('logger', async () => {
         logger.warning('warning message'),
     ]);
 
-    expect(await FileSystem.readDirectory(pathToLogDir)).toEqual([
+    expect(await fileSystem.readDirectory(pathToLogDir)).toEqual([
         'alert.log',
         'component',
         'critical.log',
@@ -53,7 +56,7 @@ test('logger', async () => {
         'warning.log',
     ]);
 
-    expect(await FileSystem.readDirectory(path.join(pathToLogDir, 'component', 'object-manager'))).toEqual([
+    expect(await fileSystem.readDirectory(path.join(pathToLogDir, 'component', 'object-manager'))).toEqual([
         'alert.log',
         'critical.log',
         'debug.log',

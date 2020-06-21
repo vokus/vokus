@@ -147,8 +147,9 @@ export class Environment {
     }
 
     protected static _loadContextSpecificDotEnv(): void {
+        const fileSystem = new FileSystem();
         const pathToDotEnv = path.join(this.configPath, '.env');
-        FileSystem.ensureFileExistsSync(pathToDotEnv);
+        fileSystem.ensureFileExistsSync(pathToDotEnv);
         dotenv.config({ path: pathToDotEnv });
         this._contextDotEnvLoaded = true;
     }
@@ -249,7 +250,8 @@ export class Environment {
 
         const pathToExampleDotEnv = path.join(this.configPath, 'example.env');
 
-        FileSystem.ensureFileExistsSync(pathToExampleDotEnv);
-        FileSystem.writeFileSync(pathToExampleDotEnv, data.join('\n'));
+        const fileSystem = new FileSystem();
+        fileSystem.ensureFileExistsSync(pathToExampleDotEnv);
+        fileSystem.writeFileSync(pathToExampleDotEnv, data.join('\n'));
     }
 }

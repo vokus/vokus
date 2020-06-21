@@ -2,6 +2,7 @@
 
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
+import { ObjectManager } from '@vokus/dependency-injection';
 import nodePath from 'path';
 
 class Clean {
@@ -10,30 +11,31 @@ class Clean {
     }
 
     protected static async cleanDirectory(path: string): Promise<void> {
-        const entries = await FileSystem.readDirectory(path);
+        const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+        const entries = await fileSystem.readDirectory(path);
 
         if (0 === entries.length) {
-            await FileSystem.remove(path);
+            await fileSystem.remove(path);
         }
 
         for (const entry of entries) {
             const fullPath = nodePath.join(path, entry);
 
             if ('node_modules' === entry) {
-                await FileSystem.remove(fullPath);
+                await fileSystem.remove(fullPath);
             }
 
-            if (await FileSystem.isDirectory(fullPath)) {
+            if (await fileSystem.isDirectory(fullPath)) {
                 await this.cleanDirectory(fullPath);
                 continue;
             }
 
-            if (!(await FileSystem.isFile(fullPath))) {
+            if (!(await fileSystem.isFile(fullPath))) {
                 continue;
             }
 
             if (fullPath.endsWith('.js') || fullPath.endsWith('.d.ts')) {
-                await FileSystem.remove(fullPath);
+                await fileSystem.remove(fullPath);
             }
         }
     }

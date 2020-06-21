@@ -6,7 +6,15 @@ module.exports = {
         '!<rootDir>/packages/dev/**/*.ts'
     ],
     coverageReporters: ['text'],
-    coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js', '<rootDir>/packages/example/index.ts', '<rootDir>/packages/example/index.js'],
+    coveragePathIgnorePatterns: [
+        'node_modules',
+        '!*.d.ts',
+        '!*.js',
+        '<rootDir>/packages/example/index.ts',
+        '<rootDir>/packages/example/index.js',
+        '<rootDir>/packages/shields/index.ts',
+        '<rootDir>/packages/shields/index.js'
+    ],
     coverageThreshold: {
         global: {
             branches: 100,
