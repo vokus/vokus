@@ -1,6 +1,7 @@
 import { Environment, EnvironmentVariable } from '@vokus/environment';
 import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
+import { Array } from '@vokus/array';
 import { ControllerInterface } from '../interface/controller';
 import { FileSystem } from '@vokus/file-system';
 import { Logger } from '@vokus/logger';
@@ -21,6 +22,7 @@ export class HTTPServer {
     })
     protected _port: number;
 
+    protected _array: Array;
     protected _fileSystem: FileSystem;
     protected _template: Template;
     protected _server: https.Server;
@@ -30,10 +32,11 @@ export class HTTPServer {
     protected _middlewareConfiguration: MiddlewareConfigurationInterface[] = [];
     protected _routeConfiguration: RouteConfigurationInterface[] = [];
 
-    constructor(fileSystem: FileSystem, logger: Logger, template: Template) {
+    constructor(fileSystem: FileSystem, logger: Logger, template: Template, array: Array) {
         this._fileSystem = fileSystem;
         this._logger = logger;
         this._template = template;
+        this._array = array;
     }
 
     async start(): Promise<void> {
@@ -115,9 +118,9 @@ export class HTTPServer {
             ]);
         }
 
-        // TODO: sort middlewares by after and before
+        this._middlewareConfiguration = await this._array.sortByBeforeAndAfter(this._middlewareConfiguration);
 
-        this._sortBeforeAfter(this._middlewareConfiguration);
+        console.log(this._middlewareConfiguration);
 
         for (const middlewareConfig of this._middlewareConfiguration) {
             if ('router' === middlewareConfig.key) {
@@ -148,51 +151,6 @@ export class HTTPServer {
                 case 'delete':
                     this._express.delete(routeConfiguration.path, controller.handle.bind(controller));
                     break;
-            }
-        }
-    }
-
-    protected async _sortBeforeAfter(items: { before?: string; key: string; after?: string }[]): Promise<any> {
-        const keys: string[] = [];
-
-        // TODO: refactor to array utility / remove duplicate entries with same key
-
-        // add key to keys
-        for (const item of items) {
-            if ('undefined' !== typeof item.after) {
-                if (!keys.includes(item.after)) {
-                    keys.push(item.after);
-                } else {
-                    if (keys.includes(item.key)) {
-                        keys.splice(keys.indexOf(item.key), 1);
-                    }
-                    keys.splice(keys.indexOf(item.after) + 1, 0, item.key);
-                }
-            }
-
-            if (!keys.includes(item.key)) {
-                keys.push(item.key);
-            }
-
-            if ('undefined' !== typeof item.before) {
-                if (!keys.includes(item.before)) {
-                    keys.push(item.before);
-                } else {
-                    if (keys.includes(item.key)) {
-                        keys.splice(keys.indexOf(item.key), 1);
-                    }
-                    keys.splice(keys.indexOf(item.before) - 1, 0, item.key);
-                }
-            }
-        }
-
-        const newItems = [];
-
-        for (const key of keys) {
-            for (const item of items) {
-                if (key === item.key) {
-                    newItems.push(item);
-                }
             }
         }
     }
