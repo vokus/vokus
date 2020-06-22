@@ -1,4 +1,4 @@
-import { Injectable } from '../../cms/node_modules/@vokus/dependency-injection';
+import { Injectable } from '@vokus/dependency-injection';
 
 interface BeforeKeyAfterInterface {
     after?: string;
@@ -9,58 +9,70 @@ interface BeforeKeyAfterInterface {
 @Injectable()
 export class Array {
     async sortByBeforeAndAfter(items: BeforeKeyAfterInterface[]): Promise<any> {
-        let keys: string[] = [];
+        const keys: string[] = [];
 
-        // remove duplicate keys
+        // start: remove duplicate keys
+
         const cleanedItems: BeforeKeyAfterInterface[] = [];
 
         for (const item of items.reverse()) {
-            if (!keys.includes(item.key)) {
-                cleanedItems.push(item);
-                keys.push(item.key);
+            if (keys.includes(item.key)) {
+                continue;
             }
+            cleanedItems.push(item);
+            keys.push(item.key);
         }
 
-        keys = [];
+        cleanedItems.reverse();
+        keys.reverse();
 
-        // sort by after and before
+        // end: remove duplicate keys
+
+        // start: sort by after and before
+
         for (const item of cleanedItems) {
             if ('undefined' !== typeof item.after) {
+                // check if 'after' is in keys
                 if (!keys.includes(item.after)) {
-                    keys.push(item.after);
-                } else {
-                    if (keys.includes(item.key)) {
-                        keys.splice(keys.indexOf(item.key), 1);
-                    }
+                    throw new Error(`after '${item.after}' is not a valid key`);
+                }
+
+                // check if 'key' already after 'after'
+                if (keys.indexOf(item.key) < keys.indexOf(item.after)) {
+                    keys.splice(keys.indexOf(item.key), 1);
                     keys.splice(keys.indexOf(item.after) + 1, 0, item.key);
                 }
             }
 
-            if (!keys.includes(item.key)) {
-                keys.push(item.key);
-            }
-
             if ('undefined' !== typeof item.before) {
+                // check if 'before' is in keys
                 if (!keys.includes(item.before)) {
-                    keys.push(item.before);
-                } else {
-                    if (keys.includes(item.key)) {
-                        keys.splice(keys.indexOf(item.key), 1);
-                    }
+                    throw new Error(`before '${item.before}' is not a valid key`);
+                }
+
+                // check if 'key' already after 'after'
+                if (keys.indexOf(item.key) > keys.indexOf(item.before)) {
+                    keys.splice(keys.indexOf(item.key), 1);
                     keys.splice(keys.indexOf(item.before), 0, item.key);
                 }
             }
         }
 
+        // end: sort by after and before
+
+        // start: generate new array based on key sorting
+
         const newItems = [];
 
         for (const key of keys) {
-            for (const item of items) {
+            for (const item of cleanedItems) {
                 if (key === item.key) {
                     newItems.push(item);
                 }
             }
         }
+
+        // end: generate new array based on key sorting
 
         return newItems;
     }
