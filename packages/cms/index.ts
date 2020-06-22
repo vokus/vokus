@@ -43,5 +43,5 @@ export const CMSMiddlewareConfiguration: MiddlewareConfigurationInterface[] = [
 ];
 
 export const CMSTemplateConfiguration: TemplateConfigurationInterface = {
-    paths: [path.join(__dirname, 'view/template')],
+    viewPaths: [path.join(__dirname, 'view/template')],
 };

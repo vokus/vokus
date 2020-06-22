@@ -15,7 +15,7 @@ export class Template {
     }
 
     async addTemplateConfiguration(templateConfiguration: TemplateConfigurationInterface): Promise<void> {
-        this._paths = this._paths.concat(templateConfiguration.paths);
+        this._paths = this._paths.concat(templateConfiguration.viewPaths);
     }
 
     async start() {
@@ -26,10 +26,6 @@ export class Template {
 
     get paths(): string[] {
         return this._paths;
-    }
-
-    async addTemplatePath(path: string): Promise<void> {
-        this._paths.push(path);
     }
 
     async render(
