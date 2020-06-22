@@ -10,8 +10,8 @@
                         "accessibility": "no-public"
                     }
                 ],
-                "@typescript-eslint/no-explicit-any": "off",
-                "@typescript-eslint/explicit-module-boundary-types": "off"
+                "@typescript-eslint/explicit-module-boundary-types": "off",
+                "@typescript-eslint/no-explicit-any": "off"
             }
         }
     ],
@@ -21,8 +21,9 @@
         "sourceType": "module"
     },
     "rules": {
-        "sort-keys": "error",
+        "no-console": "error",
         "sort-imports": "error",
+        "sort-keys": "error",
         "yoda": ["error", "always"]
     }
 }

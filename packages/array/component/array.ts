@@ -9,19 +9,22 @@ interface BeforeKeyAfterInterface {
 @Injectable()
 export class Array {
     async sortByBeforeAndAfter(items: BeforeKeyAfterInterface[]): Promise<any> {
-        const keys: string[] = [];
+        let keys: string[] = [];
+
+        // remove duplicate keys
         const cleanedItems: BeforeKeyAfterInterface[] = [];
 
-        for (const item of items) {
+        for (const item of items.reverse()) {
             if (!keys.includes(item.key)) {
                 cleanedItems.push(item);
+                keys.push(item.key);
             }
         }
 
-        // TODO: remove duplicate entries with same key
+        keys = [];
 
-        // add key to keys
-        for (const item of items) {
+        // sort by after and before
+        for (const item of cleanedItems) {
             if ('undefined' !== typeof item.after) {
                 if (!keys.includes(item.after)) {
                     keys.push(item.after);
@@ -44,7 +47,7 @@ export class Array {
                     if (keys.includes(item.key)) {
                         keys.splice(keys.indexOf(item.key), 1);
                     }
-                    keys.splice(keys.indexOf(item.before) - 1, 0, item.key);
+                    keys.splice(keys.indexOf(item.before), 0, item.key);
                 }
             }
         }

@@ -120,8 +120,6 @@ export class HTTPServer {
 
         this._middlewareConfiguration = await this._array.sortByBeforeAndAfter(this._middlewareConfiguration);
 
-        console.log(this._middlewareConfiguration);
-
         for (const middlewareConfig of this._middlewareConfiguration) {
             if ('router' === middlewareConfig.key) {
                 await this._registerRoutes();
