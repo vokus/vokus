@@ -12,8 +12,8 @@ export class ErrorMiddleware {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async handle(err: Error, req: Request, res: Response, next: () => void): Promise<void> {
-        this._logger.error(req.url + ' ' + err);
-        return res.status(500).render('status-500');
+    async handle(error: Error, req: Request, res: Response, next: () => void): Promise<void> {
+        this._logger.error(req.url + ' ' + error);
+        return res.status(500).render('status-500', { error: error });
     }
 }
