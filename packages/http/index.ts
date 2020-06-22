@@ -8,4 +8,6 @@ export * from './interface/middleware-configuration';
 export * from './interface/route-configuration';
 export * from './middleware/access-logger';
 export * from './middleware/cookie-parser';
-export * from './middleware/status-code-404';
+export * from './middleware/error';
+export * from './middleware/route';
+export * from './middleware/not-found';

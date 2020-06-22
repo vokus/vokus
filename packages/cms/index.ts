@@ -1,9 +1,10 @@
 import {
     AccessLoggerMiddleware,
     CookieParserMiddleware,
+    ErrorMiddleware,
     MiddlewareConfigurationInterface,
+    NotFoundMiddleware,
     RouteConfigurationInterface,
-    StatusCode404Middleware,
 } from '@vokus/http';
 import { SignInController } from './controller/user/sign-in';
 import { TemplateConfigurationInterface } from '@vokus/template';
@@ -31,11 +32,16 @@ export const CMSMiddlewareConfiguration: MiddlewareConfigurationInterface[] = [
     },
     {
         after: 'router',
-        key: 'status-code-404',
-        middleware: StatusCode404Middleware,
+        key: 'not-found',
+        middleware: NotFoundMiddleware,
+    },
+    {
+        after: 'not-found',
+        key: 'error',
+        middleware: ErrorMiddleware,
     },
 ];
 
 export const CMSTemplateConfiguration: TemplateConfigurationInterface = {
-    paths: [path.join(__dirname + 'view/template')],
+    paths: [path.join(__dirname, 'view/template')],
 };

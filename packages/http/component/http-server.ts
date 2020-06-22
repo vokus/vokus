@@ -8,6 +8,7 @@ import { Logger } from '@vokus/logger';
 import { MiddlewareConfigurationInterface } from '../interface/middleware-configuration';
 import { MiddlewareInterface } from '../interface/middleware';
 import { RouteConfigurationInterface } from '../interface/route-configuration';
+import { RouteMiddleware } from '../middleware/route';
 import { Template } from '@vokus/template';
 import https from 'https';
 import path from 'path';
@@ -58,6 +59,8 @@ export class HTTPServer {
         this._express = express();
 
         this._express.engine('pug', this._template.render.bind(this._template));
+        this._express.set('view engine', 'pug');
+        this._express.set('views', this._template.paths);
 
         await this._registerMiddlewares();
 
@@ -134,20 +137,24 @@ export class HTTPServer {
 
     protected async _registerRoutes(): Promise<void> {
         for (const routeConfiguration of this._routeConfiguration) {
+            const routeMiddleware: RouteMiddleware = new RouteMiddleware();
+
             const controller: ControllerInterface = await ObjectManager.get(routeConfiguration.controller);
+
+            routeMiddleware.controller = controller;
 
             switch (routeConfiguration.method) {
                 case 'get':
-                    this._express.get(routeConfiguration.path, controller.handle.bind(controller));
+                    this._express.get(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
                     break;
                 case 'post':
-                    this._express.post(routeConfiguration.path, controller.handle.bind(controller));
+                    this._express.post(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
                     break;
                 case 'put':
-                    this._express.put(routeConfiguration.path, controller.handle.bind(controller));
+                    this._express.put(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
                     break;
                 case 'delete':
-                    this._express.delete(routeConfiguration.path, controller.handle.bind(controller));
+                    this._express.delete(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
                     break;
             }
         }
