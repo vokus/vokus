@@ -10,7 +10,6 @@ import { RouteConfigurationInterface } from '../interface/route-configuration';
 import { Template } from '@vokus/template';
 import https from 'https';
 import path from 'path';
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 
 @Injectable()
 export class HTTPServer {
@@ -153,59 +152,48 @@ export class HTTPServer {
         }
     }
 
-    protected async _sortBeforeAfter(arr: { key: string; before?: string; after?: string }[]): Promise<any> {
-        ['a', 'c', 'e', 'b', 'd', 'f'];
-
-        const items: any = [
-            {
-                before: 'b',
-                key: 'a',
-            },
-            {
-                after: 'c',
-                key: 'b',
-            },
-            {
-                after: 'a',
-                before: 'b',
-                key: 'c',
-            },
-            {
-                after: 'b',
-                key: 'd',
-            },
-            {
-                after: 'c',
-                before: 'd',
-                key: 'e',
-            },
-            {
-                key: 'f',
-            },
-        ];
-
+    protected async _sortBeforeAfter(items: { before?: string; key: string; after?: string }[]): Promise<any> {
         const keys: string[] = [];
 
-        // add key to keys
-        for (const item of items) {
-            if (!keys.includes(item.key)) {
-                keys.push(item.key);
-            }
-        }
+        // TODO: refactor to array utility / remove duplicate entries with same key
 
         // add key to keys
         for (const item of items) {
-            const key = item.key;
-            const after = item.after;
-            const before = item.before;
+            if ('undefined' !== typeof item.after) {
+                if (!keys.includes(item.after)) {
+                    keys.push(item.after);
+                } else {
+                    if (keys.includes(item.key)) {
+                        keys.splice(keys.indexOf(item.key), 1);
+                    }
+                    keys.splice(keys.indexOf(item.after) + 1, 0, item.key);
+                }
+            }
 
             if (!keys.includes(item.key)) {
                 keys.push(item.key);
             }
+
+            if ('undefined' !== typeof item.before) {
+                if (!keys.includes(item.before)) {
+                    keys.push(item.before);
+                } else {
+                    if (keys.includes(item.key)) {
+                        keys.splice(keys.indexOf(item.key), 1);
+                    }
+                    keys.splice(keys.indexOf(item.before) - 1, 0, item.key);
+                }
+            }
         }
 
+        const newItems = [];
 
-
-        console.log(keys);
+        for (const key of keys) {
+            for (const item of items) {
+                if (key === item.key) {
+                    newItems.push(item);
+                }
+            }
+        }
     }
 }

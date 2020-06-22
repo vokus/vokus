@@ -1,5 +1,4 @@
 import https, { RequestOptions } from 'https';
-import { Environment } from '@vokus/environment';
 import { Injectable } from '@vokus/dependency-injection';
 
 @Injectable()
