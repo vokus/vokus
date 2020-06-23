@@ -3,9 +3,9 @@
     "version": "0.0.5",
     "description": "@vokus/dev",
     "repository": {
-        "directory": "packages/dev",
         "type": "git",
-        "url": "https://github.com/vokus/vokus"
+        "url": "https://github.com/vokus/vokus",
+        "directory": "packages/dev"
     },
     "license": "MIT",
     "main": "index.js",

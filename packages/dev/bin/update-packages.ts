@@ -4,12 +4,18 @@ import { FileSystem } from '@vokus/file-system';
 import { ObjectManager } from '@vokus/dependency-injection';
 import ncu from 'npm-check-updates';
 import path from 'path';
+import { Environment } from '@vokus/environment';
 
 class UpdatePackages {
     protected static packagesPath = 'packages';
 
     static async run(): Promise<void> {
         const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+
+        await ncu.run({
+            packageFile: path.join(Environment.projectPath, 'package.json'),
+            upgrade: true,
+        });
 
         for (const name of await fileSystem.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
