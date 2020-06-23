@@ -11,6 +11,7 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
+        "@vokus/cms-ui": "^0.0.5",
         "@vokus/dependency-injection": "^0.0.5",
         "@vokus/http": "^0.0.5",
         "@vokus/template": "^0.0.5"

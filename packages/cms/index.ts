@@ -6,6 +6,7 @@ import {
     NotFoundMiddleware,
     RouteConfigurationInterface,
 } from '@vokus/http';
+import { DesignController } from '../cms-ui/controller/design';
 import { SignInController } from './controller/user/sign-in';
 import { TemplateConfigurationInterface } from '@vokus/template';
 import path from 'path';
@@ -16,6 +17,12 @@ export const CMSRouteConfiguration: RouteConfigurationInterface[] = [
         key: 'user/sign-in',
         method: 'get',
         path: '/user/sign-in',
+    },
+    {
+        controller: DesignController,
+        key: 'cms/design',
+        method: 'get',
+        path: '/cms/design',
     },
 ];
 

@@ -13,6 +13,11 @@ class Clean {
 
     protected static async cleanDirectory(path: string): Promise<void> {
         const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
+
+        if (!(await fileSystem.isDirectory(path))) {
+            return;
+        }
+
         let entries = await fileSystem.readDirectory(path);
 
         for (const entry of entries) {
