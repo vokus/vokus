@@ -2,7 +2,7 @@ const autoprefixer = require('autoprefixer');
 
 module.exports = {
     // entry: ['.packages/ui/scss/site.scss', './app.js'],
-    entry: ['./packages/cms/scss/ui.scss'],
+    entry: ['./packages/app/scss/ui.scss'],
     mode: 'production',
     module: {
         rules: [
@@ -12,7 +12,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: './packages/cms/assets/css/site.css',
+                            name: './packages/app/assets/css/site.css',
                             path: __dirname,
                         },
                     },
@@ -50,7 +50,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: './packages/cms/assets/js/ui.js',
+        filename: './packages/app/assets/js/ui.js',
         path: __dirname,
     },
 };

@@ -1,4 +1,4 @@
-import { ConfigInterface } from '@vokus/cms/interface/config';
+import { ConfigInterface } from '@vokus/app/interface/config';
 import { DesignController } from '../controller/vokus/design';
 import path from 'path';
 

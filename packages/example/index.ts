@@ -1,6 +1,6 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { Application } from './app';
+import { Application } from '@vokus/app';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 (async (): Promise<void> => {

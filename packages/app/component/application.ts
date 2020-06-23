@@ -4,7 +4,7 @@ import { Injectable } from '@vokus/dependency-injection';
 import { View } from '@vokus/view';
 
 @Injectable()
-export class CMS {
+export class Application {
     protected _httpServer: HTTPServer;
     protected _view: View;
     protected _config: ConfigInterface = {};
