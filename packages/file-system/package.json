@@ -3,9 +3,9 @@
     "version": "0.0.5",
     "description": "@vokus/file-system",
     "repository": {
+        "directory": "packages/file-system",
         "type": "git",
-        "url": "https://github.com/vokus/vokus",
-        "directory": "packages/file-system"
+        "url": "https://github.com/vokus/vokus"
     },
     "license": "MIT",
     "main": "index.js",

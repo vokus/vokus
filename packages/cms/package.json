@@ -3,9 +3,9 @@
     "version": "0.0.5",
     "description": "@vokus/cms",
     "repository": {
+        "directory": "packages/cms",
         "type": "git",
-        "url": "https://github.com/vokus/vokus",
-        "directory": "packages/cms"
+        "url": "https://github.com/vokus/vokus"
     },
     "license": "MIT",
     "main": "index.js",
