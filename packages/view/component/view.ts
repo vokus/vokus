@@ -1,11 +1,11 @@
 import * as nodePath from 'path';
 import { FileSystem } from '@vokus/file-system';
 import { Injectable } from '@vokus/dependency-injection';
-import { TemplateConfigurationInterface } from '../interface/template-configuration';
+import { ViewConfigInterface } from '../interface/view-config';
 import pug from 'pug';
 
 @Injectable()
-export class Template {
+export class View {
     protected _paths: string[] = [];
     protected _templates: { [key: string]: any } = {};
     protected _fileSystem: FileSystem;
@@ -14,8 +14,8 @@ export class Template {
         this._fileSystem = fileSystem;
     }
 
-    async addTemplateConfiguration(templateConfiguration: TemplateConfigurationInterface): Promise<void> {
-        this._paths = this._paths.concat(templateConfiguration.viewPaths);
+    async addConfig(config: ViewConfigInterface): Promise<void> {
+        this._paths = this._paths.concat(config.paths);
     }
 
     async start() {

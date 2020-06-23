@@ -1,4 +1,4 @@
-export interface RouteConfigurationInterface {
+export interface RouteConfigInterface {
     after?: string;
     before?: string;
     controller: any;

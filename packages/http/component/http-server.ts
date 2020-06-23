@@ -4,12 +4,11 @@ import express, { Application } from 'express';
 import { Array } from '@vokus/array';
 import { ControllerInterface } from '../interface/controller';
 import { FileSystem } from '@vokus/file-system';
+import { HTTPConfigInterface } from '../interface/http-config';
 import { Logger } from '@vokus/logger';
-import { MiddlewareConfigurationInterface } from '../interface/middleware-configuration';
 import { MiddlewareInterface } from '../interface/middleware';
-import { RouteConfigurationInterface } from '../interface/route-configuration';
 import { RouteMiddleware } from '../middleware/route';
-import { Template } from '@vokus/template';
+import { View } from '@vokus/view';
 import https from 'https';
 import path from 'path';
 
@@ -25,18 +24,20 @@ export class HTTPServer {
 
     protected _array: Array;
     protected _fileSystem: FileSystem;
-    protected _template: Template;
-    protected _server: https.Server;
+    protected _view: View;
     protected _logger: Logger;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _middlewareConfiguration: MiddlewareConfigurationInterface[] = [];
-    protected _routeConfiguration: RouteConfigurationInterface[] = [];
+    protected _config: HTTPConfigInterface = {
+        middlewares: [],
+        routes: [],
+    };
+    protected _server: https.Server;
 
-    constructor(fileSystem: FileSystem, logger: Logger, template: Template, array: Array) {
+    constructor(fileSystem: FileSystem, logger: Logger, view: View, array: Array) {
         this._fileSystem = fileSystem;
         this._logger = logger;
-        this._template = template;
+        this._view = view;
         this._array = array;
     }
 
@@ -58,9 +59,9 @@ export class HTTPServer {
 
         this._express = express();
 
-        this._express.engine('pug', this._template.render.bind(this._template));
+        this._express.engine('pug', this._view.render.bind(this._view));
         this._express.set('view engine', 'pug');
-        this._express.set('views', this._template.paths);
+        this._express.set('views', this._view.paths);
 
         await this._registerMiddlewares();
 
@@ -86,26 +87,23 @@ export class HTTPServer {
         return this._selfSigned;
     }
 
-    get middlewareConfiguration(): MiddlewareConfigurationInterface[] {
-        return this._middlewareConfiguration;
+    async addConfig(config: HTTPConfigInterface): Promise<void> {
+        this._config = Object.assign(this._config, config);
     }
 
     get listening(): boolean {
         return 'object' === typeof this._server && this._server.listening;
     }
 
-    async addMiddlewareConfiguration(middlewareConfiguration: MiddlewareConfigurationInterface[]): Promise<void> {
-        this._middlewareConfiguration = this._middlewareConfiguration.concat(middlewareConfiguration);
-    }
-
-    async addRouteConfiguration(routeConfiguration: RouteConfigurationInterface[]): Promise<void> {
-        this._routeConfiguration = this._routeConfiguration.concat(routeConfiguration);
-    }
-
     protected async _registerMiddlewares(): Promise<void> {
         // ensure fake router middleware exists
         let routerExists = false;
-        for (const middlewareConfig of this._middlewareConfiguration) {
+
+        if ('undefined' === typeof this._config.middlewares) {
+            return;
+        }
+
+        for (const middlewareConfig of this._config.middlewares) {
             if ('router' === middlewareConfig.key) {
                 routerExists = true;
                 break;
@@ -113,17 +111,23 @@ export class HTTPServer {
         }
 
         if (!routerExists) {
-            await this.addMiddlewareConfiguration([
-                {
-                    key: 'router',
-                    middleware: null,
-                },
-            ]);
+            this.addConfig({
+                middlewares: [
+                    {
+                        key: 'router',
+                        middleware: null,
+                    },
+                ],
+            });
         }
 
-        this._middlewareConfiguration = await this._array.sortByBeforeAndAfter(this._middlewareConfiguration);
+        this._config.middlewares = await this._array.sortByBeforeAndAfter(this._config.middlewares);
 
-        for (const middlewareConfig of this._middlewareConfiguration) {
+        if ('undefined' === typeof this._config.middlewares) {
+            return;
+        }
+
+        for (const middlewareConfig of this._config.middlewares) {
             if ('router' === middlewareConfig.key) {
                 await this._registerRoutes();
                 continue;
@@ -136,7 +140,11 @@ export class HTTPServer {
     }
 
     protected async _registerRoutes(): Promise<void> {
-        for (const routeConfiguration of this._routeConfiguration) {
+        if ('undefined' === typeof this._config.routes) {
+            return;
+        }
+
+        for (const routeConfiguration of this._config.routes) {
             const routeMiddleware: RouteMiddleware = new RouteMiddleware();
 
             const controller: ControllerInterface = await ObjectManager.get(routeConfiguration.controller);

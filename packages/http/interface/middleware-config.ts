@@ -1,4 +1,4 @@
-export interface MiddlewareConfigurationInterface {
+export interface MiddlewareConfigInterface {
     after?: string;
     before?: string;
     key: string;
