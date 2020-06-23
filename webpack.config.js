@@ -3,6 +3,7 @@ const autoprefixer = require('autoprefixer');
 module.exports = {
     // entry: ['.packages/ui/scss/site.scss', './app.js'],
     entry: ['./packages/ui/scss/ui.scss'],
+    mode: 'production',
     module: {
         rules: [
             {

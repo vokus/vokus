@@ -8,15 +8,12 @@ import nodePath from 'path';
 class Clean {
     static async run(): Promise<void> {
         await this.cleanDirectory(nodePath.join(Environment.projectPath, 'packages'));
+        await this.cleanDirectory(nodePath.join(Environment.projectPath, 'var'));
     }
 
     protected static async cleanDirectory(path: string): Promise<void> {
         const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-        const entries = await fileSystem.readDirectory(path);
-
-        if (0 === entries.length) {
-            await fileSystem.remove(path);
-        }
+        let entries = await fileSystem.readDirectory(path);
 
         for (const entry of entries) {
             const fullPath = nodePath.join(path, entry);
@@ -34,9 +31,20 @@ class Clean {
                 continue;
             }
 
-            if (fullPath.endsWith('.css') || fullPath.endsWith('.js') || fullPath.endsWith('.d.ts')) {
+            if (
+                fullPath.endsWith('.css') ||
+                fullPath.endsWith('.js') ||
+                fullPath.endsWith('.d.ts') ||
+                fullPath.endsWith('.log')
+            ) {
                 await fileSystem.remove(fullPath);
             }
+        }
+
+        entries = await fileSystem.readDirectory(path);
+
+        if (0 === entries.length) {
+            await fileSystem.remove(path);
         }
     }
 }

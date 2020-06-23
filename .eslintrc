@@ -1,7 +1,4 @@
 {
-    "files": [
-        "*.ts"
-    ],
     "extends": [
         "plugin:@typescript-eslint/recommended",
         "prettier/@typescript-eslint",
