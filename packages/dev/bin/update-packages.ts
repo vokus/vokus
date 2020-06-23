@@ -50,6 +50,10 @@ class UpdatePackages {
             });
 
             const npmignoreContent =
+                '# ignore the .scss files' +
+                '\n' +
+                '**/*.scss' +
+                '\n' +
                 '# ignore the .ts files' +
                 '\n' +
                 '**/*.ts' +

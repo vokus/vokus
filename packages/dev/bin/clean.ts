@@ -34,7 +34,7 @@ class Clean {
                 continue;
             }
 
-            if (fullPath.endsWith('.js') || fullPath.endsWith('.d.ts')) {
+            if (fullPath.endsWith('.css') || fullPath.endsWith('.js') || fullPath.endsWith('.d.ts')) {
                 await fileSystem.remove(fullPath);
             }
         }

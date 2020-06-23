@@ -10,15 +10,15 @@
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
-    "publishConfig": {
-        "access": "public"
-    },
-    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20",
     "devDependencies": {
         "autoprefixer": "9.8.4",
         "cssnano": "4.1.10",
         "gulp": "4.0.2",
         "gulp-postcss": "8.0.0",
         "gulp-sass": "4.1.0"
-    }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "a7769bc273fe2f0e5ac192f10ec7def7a9574a20"
 }

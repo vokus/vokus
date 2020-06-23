@@ -2,6 +2,7 @@
 **/*.env
 node_modules/
 *.log
+/packages/**/*.css
 /packages/**/*.js
 /packages/**/*.d.ts
 /var/

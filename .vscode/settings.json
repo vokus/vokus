@@ -1,13 +1,15 @@
 {
     "editor.formatOnSave": true,
-    "editor.rulers": [100],
+    "editor.rulers": [
+        100
+    ],
     "eslint.alwaysShowStatus": true,
     "eslint.format.enable": true,
     "eslint.run": "onSave",
     "files.exclude": {
         "**/node_modules/": true,
         "packages/**/*.d.ts": true,
-        "packages/**/*.js": true,
+        // "packages/**/*.js": true,
         "**/.npmignore": true,
         "**/.npmrc": true
     },
