@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
+import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { ObjectManager } from '@vokus/dependency-injection';
 import ncu from 'npm-check-updates';
 import path from 'path';
-import { Environment } from '@vokus/environment';
 
 class UpdatePackages {
     protected static packagesPath = 'packages';
