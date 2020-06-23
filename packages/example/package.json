@@ -12,6 +12,7 @@
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/app": "^0.0.5",
+        "@vokus/app-ui": "^0.0.5",
         "@vokus/dependency-injection": "^0.0.5",
         "@vokus/http": "^0.0.5",
         "@vokus/view": "^0.0.5"

@@ -3,7 +3,7 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: ['<rootDir>/packages/**/*.ts', '!<rootDir>/packages/dev/**/*.ts'],
     coverageReporters: ['text'],
-    coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js', '!*.index.ts'],
+    coveragePathIgnorePatterns: ['node_modules', '!*.d.ts', '!*.js'],
     coverageThreshold: {
         global: {
             branches: 100,

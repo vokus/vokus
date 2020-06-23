@@ -14,7 +14,7 @@ export class Application {
         this._view = view;
     }
 
-    async addConfiguration(config: ConfigInterface): Promise<void> {
+    async addConfig(config: ConfigInterface): Promise<void> {
         this._config = Object.assign({}, config);
     }
 

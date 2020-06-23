@@ -1,11 +1,11 @@
 {
-    "name": "@vokus/cms-ui",
+    "name": "@vokus/app-ui",
     "version": "0.0.5",
-    "description": "@vokus/cms-ui",
+    "description": "@vokus/app-ui",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/cms-ui"
+        "directory": "packages/app-ui"
     },
     "license": "MIT",
     "main": "index.js",
