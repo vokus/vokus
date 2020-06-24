@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { StringUtil } from '@vokus/string';
+import { StringUtil } from '@vokus/util';
 
 type Meta = {
     function: any;

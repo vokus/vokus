@@ -13,7 +13,7 @@
     "dependencies": {
         "@vokus/dependency-injection": "^0.0.5",
         "@vokus/file-system": "^0.0.5",
-        "@vokus/string": "^0.0.5",
+        "@vokus/util": "^0.0.5",
         "dotenv": "8.2.0"
     },
     "publishConfig": {

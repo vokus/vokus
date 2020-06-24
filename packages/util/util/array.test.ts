@@ -1,10 +1,7 @@
-import { Array } from '../index';
-import { ObjectManager } from '@vokus/dependency-injection';
+import { ArrayUtil } from './array';
 
-describe('array', () => {
+describe('array-util', () => {
     test('sortByBeforeAndAfter with valid data', async () => {
-        const array: Array = await ObjectManager.get(Array);
-
         const keys = ['h', 'b', 'c', 'a', 'd', 'e', 'g', 'f'];
 
         const config = [
@@ -47,7 +44,7 @@ describe('array', () => {
             },
         ];
 
-        const result = await array.sortByBeforeAndAfter(config);
+        const result = await ArrayUtil.sortByBeforeAndAfter(config);
 
         const keysResult: string[] = [];
 
@@ -59,8 +56,6 @@ describe('array', () => {
     });
 
     test('sortByBeforeAndAfter with invalid data', async () => {
-        const array: Array = await ObjectManager.get(Array);
-
         const config = [
             {
                 after: 'c',
@@ -69,7 +64,7 @@ describe('array', () => {
         ];
 
         try {
-            await array.sortByBeforeAndAfter(config);
+            await ArrayUtil.sortByBeforeAndAfter(config);
         } catch (e) {
             expect(e).toEqual(new Error("after 'c' is not a valid key"));
         }
@@ -82,7 +77,7 @@ describe('array', () => {
         ];
 
         try {
-            await array.sortByBeforeAndAfter(config2);
+            await ArrayUtil.sortByBeforeAndAfter(config2);
         } catch (e) {
             expect(e).toEqual(new Error("before 'c' is not a valid key"));
         }

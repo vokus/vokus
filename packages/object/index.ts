@@ -1,1 +1,1 @@
-export * from './util/object';
+export * from '../util/util/object';

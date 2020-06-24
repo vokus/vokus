@@ -1,14 +1,11 @@
-import { Injectable } from '@vokus/dependency-injection';
-
 interface BeforeKeyAfterInterface {
     after?: string;
     before?: string;
     key: string;
 }
 
-@Injectable()
-export class Array {
-    async sortByBeforeAndAfter(items: BeforeKeyAfterInterface[]): Promise<any> {
+export class ArrayUtil {
+    static async sortByBeforeAndAfter(items: BeforeKeyAfterInterface[]): Promise<any> {
         const keys: string[] = [];
 
         // start: remove duplicate keys

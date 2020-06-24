@@ -1,6 +1,7 @@
 import { ConfigInterface } from '../interface/config';
 import { HTTPServer } from '@vokus/http';
 import { Injectable } from '@vokus/dependency-injection';
+import { ObjectUtil } from '@vokus/util';
 import { View } from '@vokus/view';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class Application {
     }
 
     async addConfig(config: ConfigInterface): Promise<void> {
-        this._config = Object.assign({}, config);
+        ObjectUtil.merge(this._config, config);
     }
 
     async start() {

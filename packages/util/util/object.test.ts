@@ -1,4 +1,4 @@
-import { ObjectUtil } from '../index';
+import { ObjectUtil } from '../../object/index';
 
 describe('object-util', () => {
     test('merge', async () => {

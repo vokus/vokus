@@ -1,13 +1,12 @@
+import { ArrayUtil, ObjectUtil } from '@vokus/util';
 import { Environment, EnvironmentVariable } from '@vokus/environment';
 import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
-import { Array } from '@vokus/array';
 import { ControllerInterface } from '../interface/controller';
 import { FileSystem } from '@vokus/file-system';
 import { HTTPConfigInterface } from '../interface/http-config';
 import { Logger } from '@vokus/logger';
 import { MiddlewareInterface } from '../interface/middleware';
-import { ObjectComponent } from '@vokus/object';
 import { RouteMiddleware } from '../middleware/route';
 import { StaticMiddleware } from '../middleware/static';
 import { View } from '@vokus/view';
@@ -24,8 +23,6 @@ export class HTTPServer {
     })
     protected _port: number;
 
-    protected _object: ObjectComponent;
-    protected _array: Array;
     protected _fileSystem: FileSystem;
     protected _view: View;
     protected _logger: Logger;
@@ -37,12 +34,10 @@ export class HTTPServer {
     };
     protected _server: https.Server;
 
-    constructor(fileSystem: FileSystem, logger: Logger, view: View, array: Array, object: ObjectComponent) {
+    constructor(fileSystem: FileSystem, logger: Logger, view: View) {
         this._fileSystem = fileSystem;
         this._logger = logger;
         this._view = view;
-        this._array = array;
-        this._object = object;
     }
 
     async start(): Promise<void> {
@@ -63,7 +58,7 @@ export class HTTPServer {
             pathToCert = path.join(__dirname, '../self-signed-cert.pem');
         }
 
-        await this._registerMiddlewares();
+        await this._processConfig();
 
         this._server = https.createServer(
             {
@@ -104,24 +99,14 @@ export class HTTPServer {
     }
 
     async addConfig(config: HTTPConfigInterface): Promise<void> {
-        if ('undefined' !== typeof config.middlewares && 'undefined' !== typeof this._config.middlewares) {
-            for (const middleware of config.middlewares) {
-                this._config.middlewares.push(middleware);
-            }
-        }
-
-        if ('undefined' !== typeof config.routes && 'undefined' !== typeof this._config.routes) {
-            for (const route of config.routes) {
-                this._config.routes.push(route);
-            }
-        }
+        await ObjectUtil.merge(this._config, config);
     }
 
     get listening(): boolean {
         return 'object' === typeof this._server && this._server.listening;
     }
 
-    protected async _registerMiddlewares(): Promise<void> {
+    protected async _processConfig(): Promise<void> {
         // ensure fake router middleware exists
         let routerExists = false;
 
@@ -147,19 +132,21 @@ export class HTTPServer {
             });
         }
 
-        this._config.middlewares = await this._array.sortByBeforeAndAfter(this._config.middlewares);
+        this._config.middlewares = await ArrayUtil.sortByBeforeAndAfter(this._config.middlewares);
 
         if ('undefined' === typeof this._config.middlewares) {
             return;
         }
 
         for (const middlewareConfig of this._config.middlewares) {
+            // TODO: add RouterMiddleware check
             if ('router' === middlewareConfig.key) {
                 await this._registerRoutes();
                 continue;
             }
 
-            if (middlewareConfig.middleware.isPrototypeOf(StaticMiddleware)) {
+            // TODO: add StaticMiddleware check
+            if ('static' === middlewareConfig.key) {
                 console.log('static');
                 continue;
             }

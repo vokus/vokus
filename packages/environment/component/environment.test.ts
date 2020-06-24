@@ -7,7 +7,7 @@ process.env.TEST_INVALID_STRING_3 = 'any other string';
 import { Environment, EnvironmentVariable, EnvironmentVariableInterface } from '../index';
 import { FileSystem } from '@vokus/file-system';
 import { ObjectManager } from '@vokus/dependency-injection';
-import { StringUtil } from '@vokus/string';
+import { StringUtil } from '@vokus/util';
 
 function getEnvName(
     type: string,
