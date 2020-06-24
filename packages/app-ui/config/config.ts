@@ -14,6 +14,6 @@ export const Config: ConfigInterface = {
         ],
     },
     view: {
-        paths: [path.join(__dirname, 'view/template')],
+        paths: [path.join(__dirname, '../view/template')],
     },
 };

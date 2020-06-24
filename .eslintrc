@@ -1,14 +1,8 @@
 {
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint",
-        "plugin:prettier/recommended"
-    ],
+    "extends": ["plugin:@typescript-eslint/recommended", "prettier/@typescript-eslint", "plugin:prettier/recommended"],
     "overrides": [
         {
-            "files": [
-                "*.ts"
-            ],
+            "files": ["*.ts"],
             "rules": {
                 "@typescript-eslint/explicit-member-accessibility": [
                     "error",
@@ -30,9 +24,6 @@
         "no-console": "error",
         "sort-imports": "error",
         "sort-keys": "error",
-        "yoda": [
-            "error",
-            "always"
-        ]
+        "yoda": ["error", "always"]
     }
 }

@@ -6,8 +6,7 @@ import { ObjectManager } from '@vokus/dependency-injection';
 
 (async (): Promise<void> => {
     const app: Application = await ObjectManager.get(Application);
-    app.addConfig(Config);
-    app.addConfig(AppUiConfig);
-
+    await app.addConfig(Config);
+    await app.addConfig(AppUiConfig);
     await app.start();
 })();
