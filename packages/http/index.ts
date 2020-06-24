@@ -11,3 +11,4 @@ export * from './middleware/cookie-parser';
 export * from './middleware/error';
 export * from './middleware/route';
 export * from './middleware/not-found';
+export * from './middleware/static';

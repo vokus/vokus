@@ -7,7 +7,9 @@ import { FileSystem } from '@vokus/file-system';
 import { HTTPConfigInterface } from '../interface/http-config';
 import { Logger } from '@vokus/logger';
 import { MiddlewareInterface } from '../interface/middleware';
+import { ObjectComponent } from '@vokus/object';
 import { RouteMiddleware } from '../middleware/route';
+import { StaticMiddleware } from '../middleware/static';
 import { View } from '@vokus/view';
 import https from 'https';
 import path from 'path';
@@ -22,6 +24,7 @@ export class HTTPServer {
     })
     protected _port: number;
 
+    protected _object: ObjectComponent;
     protected _array: Array;
     protected _fileSystem: FileSystem;
     protected _view: View;
@@ -34,14 +37,17 @@ export class HTTPServer {
     };
     protected _server: https.Server;
 
-    constructor(fileSystem: FileSystem, logger: Logger, view: View, array: Array) {
+    constructor(fileSystem: FileSystem, logger: Logger, view: View, array: Array, object: ObjectComponent) {
         this._fileSystem = fileSystem;
         this._logger = logger;
         this._view = view;
         this._array = array;
+        this._object = object;
     }
 
     async start(): Promise<void> {
+        await this._setupExpress();
+
         this._selfSigned = false;
 
         let pathToKey = path.join(Environment.configPath, 'http-server', 'key.pem');
@@ -56,12 +62,6 @@ export class HTTPServer {
             pathToKey = path.join(__dirname, '../self-signed-key.pem');
             pathToCert = path.join(__dirname, '../self-signed-cert.pem');
         }
-
-        this._express = express();
-
-        this._express.engine('pug', this._view.render.bind(this._view));
-        this._express.set('view engine', 'pug');
-        this._express.set('views', this._view.paths);
 
         await this._registerMiddlewares();
 
@@ -78,6 +78,22 @@ export class HTTPServer {
         await this._logger.notice(`started with port ${this._port}`);
     }
 
+    protected async _setupExpress(): Promise<void> {
+        this._express = express();
+
+        // enable strict routing - means /route is not the same like /route/
+        this._express.enable('strict routing');
+
+        // register custom pug renderer
+        this._express.engine('pug', this._view.render.bind(this._view));
+
+        // set view engine to pug
+        this._express.set('view engine', 'pug');
+
+        // register view paths
+        this._express.set('views', this._view.config.paths);
+    }
+
     async stop(): Promise<void> {
         this._server.close();
         await this._logger.notice(`stopped with port ${this._port}`);
@@ -88,7 +104,17 @@ export class HTTPServer {
     }
 
     async addConfig(config: HTTPConfigInterface): Promise<void> {
-        this._config = Object.assign(this._config, config);
+        if ('undefined' !== typeof config.middlewares && 'undefined' !== typeof this._config.middlewares) {
+            for (const middleware of config.middlewares) {
+                this._config.middlewares.push(middleware);
+            }
+        }
+
+        if ('undefined' !== typeof config.routes && 'undefined' !== typeof this._config.routes) {
+            for (const route of config.routes) {
+                this._config.routes.push(route);
+            }
+        }
     }
 
     get listening(): boolean {
@@ -130,6 +156,11 @@ export class HTTPServer {
         for (const middlewareConfig of this._config.middlewares) {
             if ('router' === middlewareConfig.key) {
                 await this._registerRoutes();
+                continue;
+            }
+
+            if (middlewareConfig.middleware.isPrototypeOf(StaticMiddleware)) {
+                console.log('static');
                 continue;
             }
 

@@ -6,7 +6,7 @@ import pug from 'pug';
 
 @Injectable()
 export class View {
-    protected _paths: string[] = [];
+    protected _config: ViewConfigInterface = { paths: [] };
     protected _templates: { [key: string]: any } = {};
     protected _fileSystem: FileSystem;
 
@@ -14,18 +14,18 @@ export class View {
         this._fileSystem = fileSystem;
     }
 
+    get config(): ViewConfigInterface {
+        return this._config;
+    }
+
     async addConfig(config: ViewConfigInterface): Promise<void> {
-        this._paths = this._paths.concat(config.paths);
+        this._config.paths = this._config.paths.concat(config.paths);
     }
 
     async start() {
-        for (const path of this._paths) {
+        for (const path of this._config.paths) {
             await this._compileTemplates(path);
         }
-    }
-
-    get paths(): string[] {
-        return this._paths;
     }
 
     async render(
