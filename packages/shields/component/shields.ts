@@ -1,15 +1,15 @@
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { HTTPClient } from '@vokus/http';
+import { HttpClient } from '@vokus/http';
 import { Injectable } from '@vokus/dependency-injection';
 import path from 'path';
 
 @Injectable()
 export class Shields {
     protected _fileSystem: FileSystem;
-    protected _httpClient: HTTPClient;
+    protected _httpClient: HttpClient;
 
-    constructor(fileSystem: FileSystem, httpClient: HTTPClient) {
+    constructor(fileSystem: FileSystem, httpClient: HttpClient) {
         this._fileSystem = fileSystem;
         this._httpClient = httpClient;
     }

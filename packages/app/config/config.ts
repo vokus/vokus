@@ -3,6 +3,7 @@ import {
     CookieParserMiddleware,
     ErrorMiddleware,
     NotFoundMiddleware,
+    RouteMiddleware,
     StaticMiddleware,
 } from '@vokus/http';
 import { ConfigInterface } from '../interface/config';
@@ -13,22 +14,27 @@ export const Config: ConfigInterface = {
     http: {
         middlewares: [
             {
-                before: 'access-logger',
+                after: 'access-logger',
+                before: 'cookie-parser',
                 key: 'static',
                 middleware: StaticMiddleware,
             },
             {
-                before: 'router',
+                before: 'route',
                 key: 'cookie-parser',
                 middleware: CookieParserMiddleware,
             },
             {
-                before: 'router',
+                before: 'route',
                 key: 'access-logger',
                 middleware: AccessLoggerMiddleware,
             },
             {
-                after: 'router',
+                key: 'route',
+                middleware: RouteMiddleware,
+            },
+            {
+                after: 'route',
                 key: 'not-found',
                 middleware: NotFoundMiddleware,
             },
@@ -38,6 +44,7 @@ export const Config: ConfigInterface = {
                 middleware: ErrorMiddleware,
             },
         ],
+        publicPaths: [path.join(__dirname, '../public')],
         routes: [
             {
                 controller: SignInController,

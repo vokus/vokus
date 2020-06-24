@@ -4,8 +4,9 @@ import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
 import { ControllerInterface } from '../interface/controller';
 import { FileSystem } from '@vokus/file-system';
-import { HTTPConfigInterface } from '../interface/http-config';
+import { HttpConfigInterface } from '../interface/http-config';
 import { Logger } from '@vokus/logger';
+import { MiddlewareConfigInterface } from '../interface/middleware-config';
 import { MiddlewareInterface } from '../interface/middleware';
 import { RouteMiddleware } from '../middleware/route';
 import { StaticMiddleware } from '../middleware/static';
@@ -14,7 +15,7 @@ import https from 'https';
 import path from 'path';
 
 @Injectable()
-export class HTTPServer {
+export class HttpServer {
     @EnvironmentVariable({
         default: 443,
         example: 443,
@@ -28,8 +29,9 @@ export class HTTPServer {
     protected _logger: Logger;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _config: HTTPConfigInterface = {
+    protected _config: HttpConfigInterface = {
         middlewares: [],
+        publicPaths: [],
         routes: [],
     };
     protected _server: https.Server;
@@ -98,7 +100,7 @@ export class HTTPServer {
         return this._selfSigned;
     }
 
-    async addConfig(config: HTTPConfigInterface): Promise<void> {
+    async addConfig(config: HttpConfigInterface): Promise<void> {
         await ObjectUtil.merge(this._config, config);
     }
 
@@ -107,29 +109,8 @@ export class HTTPServer {
     }
 
     protected async _processConfig(): Promise<void> {
-        // ensure fake router middleware exists
-        let routerExists = false;
-
         if ('undefined' === typeof this._config.middlewares) {
-            return;
-        }
-
-        for (const middlewareConfig of this._config.middlewares) {
-            if ('router' === middlewareConfig.key) {
-                routerExists = true;
-                break;
-            }
-        }
-
-        if (!routerExists) {
-            this.addConfig({
-                middlewares: [
-                    {
-                        key: 'router',
-                        middleware: null,
-                    },
-                ],
-            });
+            this._config.middlewares = [];
         }
 
         this._config.middlewares = await ArrayUtil.sortByBeforeAndAfter(this._config.middlewares);
@@ -139,15 +120,27 @@ export class HTTPServer {
         }
 
         for (const middlewareConfig of this._config.middlewares) {
-            // TODO: add RouterMiddleware check
-            if ('router' === middlewareConfig.key) {
-                await this._registerRoutes();
+            if (
+                middlewareConfig.middleware === RouteMiddleware ||
+                RouteMiddleware.isPrototypeOf(middlewareConfig.middleware)
+            ) {
+                await this._processRoutes(middlewareConfig);
+
                 continue;
             }
 
-            // TODO: add StaticMiddleware check
-            if ('static' === middlewareConfig.key) {
-                console.log('static');
+            if (
+                middlewareConfig.middleware === StaticMiddleware ||
+                StaticMiddleware.isPrototypeOf(middlewareConfig.middleware)
+            ) {
+                if ('undefined' !== typeof this._config.publicPaths) {
+                    for (const publicPath of this._config.publicPaths) {
+                        const staticMiddleware: StaticMiddleware = new middlewareConfig.middleware();
+                        staticMiddleware.path = publicPath;
+                        this._express.use(staticMiddleware.handle.bind(staticMiddleware));
+                    }
+                }
+
                 continue;
             }
 
@@ -157,13 +150,13 @@ export class HTTPServer {
         }
     }
 
-    protected async _registerRoutes(): Promise<void> {
+    protected async _processRoutes(middlewareConfig: MiddlewareConfigInterface): Promise<void> {
         if ('undefined' === typeof this._config.routes) {
             return;
         }
 
         for (const routeConfiguration of this._config.routes) {
-            const routeMiddleware: RouteMiddleware = new RouteMiddleware();
+            const routeMiddleware: any = new middlewareConfig.middleware();
 
             const controller: ControllerInterface = await ObjectManager.get(routeConfiguration.controller);
 

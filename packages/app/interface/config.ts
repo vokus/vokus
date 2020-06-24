@@ -1,11 +1,7 @@
-import { MiddlewareConfigInterface, RouteConfigInterface } from '@vokus/http';
+import { HttpConfigInterface } from '@vokus/http/interface/http-config';
+import { ViewConfigInterface } from '@vokus/view';
 
 export interface ConfigInterface {
-    http?: {
-        routes?: RouteConfigInterface[];
-        middlewares?: MiddlewareConfigInterface[];
-    };
-    view?: {
-        paths: string[];
-    };
+    http?: HttpConfigInterface;
+    view?: ViewConfigInterface;
 }

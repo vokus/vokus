@@ -2,8 +2,8 @@ process.env.HTTP_SERVER_PORT = '3000';
 
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { HTTPClient } from './http-client';
-import { HTTPServer } from '..';
+import { HttpClient } from './http-client';
+import { HttpServer } from '..';
 import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 
@@ -19,7 +19,7 @@ afterAll(async () => {
 
 test('http-server', async () => {
     const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    const httpServer: HTTPServer = await ObjectManager.get(HTTPServer);
+    const httpServer: HttpServer = await ObjectManager.get(HttpServer);
 
     expect(httpServer.listening).toBe(false);
 
@@ -27,7 +27,7 @@ test('http-server', async () => {
 
     expect(httpServer.listening).toBe(true);
 
-    const httpClient: HTTPClient = await ObjectManager.get(HTTPClient);
+    const httpClient: HttpClient = await ObjectManager.get(HttpClient);
 
     expect((await httpClient.get('https://localhost:3000/')).statusCode).toBe(404);
     expect(httpServer.selfSigned).toBe(true);

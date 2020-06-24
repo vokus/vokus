@@ -2,7 +2,7 @@ import https, { RequestOptions } from 'https';
 import { Injectable } from '@vokus/dependency-injection';
 
 @Injectable()
-export class HTTPClient {
+export class HttpClient {
     protected _options: RequestOptions = {};
 
     constructor() {

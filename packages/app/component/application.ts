@@ -1,16 +1,16 @@
 import { ConfigInterface } from '../interface/config';
-import { HTTPServer } from '@vokus/http';
+import { HttpServer } from '@vokus/http';
 import { Injectable } from '@vokus/dependency-injection';
 import { ObjectUtil } from '@vokus/util';
 import { View } from '@vokus/view';
 
 @Injectable()
 export class Application {
-    protected _httpServer: HTTPServer;
+    protected _httpServer: HttpServer;
     protected _view: View;
     protected _config: ConfigInterface = {};
 
-    constructor(httpServer: HTTPServer, view: View) {
+    constructor(httpServer: HttpServer, view: View) {
         this._httpServer = httpServer;
         this._view = view;
     }
