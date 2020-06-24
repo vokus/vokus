@@ -7,7 +7,7 @@ process.env.TEST_INVALID_STRING_3 = 'any other string';
 import { Environment, EnvironmentVariable, EnvironmentVariableInterface } from '../index';
 import { FileSystem } from '@vokus/file-system';
 import { ObjectManager } from '@vokus/dependency-injection';
-import { String } from '@vokus/string';
+import { StringUtil } from '@vokus/string';
 
 function getEnvName(
     type: string,
@@ -19,11 +19,11 @@ function getEnvName(
     return [
         'test',
         'generated',
-        String.slugify(type, '_'),
-        String.slugify(example.toString(), '_'),
-        String.slugify(required.toString(), '_'),
-        String.slugify(defaultValue.toString(), '_'),
-        String.slugify(allowedValues.toString(), '_'),
+        StringUtil.slugify(type, '_'),
+        StringUtil.slugify(example.toString(), '_'),
+        StringUtil.slugify(required.toString(), '_'),
+        StringUtil.slugify(defaultValue.toString(), '_'),
+        StringUtil.slugify(allowedValues.toString(), '_'),
     ]
         .join('_')
         .toUpperCase();

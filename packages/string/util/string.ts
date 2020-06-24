@@ -1,6 +1,6 @@
 import { slugify } from 'transliteration';
 
-export class String {
+export class StringUtil {
     static camelize(text: string): string {
         return text.replace(/^([A-Z])|[\s-_.]+(\w)/g, (match, p1, p2) => {
             if (p2) {

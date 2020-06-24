@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { String } from '@vokus/string';
+import { StringUtil } from '@vokus/string';
 
 type Meta = {
     function: any;
@@ -30,7 +30,7 @@ export class ObjectManager {
         }
 
         // get type from function name
-        let type = String.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
+        let type = StringUtil.slugify(Function.name.split(/(?=[A-Z][^A-Z]+$)/).pop());
 
         // check if type allowed
         if (!['controller', 'middleware'].includes(type)) {
@@ -38,7 +38,7 @@ export class ObjectManager {
         }
 
         // get key from function name
-        const key = String.slugify(Function.name).replace('-' + type, '');
+        const key = StringUtil.slugify(Function.name).replace('-' + type, '');
 
         const meta = {
             function: Function,

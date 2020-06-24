@@ -1,1 +1,1 @@
-export { String } from './component/string';
+export { StringUtil } from './util/string';
