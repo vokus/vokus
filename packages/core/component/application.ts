@@ -2,7 +2,7 @@ import { ConfigInterface } from '../interface/config';
 import { HttpServer } from '@vokus/http';
 import { Injectable } from '@vokus/dependency-injection';
 import { ObjectUtil } from '@vokus/util';
-import { View } from '@vokus/view';
+import { View } from '@vokus/http';
 
 @Injectable()
 export class Application {

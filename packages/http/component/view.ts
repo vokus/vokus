@@ -2,8 +2,8 @@ import * as nodePath from 'path';
 import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import { FileSystem } from '@vokus/file-system';
 import { ObjectUtil } from '@vokus/util';
-import { ViewConfigInterface } from '../interface/view-config';
-import { ViewHelperInterface } from '../interface/view-helper';
+import { ViewConfigInterface } from '@vokus/view/interface/view-config';
+import { ViewHelperInterface } from '@vokus/view/interface/view-helper';
 import pug from 'pug';
 
 @Injectable()
