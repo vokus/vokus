@@ -12,7 +12,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: './packages/core/public/assets/core/css/app.css',
+                            name: './packages/core/public/assets/vokus/css/app.css',
                             path: __dirname,
                         },
                     },
@@ -50,7 +50,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: './packages/core/public/assets/core/js/app.js',
+        filename: './packages/core/public/assets/vokus/js/app.js',
         path: __dirname,
     },
 };

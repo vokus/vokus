@@ -50,9 +50,9 @@ export const CoreConfig: ConfigInterface = {
         routes: [
             {
                 controller: SignInController,
-                key: 'user/sign-in',
+                key: 'vokus/user/sign-in',
                 method: 'get',
-                path: '/user/sign-in',
+                path: '/vokus/user/sign-in',
             },
         ],
     },

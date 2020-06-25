@@ -1,10 +1,10 @@
 import * as nodePath from 'path';
-import { FileSystem } from '@vokus/file-system';
 import { Injectable, ObjectManager } from '@vokus/dependency-injection';
+import { FileSystem } from '@vokus/file-system';
+import { ObjectUtil } from '@vokus/util';
 import { ViewConfigInterface } from '../interface/view-config';
-import pug from 'pug';
-import { ObjectUtil } from '../../object';
 import { ViewHelperInterface } from '../interface/view-helper';
+import pug from 'pug';
 
 @Injectable()
 export class View {
