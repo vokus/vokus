@@ -10,6 +10,7 @@ export class Environment {
     protected static readonly _contextTest: string = 'test';
     protected static readonly _contextDevelopment: string = 'development';
 
+    protected static _buildDate = new Date();
     protected static _contextDotEnvLoaded = false;
     protected static _variables: { [name: string]: EnvironmentVariableInterface } = {};
     protected static _values: { [name: string]: string | number | boolean | undefined } = {};
@@ -38,6 +39,10 @@ export class Environment {
 
     static isInContextDevelopment(): boolean {
         return this.context === this._contextDevelopment;
+    }
+
+    static get buildDate(): Date {
+        return this._buildDate;
     }
 
     static get projectPath(): string {

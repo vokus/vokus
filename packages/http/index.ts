@@ -12,3 +12,4 @@ export * from './middleware/error';
 export * from './middleware/route';
 export * from './middleware/not-found';
 export * from './middleware/static';
+export * from './view-helper/url';

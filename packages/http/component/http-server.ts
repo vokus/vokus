@@ -42,6 +42,10 @@ export class HttpServer {
         this._view = view;
     }
 
+    get config(): HttpConfigInterface {
+        return this._config;
+    }
+
     async start(): Promise<void> {
         await this._setupExpress();
 
@@ -109,15 +113,7 @@ export class HttpServer {
     }
 
     protected async _processConfig(): Promise<void> {
-        if ('undefined' === typeof this._config.middlewares) {
-            this._config.middlewares = [];
-        }
-
         this._config.middlewares = await ArrayUtil.sortByBeforeAndAfter(this._config.middlewares);
-
-        if ('undefined' === typeof this._config.middlewares) {
-            return;
-        }
 
         for (const middlewareConfig of this._config.middlewares) {
             if (
@@ -133,12 +129,10 @@ export class HttpServer {
                 middlewareConfig.middleware === StaticMiddleware ||
                 StaticMiddleware.isPrototypeOf(middlewareConfig.middleware)
             ) {
-                if ('undefined' !== typeof this._config.publicPaths) {
-                    for (const publicPath of this._config.publicPaths) {
-                        const staticMiddleware: StaticMiddleware = new middlewareConfig.middleware();
-                        staticMiddleware.path = publicPath;
-                        this._express.use(staticMiddleware.handle.bind(staticMiddleware));
-                    }
+                for (const publicPath of this._config.publicPaths) {
+                    const staticMiddleware: StaticMiddleware = new middlewareConfig.middleware();
+                    staticMiddleware.path = publicPath;
+                    this._express.use(staticMiddleware.handle.bind(staticMiddleware));
                 }
 
                 continue;
@@ -151,10 +145,6 @@ export class HttpServer {
     }
 
     protected async _processRoutes(middlewareConfig: MiddlewareConfigInterface): Promise<void> {
-        if ('undefined' === typeof this._config.routes) {
-            return;
-        }
-
         for (const routeConfiguration of this._config.routes) {
             const routeMiddleware: any = new middlewareConfig.middleware();
 
@@ -162,20 +152,10 @@ export class HttpServer {
 
             routeMiddleware.controller = controller;
 
-            switch (routeConfiguration.method) {
-                case 'get':
-                    this._express.get(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
-                    break;
-                case 'post':
-                    this._express.post(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
-                    break;
-                case 'put':
-                    this._express.put(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
-                    break;
-                case 'delete':
-                    this._express.delete(routeConfiguration.path, routeMiddleware.handle.bind(routeMiddleware));
-                    break;
-            }
+            this._express[routeConfiguration.method](
+                routeConfiguration.path,
+                routeMiddleware.handle.bind(routeMiddleware),
+            );
         }
     }
 }

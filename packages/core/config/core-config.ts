@@ -5,7 +5,9 @@ import {
     NotFoundMiddleware,
     RouteMiddleware,
     StaticMiddleware,
+    UrlViewHelper,
 } from '@vokus/http';
+import { AssetViewHelper, TranslateViewHelper } from '@vokus/view';
 import { ConfigInterface } from '../interface/config';
 import { SignInController } from '../controller/user/sign-in';
 import path from 'path';
@@ -55,6 +57,20 @@ export const CoreConfig: ConfigInterface = {
         ],
     },
     view: {
+        helpers: [
+            {
+                helper: AssetViewHelper,
+                key: 'asset',
+            },
+            {
+                helper: TranslateViewHelper,
+                key: 'translate',
+            },
+            {
+                helper: UrlViewHelper,
+                key: 'url',
+            },
+        ],
         paths: [path.join(__dirname, '../view/template')],
     },
 };

@@ -1,12 +1,17 @@
 import * as nodePath from 'path';
 import { FileSystem } from '@vokus/file-system';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import { ViewConfigInterface } from '../interface/view-config';
 import pug from 'pug';
+import { ObjectUtil } from '../../object';
+import { ViewHelperInterface } from '../interface/view-helper';
 
 @Injectable()
 export class View {
-    protected _config: ViewConfigInterface = { paths: [] };
+    protected _config: ViewConfigInterface = {
+        helpers: [],
+        paths: [],
+    };
     protected _templates: { [key: string]: any } = {};
     protected _fileSystem: FileSystem;
 
@@ -19,7 +24,7 @@ export class View {
     }
 
     async addConfig(config: ViewConfigInterface): Promise<void> {
-        this._config.paths = this._config.paths.concat(config.paths);
+        await ObjectUtil.merge(this._config, config);
     }
 
     async start() {
@@ -41,15 +46,12 @@ export class View {
             locals.locale = null;
         }
 
-        /*
         locals.view = {};
-        
-        for (const viewHelper of Object.values(await Container.getViewHelpers())) {
-            let viewHelperName = viewHelper.constructor.name.replace('ViewHelper', '');
-            viewHelperName = viewHelperName.charAt(0).toLowerCase() + viewHelperName.slice(1);
 
-            locals.view[viewHelperName] = viewHelper.render.bind(viewHelper);
-        }*/
+        for (const viewHelperConfig of this._config.helpers) {
+            const viewHelper: ViewHelperInterface = await ObjectManager.get(viewHelperConfig.helper);
+            locals.view[viewHelperConfig.key] = viewHelper.render.bind(viewHelper);
+        }
 
         try {
             return callback(null, this._templates[filePath](locals, { cache: true }));

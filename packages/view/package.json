@@ -12,6 +12,7 @@
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/dependency-injection": "^0.0.5",
+        "@vokus/environment": "^0.0.5",
         "@vokus/file-system": "^0.0.5",
         "pug": "3.0.0"
     },

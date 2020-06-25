@@ -4,6 +4,8 @@ import path from 'path';
 
 export const UIConfig: ConfigInterface = {
     http: {
+        middlewares: [],
+        publicPaths: [],
         routes: [
             {
                 controller: DesignController,
@@ -14,6 +16,7 @@ export const UIConfig: ConfigInterface = {
         ],
     },
     view: {
+        helpers: [],
         paths: [path.join(__dirname, '../view/template')],
     },
 };
