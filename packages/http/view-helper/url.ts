@@ -1,7 +1,7 @@
 import { HttpServer } from '../component/http-server';
 import { Injectable } from '@vokus/dependency-injection';
 import { RouteConfigInterface } from '../interface/route-config';
-import { ViewHelperInterface } from '@vokus/view/interface/view-helper';
+import { ViewHelperInterface } from '../interface/view-helper';
 
 @Injectable()
 export class UrlViewHelper implements ViewHelperInterface {

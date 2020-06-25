@@ -10,9 +10,10 @@ import { MiddlewareConfigInterface } from '../interface/middleware-config';
 import { MiddlewareInterface } from '../interface/middleware';
 import { RouteMiddleware } from '../middleware/route';
 import { StaticMiddleware } from '../middleware/static';
-import { View } from '@vokus/view';
+import { View } from './view';
 import https from 'https';
 import path from 'path';
+
 
 @Injectable()
 export class HttpServer {

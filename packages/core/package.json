@@ -13,8 +13,7 @@
     "dependencies": {
         "@vokus/dependency-injection": "^0.0.5",
         "@vokus/http": "^0.0.5",
-        "@vokus/util": "^0.0.5",
-        "@vokus/view": "^0.0.5"
+        "@vokus/util": "^0.0.5"
     },
     "publishConfig": {
         "access": "public"

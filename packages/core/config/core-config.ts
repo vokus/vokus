@@ -6,8 +6,9 @@ import {
     RouteMiddleware,
     StaticMiddleware,
     UrlViewHelper,
+    AssetViewHelper,
+    TranslateViewHelper,
 } from '@vokus/http';
-import { AssetViewHelper, TranslateViewHelper } from '@vokus/view';
 import { ConfigInterface } from '../interface/config';
 import { SignInController } from '../controller/user/sign-in';
 import path from 'path';
