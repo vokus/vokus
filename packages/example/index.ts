@@ -1,12 +1,12 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { CoreConfig, Application } from '@vokus/core';
-import { UIConfig } from '@vokus/ui';
+import { Application, CoreConfig } from '@vokus/core';
 import { ObjectManager } from '@vokus/dependency-injection';
+import { UIConfig } from '@vokus/ui';
 
 (async (): Promise<void> => {
     const app: Application = await ObjectManager.get(Application);
-    await app.addConfig(Config);
-    await app.addConfig(AppUiConfig);
+    await app.addConfig(CoreConfig);
+    await app.addConfig(UIConfig);
     await app.start();
 })();
