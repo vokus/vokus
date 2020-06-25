@@ -6,47 +6,38 @@ import nodePath from 'path';
 
 class UpdateIndexFiles {
     static async run(): Promise<void> {
-        await this.cleanDirectory(nodePath.join(Environment.projectPath, 'packages'));
-        await this.cleanDirectory(nodePath.join(Environment.projectPath, 'var'));
-    }
+        const packagesPath = nodePath.join(Environment.projectPath, 'packages');
 
-    protected static async cleanDirectory(path: string): Promise<void> {
-        if (!(await FileSystem.isDirectory(path))) {
-            return;
-        }
-
-        let entries = await FileSystem.readDirectory(path);
+        const entries = await FileSystem.readDirectory(packagesPath);
 
         for (const entry of entries) {
-            const fullPath = nodePath.join(path, entry);
+            const pathOfEntry = nodePath.join(packagesPath, entry);
 
-            if ('node_modules' === entry) {
-                await FileSystem.remove(fullPath);
-            }
-
-            if (await FileSystem.isDirectory(fullPath)) {
-                await this.cleanDirectory(fullPath);
+            if (!(await FileSystem.isDirectory(pathOfEntry))) {
                 continue;
             }
 
-            if (!(await FileSystem.isFile(fullPath))) {
-                continue;
+            const fileList = await FileSystem.listFiles(pathOfEntry);
+            const pathToIndexFile = nodePath.join(pathOfEntry, 'index.ts');
+
+            await FileSystem.ensureFileExists(pathToIndexFile);
+            await FileSystem.writeFile(pathToIndexFile, '');
+
+            for (let filePath of fileList) {
+                filePath = filePath.replace(pathOfEntry + '/', '');
+
+                if (
+                    !filePath.endsWith('.ts') ||
+                    filePath.endsWith('.d.ts') ||
+                    filePath.endsWith('.test.ts') ||
+                    'index.ts' === filePath ||
+                    filePath.startsWith('node_modules')
+                ) {
+                    continue;
+                }
+
+                await FileSystem.appendFile(pathToIndexFile, 'import * from ./' + filePath + '\n');
             }
-
-            if (
-                fullPath.endsWith('.css') ||
-                fullPath.endsWith('.js') ||
-                fullPath.endsWith('.d.ts') ||
-                fullPath.endsWith('.log')
-            ) {
-                await FileSystem.remove(fullPath);
-            }
-        }
-
-        entries = await FileSystem.readDirectory(path);
-
-        if (0 === entries.length) {
-            await FileSystem.remove(path);
         }
     }
 }
