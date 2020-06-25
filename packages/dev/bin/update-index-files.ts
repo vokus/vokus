@@ -36,7 +36,9 @@ class UpdateIndexFiles {
                     continue;
                 }
 
-                await FileSystem.appendFile(pathToIndexFile, 'import * from ./' + filePath + '\n');
+                filePath = filePath.replace('.ts', '');
+
+                await FileSystem.appendFile(pathToIndexFile, `export * from './${filePath}';\n`);
             }
         }
     }
