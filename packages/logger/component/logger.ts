@@ -6,12 +6,6 @@ import { LogEntity } from '../entity/log.entity';
 
 @Injectable()
 export class Logger {
-    protected _fileSystem: FileSystem;
-
-    constructor(fileSystem: FileSystem) {
-        this._fileSystem = fileSystem;
-    }
-
     async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }
@@ -101,14 +95,14 @@ export class Logger {
 
         for (const logFilePath of logFilePaths) {
             // check if log file exists and create if not
-            await this._fileSystem.ensureFileExists(logFilePath);
+            await FileSystem.ensureFileExists(logFilePath);
 
             // TODO: add log rotation
             // check if log rotation is necessary
             // await this._rotateLogFile(logFile);
 
             // write line to log file
-            await this._fileSystem.appendFile(
+            await FileSystem.appendFile(
                 logFilePath,
                 output
                     .join(' ')

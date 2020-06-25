@@ -36,8 +36,7 @@ export class HttpServer {
     };
     protected _server: https.Server;
 
-    constructor(fileSystem: FileSystem, logger: Logger, view: View) {
-        this._fileSystem = fileSystem;
+    constructor(logger: Logger, view: View) {
         this._logger = logger;
         this._view = view;
     }
@@ -55,7 +54,7 @@ export class HttpServer {
         let pathToCert = path.join(Environment.configPath, 'http-server', 'cert.pem');
 
         // try to load certificate and key from config path
-        if (!(await this._fileSystem.isFile(pathToKey)) || !(await this._fileSystem.isFile(pathToCert))) {
+        if (!(await FileSystem.isFile(pathToKey)) || !(await FileSystem.isFile(pathToCert))) {
             this._logger.warning(`${pathToKey} or ${pathToCert} does not exists, a self-signed certificate is used`);
 
             this._selfSigned = true;
@@ -68,8 +67,8 @@ export class HttpServer {
 
         this._server = https.createServer(
             {
-                cert: await this._fileSystem.readFile(pathToCert),
-                key: await this._fileSystem.readFile(pathToKey),
+                cert: await FileSystem.readFile(pathToCert),
+                key: await FileSystem.readFile(pathToKey),
             },
             this._express,
         );

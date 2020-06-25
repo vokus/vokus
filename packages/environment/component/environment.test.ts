@@ -148,8 +148,7 @@ class Config {
 }
 
 afterAll(async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    await fileSystem.remove(Environment.configPath);
+    await FileSystem.remove(Environment.configPath);
 });
 
 describe('Environment', () => {

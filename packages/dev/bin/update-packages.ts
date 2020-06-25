@@ -2,7 +2,6 @@
 
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { ObjectManager } from '@vokus/dependency-injection';
 import ncu from 'npm-check-updates';
 import path from 'path';
 
@@ -10,14 +9,12 @@ class UpdatePackages {
     protected static packagesPath = 'packages';
 
     static async run(): Promise<void> {
-        const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-
         await ncu.run({
             packageFile: path.join(Environment.projectPath, 'package.json'),
             upgrade: true,
         });
 
-        for (const name of await fileSystem.readDirectory(this.packagesPath)) {
+        for (const name of await FileSystem.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
             if (name.startsWith('.')) {
                 continue;
@@ -26,7 +23,7 @@ class UpdatePackages {
             const pathToPackageJson = path.join(this.packagesPath, name, 'package.json');
             const pathToNpmIgnore = path.join(this.packagesPath, name, '.npmignore');
             const pathToNpmrc = path.join(this.packagesPath, name, '.npmrc');
-            const packageJson = JSON.parse(await fileSystem.readFile(pathToPackageJson));
+            const packageJson = JSON.parse(await FileSystem.readFile(pathToPackageJson));
 
             packageJson.name = '@vokus/' + name;
             packageJson.description = '@vokus/' + name;
@@ -42,7 +39,7 @@ class UpdatePackages {
                 url: 'https://github.com/vokus/vokus',
             };
 
-            await fileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
+            await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
             await ncu.run({
                 packageFile: pathToPackageJson,
@@ -63,11 +60,11 @@ class UpdatePackages {
                 '!*.d.ts' +
                 '\n';
 
-            await fileSystem.writeFile(pathToNpmIgnore, npmignoreContent);
+            await FileSystem.writeFile(pathToNpmIgnore, npmignoreContent);
 
             const npmrcContent = 'engine-strict=true' + '\n' + 'package-lock=false' + '\n';
 
-            await fileSystem.writeFile(pathToNpmrc, npmrcContent);
+            await FileSystem.writeFile(pathToNpmrc, npmrcContent);
         }
     }
 }

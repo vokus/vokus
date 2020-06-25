@@ -1,40 +1,38 @@
-import { Injectable } from '@vokus/dependency-injection';
 import nodeFs from 'fs';
 import nodePath from 'path';
 
-@Injectable()
 export class FileSystem {
-    async appendFile(path: string, data: string): Promise<void> {
+    static async appendFile(path: string, data: string): Promise<void> {
         return nodeFs.promises.appendFile(path, data, 'utf8');
     }
 
-    appendFileSync(path: string, data: string): void {
+    static appendFileSync(path: string, data: string): void {
         return nodeFs.appendFileSync(path, data, 'utf8');
     }
 
-    createWriteStream(path: string): nodeFs.WriteStream {
+    static createWriteStream(path: string): nodeFs.WriteStream {
         return nodeFs.createWriteStream(path);
     }
 
-    copyFileSync(src: string, dest: string, flags?: number): void {
+    static copyFileSync(src: string, dest: string, flags?: number): void {
         this.ensureFileExistsSync(dest);
         return nodeFs.copyFileSync(src, dest, flags);
     }
 
-    async copyFile(src: string, dest: string, flags?: number): Promise<void> {
+    static async copyFile(src: string, dest: string, flags?: number): Promise<void> {
         await this.ensureFileExists(dest);
         return nodeFs.promises.copyFile(src, dest, flags);
     }
 
-    async ensureDirectoryExists(path: string): Promise<string> {
+    static async ensureDirectoryExists(path: string): Promise<string> {
         return nodeFs.promises.mkdir(path, { recursive: true });
     }
 
-    ensureDirectoryExistsSync(path: string): string {
+    static ensureDirectoryExistsSync(path: string): string {
         return nodeFs.mkdirSync(path, { recursive: true });
     }
 
-    async ensureFileExists(path: string): Promise<void> {
+    static async ensureFileExists(path: string): Promise<void> {
         try {
             await nodeFs.promises.access(path, nodeFs.constants.R_OK);
         } catch (e) {
@@ -44,7 +42,7 @@ export class FileSystem {
         return this.appendFile(path, '');
     }
 
-    ensureFileExistsSync(path: string): void {
+    static ensureFileExistsSync(path: string): void {
         try {
             nodeFs.accessSync(path, nodeFs.constants.R_OK);
         } catch (e) {
@@ -54,7 +52,7 @@ export class FileSystem {
         return nodeFs.appendFileSync(path, '');
     }
 
-    async isDirectory(path: string): Promise<boolean> {
+    static async isDirectory(path: string): Promise<boolean> {
         try {
             return (await nodeFs.promises.lstat(path)).isDirectory();
         } catch (err) {
@@ -62,7 +60,7 @@ export class FileSystem {
         }
     }
 
-    isDirectorySync(path: string): boolean {
+    static isDirectorySync(path: string): boolean {
         try {
             return nodeFs.lstatSync(path).isDirectory();
         } catch (err) {
@@ -70,7 +68,7 @@ export class FileSystem {
         }
     }
 
-    async isFile(path: string): Promise<boolean> {
+    static async isFile(path: string): Promise<boolean> {
         try {
             return (await nodeFs.promises.lstat(path)).isFile();
         } catch (err) {
@@ -78,7 +76,7 @@ export class FileSystem {
         }
     }
 
-    isFileSync(path: string): boolean {
+    static isFileSync(path: string): boolean {
         try {
             return nodeFs.lstatSync(path).isFile();
         } catch (err) {
@@ -86,7 +84,7 @@ export class FileSystem {
         }
     }
 
-    async isSymlink(path: string): Promise<boolean> {
+    static async isSymlink(path: string): Promise<boolean> {
         try {
             return (await nodeFs.promises.lstat(path)).isSymbolicLink();
         } catch (err) {
@@ -94,7 +92,7 @@ export class FileSystem {
         }
     }
 
-    isSymlinkSync(path: string): boolean {
+    static isSymlinkSync(path: string): boolean {
         try {
             return nodeFs.lstatSync(path).isSymbolicLink();
         } catch (err) {
@@ -102,7 +100,7 @@ export class FileSystem {
         }
     }
 
-    async isSymlinkToDirectory(path: string): Promise<boolean> {
+    static async isSymlinkToDirectory(path: string): Promise<boolean> {
         try {
             return (await nodeFs.promises.stat(path)).isDirectory() && (await this.isSymlink(path));
         } catch (err) {
@@ -110,19 +108,19 @@ export class FileSystem {
         }
     }
 
-    async readDirectory(path: string): Promise<string[]> {
+    static async readDirectory(path: string): Promise<string[]> {
         return nodeFs.promises.readdir(path, 'utf8');
     }
 
-    async readFile(path: string): Promise<string> {
+    static async readFile(path: string): Promise<string> {
         return nodeFs.promises.readFile(path, 'utf8');
     }
 
-    readFileSync(path: string): string {
+    static readFileSync(path: string): string {
         return nodeFs.readFileSync(path, 'utf8');
     }
 
-    async remove(path: string): Promise<void> {
+    static async remove(path: string): Promise<void> {
         if ((await this.isFile(path)) || (await this.isSymlink(path))) {
             await nodeFs.promises.unlink(path);
         } else if (await this.isDirectory(path)) {
@@ -134,7 +132,7 @@ export class FileSystem {
         }
     }
 
-    removeSync(path: string): void {
+    static removeSync(path: string): void {
         if (this.isFileSync(path) || this.isSymlinkSync(path)) {
             nodeFs.unlinkSync(path);
         } else if (this.isDirectorySync(path)) {
@@ -146,23 +144,23 @@ export class FileSystem {
         }
     }
 
-    async rename(sourcePath: string, targetPath: string): Promise<void> {
+    static async rename(sourcePath: string, targetPath: string): Promise<void> {
         return nodeFs.promises.rename(sourcePath, targetPath);
     }
 
-    async symlink(sourcePath: string, targetPath: string): Promise<void> {
+    static async symlink(sourcePath: string, targetPath: string): Promise<void> {
         return nodeFs.promises.symlink(sourcePath, targetPath);
     }
 
-    symlinkSync(sourcePath: string, targetPath: string): void {
+    static symlinkSync(sourcePath: string, targetPath: string): void {
         return nodeFs.symlinkSync(sourcePath, targetPath);
     }
 
-    async writeFile(path: string, data: string): Promise<void> {
+    static async writeFile(path: string, data: string): Promise<void> {
         return nodeFs.promises.writeFile(path, data, 'utf8');
     }
 
-    writeFileSync(path: string, data: string): void {
+    static writeFileSync(path: string, data: string): void {
         return nodeFs.writeFileSync(path, data, 'utf8');
     }
 }

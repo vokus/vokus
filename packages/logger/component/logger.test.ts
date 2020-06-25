@@ -1,24 +1,21 @@
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { Logger } from '..';
+import { Logger } from '../index';
 import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 
 const pathToLogDir = path.join(Environment.projectPath, 'var', Environment.context, 'log');
 
 beforeAll(async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    await fileSystem.remove(pathToLogDir);
+    await FileSystem.remove(pathToLogDir);
 });
 
 afterAll(async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    await fileSystem.remove(pathToLogDir);
+    await FileSystem.remove(pathToLogDir);
 });
 
 test('logger', async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    let logger: Logger = new Logger(fileSystem);
+    let logger: Logger = new Logger();
 
     await Promise.all([
         logger.alert('alert message'),
@@ -44,7 +41,7 @@ test('logger', async () => {
         logger.warning('warning message'),
     ]);
 
-    expect(await fileSystem.readDirectory(pathToLogDir)).toEqual([
+    expect(await FileSystem.readDirectory(pathToLogDir)).toEqual([
         'alert.log',
         'component',
         'critical.log',
@@ -56,7 +53,7 @@ test('logger', async () => {
         'warning.log',
     ]);
 
-    expect(await fileSystem.readDirectory(path.join(pathToLogDir, 'component', 'object-manager'))).toEqual([
+    expect(await FileSystem.readDirectory(path.join(pathToLogDir, 'component', 'object-manager'))).toEqual([
         'alert.log',
         'critical.log',
         'debug.log',

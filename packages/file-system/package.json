@@ -10,9 +10,6 @@
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
-    "dependencies": {
-        "@vokus/dependency-injection": "^0.0.5"
-    },
     "publishConfig": {
         "access": "public"
     },

@@ -13,11 +13,6 @@ export class View {
         paths: [],
     };
     protected _templates: { [key: string]: any } = {};
-    protected _fileSystem: FileSystem;
-
-    constructor(fileSystem: FileSystem) {
-        this._fileSystem = fileSystem;
-    }
 
     get config(): ViewConfigInterface {
         return this._config;
@@ -61,11 +56,11 @@ export class View {
     }
 
     protected async _compileTemplates(path: string) {
-        if (await this._fileSystem.isDirectory(path)) {
-            for (const fileName of await this._fileSystem.readDirectory(path)) {
+        if (await FileSystem.isDirectory(path)) {
+            for (const fileName of await FileSystem.readDirectory(path)) {
                 await this._compileTemplates(nodePath.join(path, fileName));
             }
-        } else if (await this._fileSystem.isFile(path)) {
+        } else if (await FileSystem.isFile(path)) {
             this._templates[path] = pug.compileFile(path, {
                 filename: path,
             });

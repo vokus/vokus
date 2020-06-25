@@ -8,17 +8,14 @@ import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 
 beforeAll(async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    await fileSystem.remove(Environment.configPath);
+    await FileSystem.remove(Environment.configPath);
 });
 
 afterAll(async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
-    await fileSystem.remove(Environment.configPath);
+    await FileSystem.remove(Environment.configPath);
 });
 
 test('http-server', async () => {
-    const fileSystem: FileSystem = await ObjectManager.get(FileSystem);
     const httpServer: HttpServer = await ObjectManager.get(HttpServer);
 
     expect(httpServer.listening).toBe(false);
@@ -36,11 +33,11 @@ test('http-server', async () => {
 
     expect(httpServer.listening).toBe(false);
 
-    await fileSystem.copyFile(
+    await FileSystem.copyFile(
         path.join(__dirname, '../self-signed-key.pem'),
         path.join(Environment.configPath, 'http-server', 'key.pem'),
     );
-    await fileSystem.copyFile(
+    await FileSystem.copyFile(
         path.join(__dirname, '../self-signed-cert.pem'),
         path.join(Environment.configPath, 'http-server', 'cert.pem'),
     );
