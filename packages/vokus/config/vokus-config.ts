@@ -1,19 +1,19 @@
 import {
     AccessLoggerMiddleware,
+    AssetViewHelper,
     CookieParserMiddleware,
     ErrorMiddleware,
     NotFoundMiddleware,
     RouteMiddleware,
     StaticMiddleware,
-    UrlViewHelper,
-    AssetViewHelper,
     TranslateViewHelper,
+    UrlViewHelper,
 } from '@vokus/http';
 import { ConfigInterface } from '../interface/config';
 import { SignInController } from '../controller/user/sign-in';
 import path from 'path';
 
-export const CoreConfig: ConfigInterface = {
+export const VokusConfig: ConfigInterface = {
     http: {
         middlewares: [
             {

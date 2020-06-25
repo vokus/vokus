@@ -14,7 +14,6 @@ import { View } from './view';
 import https from 'https';
 import path from 'path';
 
-
 @Injectable()
 export class HttpServer {
     @EnvironmentVariable({
@@ -30,11 +29,7 @@ export class HttpServer {
     protected _logger: Logger;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _config: HttpConfigInterface = {
-        middlewares: [],
-        publicPaths: [],
-        routes: [],
-    };
+    protected _config: HttpConfigInterface = {};
     protected _server: https.Server;
 
     constructor(logger: Logger, view: View) {
@@ -113,7 +108,15 @@ export class HttpServer {
     }
 
     protected async _processConfig(): Promise<void> {
+        if (undefined === this._config.middlewares) {
+            return;
+        }
+
         this._config.middlewares = await ArrayUtil.sortByBeforeAndAfter(this._config.middlewares);
+
+        if (undefined === this._config.middlewares) {
+            return;
+        }
 
         for (const middlewareConfig of this._config.middlewares) {
             if (
@@ -126,8 +129,9 @@ export class HttpServer {
             }
 
             if (
-                middlewareConfig.middleware === StaticMiddleware ||
-                StaticMiddleware.isPrototypeOf(middlewareConfig.middleware)
+                (middlewareConfig.middleware === StaticMiddleware ||
+                    StaticMiddleware.isPrototypeOf(middlewareConfig.middleware)) &&
+                undefined !== this._config.publicPaths
             ) {
                 for (const publicPath of this._config.publicPaths) {
                     const staticMiddleware: StaticMiddleware = new middlewareConfig.middleware();
@@ -145,6 +149,10 @@ export class HttpServer {
     }
 
     protected async _processRoutes(middlewareConfig: MiddlewareConfigInterface): Promise<void> {
+        if (undefined === this._config.routes) {
+            return;
+        }
+
         for (const routeConfiguration of this._config.routes) {
             const routeMiddleware: any = new middlewareConfig.middleware();
 

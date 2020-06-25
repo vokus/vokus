@@ -5,7 +5,7 @@ import { ObjectUtil } from '@vokus/util';
 import { View } from '@vokus/http';
 
 @Injectable()
-export class Application {
+export class Vokus {
     protected _httpServer: HttpServer;
     protected _view: View;
     protected _config: ConfigInterface = {};
@@ -16,15 +16,15 @@ export class Application {
     }
 
     async addConfig(config: ConfigInterface): Promise<void> {
-        ObjectUtil.merge(this._config, config);
+        await ObjectUtil.merge(this._config, config);
     }
 
     async start() {
-        if ('undefined' !== typeof this._config.view) {
+        if (undefined !== this._config.view) {
             await this._view.addConfig(this._config.view);
         }
 
-        if ('undefined' !== typeof this._config.http) {
+        if (undefined !== this._config.http) {
             await this._httpServer.addConfig(this._config.http);
         }
 

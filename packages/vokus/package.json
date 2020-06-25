@@ -1,11 +1,11 @@
 {
-    "name": "@vokus/core",
+    "name": "@vokus/vokus",
     "version": "0.0.5",
-    "description": "@vokus/core",
+    "description": "@vokus/vokus",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/core"
+        "directory": "packages/vokus"
     },
     "license": "MIT",
     "main": "index.js",

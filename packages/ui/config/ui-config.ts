@@ -1,11 +1,9 @@
-import { ConfigInterface } from '@vokus/core';
+import { ConfigInterface } from '@vokus/vokus';
 import { DesignController } from '../controller/vokus/design';
 import path from 'path';
 
 export const UIConfig: ConfigInterface = {
     http: {
-        middlewares: [],
-        publicPaths: [],
         routes: [
             {
                 controller: DesignController,
