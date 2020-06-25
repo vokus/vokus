@@ -1,7 +1,7 @@
 process.env.HTTP_SERVER_PORT = '3000';
 
-import { Application, Config } from '@vokus/app';
-import { Config as AppUiConfig } from '@vokus/app-ui';
+import { CoreConfig, Application } from '@vokus/core';
+import { UIConfig } from '@vokus/ui';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 (async (): Promise<void> => {

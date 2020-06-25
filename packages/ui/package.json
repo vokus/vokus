@@ -1,17 +1,17 @@
 {
-    "name": "@vokus/app-ui",
+    "name": "@vokus/ui",
     "version": "0.0.5",
-    "description": "@vokus/app-ui",
+    "description": "@vokus/ui",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/app-ui"
+        "directory": "packages/ui"
     },
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/app": "^0.0.5",
+        "@vokus/core": "^0.0.5",
         "@vokus/dependency-injection": "^0.0.5",
         "@vokus/http": "^0.0.5"
     },

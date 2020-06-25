@@ -10,7 +10,7 @@ import { ConfigInterface } from '../interface/config';
 import { SignInController } from '../controller/user/sign-in';
 import path from 'path';
 
-export const Config: ConfigInterface = {
+export const CoreConfig: ConfigInterface = {
     http: {
         middlewares: [
             {
