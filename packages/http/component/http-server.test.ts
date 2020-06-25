@@ -1,5 +1,3 @@
-process.env.HTTP_SERVER_PORT = '3000';
-
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { HttpClient } from './http-client';

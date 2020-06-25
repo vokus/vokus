@@ -15,6 +15,7 @@ module.exports = {
     errorOnDeprecated: true,
     roots: ['<rootDir>/packages'],
     testEnvironment: 'node',
+    testTimeout: 30000,
     moduleFileExtensions: ['ts', 'js'],
     transform: {
         '^.+\\.ts$': 'ts-jest',

@@ -9,12 +9,12 @@ import {
     TranslateViewHelper,
     UrlViewHelper,
 } from '@vokus/http';
-import { ConfigInterface } from '../interface/config';
+import { CmsConfigInterface } from '../interface/cms-config';
 import { DesignController } from '../controller/vokus/design';
 import { SignInController } from '../controller/user/sign-in';
 import path from 'path';
 
-export const VokusConfig: ConfigInterface = {
+export const CmsConfig: CmsConfigInterface = {
     http: {
         middlewares: [
             {

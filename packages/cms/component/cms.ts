@@ -1,21 +1,21 @@
-import { ConfigInterface } from '../interface/config';
+import { CmsConfigInterface } from '../interface/cms-config';
 import { HttpServer } from '@vokus/http';
 import { Injectable } from '@vokus/dependency-injection';
 import { ObjectUtil } from '@vokus/util';
 import { View } from '@vokus/http';
 
 @Injectable()
-export class Vokus {
+export class Cms {
     protected _httpServer: HttpServer;
     protected _view: View;
-    protected _config: ConfigInterface = {};
+    protected _config: CmsConfigInterface = {};
 
     constructor(httpServer: HttpServer, view: View) {
         this._httpServer = httpServer;
         this._view = view;
     }
 
-    async addConfig(config: ConfigInterface): Promise<void> {
+    async addConfig(config: CmsConfigInterface): Promise<void> {
         await ObjectUtil.merge(this._config, config);
     }
 

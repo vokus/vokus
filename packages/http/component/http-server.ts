@@ -22,7 +22,7 @@ export class HttpServer {
     protected _express: Application;
     protected _selfSigned: boolean;
     protected _config: HttpConfigInterface = {
-        port: 3000,
+        port: 443,
     };
     protected _server: https.Server;
 
@@ -62,6 +62,10 @@ export class HttpServer {
             },
             this._express,
         );
+
+        if (Environment.isInContextTest()) {
+            this._config.port = 5000;
+        }
 
         this._server.listen(this._config.port);
 
