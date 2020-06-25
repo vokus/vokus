@@ -1,8 +1,8 @@
 import { ArrayUtil, ObjectUtil } from '@vokus/util';
-import { Environment, EnvironmentVariable } from '@vokus/environment';
 import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
 import { ControllerInterface } from '../interface/controller';
+import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { HttpConfigInterface } from '../interface/http-config';
 import { Logger } from '@vokus/logger';
@@ -16,20 +16,14 @@ import path from 'path';
 
 @Injectable()
 export class HttpServer {
-    @EnvironmentVariable({
-        default: 443,
-        example: 443,
-        name: 'HTTP_SERVER_PORT',
-        required: true,
-    })
-    protected _port: number;
-
     protected _fileSystem: FileSystem;
     protected _view: View;
     protected _logger: Logger;
     protected _express: Application;
     protected _selfSigned: boolean;
-    protected _config: HttpConfigInterface = {};
+    protected _config: HttpConfigInterface = {
+        port: 3000,
+    };
     protected _server: https.Server;
 
     constructor(logger: Logger, view: View) {
@@ -69,9 +63,9 @@ export class HttpServer {
             this._express,
         );
 
-        this._server.listen(this._port);
+        this._server.listen(this._config.port);
 
-        await this._logger.notice(`started with port ${this._port}`);
+        await this._logger.notice(`started with port ${this._config.port}`);
     }
 
     protected async _setupExpress(): Promise<void> {
@@ -92,7 +86,7 @@ export class HttpServer {
 
     async stop(): Promise<void> {
         this._server.close();
-        await this._logger.notice(`stopped with port ${this._port}`);
+        await this._logger.notice(`stopped with port ${this._config.port}`);
     }
 
     get selfSigned(): boolean {

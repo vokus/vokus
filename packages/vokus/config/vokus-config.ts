@@ -10,6 +10,7 @@ import {
     UrlViewHelper,
 } from '@vokus/http';
 import { ConfigInterface } from '../interface/config';
+import { DesignController } from '../controller/vokus/design';
 import { SignInController } from '../controller/user/sign-in';
 import path from 'path';
 
@@ -47,8 +48,15 @@ export const VokusConfig: ConfigInterface = {
                 middleware: ErrorMiddleware,
             },
         ],
+        port: 3000,
         publicPaths: [path.join(__dirname, '../public')],
         routes: [
+            {
+                controller: DesignController,
+                key: 'vokus/design',
+                method: 'get',
+                path: '/vokus/design',
+            },
             {
                 controller: SignInController,
                 key: 'vokus/user/sign-in',

@@ -31,7 +31,8 @@ class UpdateIndexFiles {
                     filePath.endsWith('.d.ts') ||
                     filePath.endsWith('.test.ts') ||
                     'index.ts' === filePath ||
-                    filePath.startsWith('node_modules')
+                    filePath.startsWith('node_modules/') ||
+                    filePath.startsWith('bin/')
                 ) {
                     continue;
                 }
@@ -39,6 +40,10 @@ class UpdateIndexFiles {
                 filePath = filePath.replace('.ts', '');
 
                 await FileSystem.appendFile(pathToIndexFile, `export * from './${filePath}';\n`);
+            }
+
+            if ('' === (await FileSystem.readFile(pathToIndexFile))) {
+                await FileSystem.remove(pathToIndexFile);
             }
         }
     }
