@@ -5,7 +5,7 @@
         "bootstrap": "lerna bootstrap",
         "example": "ts-node ./packages/example/index.ts",
         "lint": "eslint '*/**/*.ts' --fix",
-        "publish": "npm run setup && npm run update-packages && npm run lint && npm run test && npm run tsc && lerna publish && npm run setup",
+        "publish": "npm run setup && npm run update-packages && npm run update-index-files && npm run lint && npm run test && npm run tsc && lerna publish && npm run setup",
         "setup": "npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap && npm run webpack",
         "shields": "ts-node ./packages/shields",
         "test": "jest --config jest-config.js --detectOpenHandles",
