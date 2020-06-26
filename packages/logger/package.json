@@ -1,6 +1,6 @@
 {
     "name": "@vokus/logger",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "@vokus/logger",
     "repository": {
         "type": "git",
@@ -11,10 +11,10 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/dependency-injection": "^0.0.6",
-        "@vokus/environment": "^0.0.6",
-        "@vokus/file-system": "^0.0.6",
-        "@vokus/util": "^0.0.6",
+        "@vokus/dependency-injection": "^0.0.7",
+        "@vokus/environment": "^0.0.7",
+        "@vokus/file-system": "^0.0.7",
+        "@vokus/util": "^0.0.7",
         "typeorm": "0.2.25"
     },
     "publishConfig": {
