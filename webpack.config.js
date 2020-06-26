@@ -12,7 +12,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: './packages/vokus/public/assets/cms/css/cms.css',
+                            name: './packages/cms/public/assets/cms/css/cms.css',
                             path: __dirname,
                         },
                     },
