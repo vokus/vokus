@@ -9,9 +9,7 @@ import {
     TranslateViewHelper,
     UrlViewHelper,
 } from '@vokus/http';
-import { CmsConfigInterface } from '../interface/cms-config';
-import { DesignController } from '../controller/vokus/design';
-import { SignInController } from '../controller/user/sign-in';
+import { CmsConfigInterface, VokusDesignListController, VokusUserSignInController } from '../index';
 import path from 'path';
 
 export const CmsConfig: CmsConfigInterface = {
@@ -52,13 +50,13 @@ export const CmsConfig: CmsConfigInterface = {
         publicPaths: [path.join(__dirname, '../public')],
         routes: [
             {
-                controller: DesignController,
-                key: 'vokus/design',
+                controller: VokusDesignListController,
+                key: 'vokus/design/list',
                 method: 'get',
-                path: '/vokus/design',
+                path: '/vokus/design/list',
             },
             {
-                controller: SignInController,
+                controller: VokusUserSignInController,
                 key: 'vokus/user/sign-in',
                 method: 'get',
                 path: '/vokus/user/sign-in',

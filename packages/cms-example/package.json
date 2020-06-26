@@ -10,6 +10,7 @@
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
+    "bin": "./bin/cms-example",
     "dependencies": {
         "@vokus/cms": "^0.0.5",
         "@vokus/dependency-injection": "^0.0.5"

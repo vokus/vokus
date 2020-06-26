@@ -1,6 +1,6 @@
 # vokus
 
-[![coverage: 100%](./shields/coverage.svg?sanitize=true)](https://github.com/vokus/vokus)
+[![coverage: 90%](./shields/coverage.svg?sanitize=true)](https://github.com/vokus/vokus)
 [![linter: eslint](./shields/linter.svg?sanitize=true)](https://github.com/vokus/vokus)
 [![code style: prettier](./shields/code-style.svg?sanitize=true)](https://github.com/vokus/vokus)
 
