@@ -1,6 +1,6 @@
 {
     "name": "@vokus/http",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "@vokus/http",
     "repository": {
         "type": "git",
@@ -11,11 +11,11 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/dependency-injection": "^0.0.7",
-        "@vokus/environment": "^0.0.7",
-        "@vokus/file-system": "^0.0.7",
-        "@vokus/logger": "^0.0.7",
-        "@vokus/util": "^0.0.7",
+        "@vokus/dependency-injection": "^0.0.8",
+        "@vokus/environment": "^0.0.8",
+        "@vokus/file-system": "^0.0.8",
+        "@vokus/logger": "^0.0.8",
+        "@vokus/util": "^0.0.8",
         "cookie-parser": "1.4.5",
         "express": "4.17.1",
         "pug": "3.0.0"
