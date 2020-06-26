@@ -12,6 +12,10 @@ export class UrlViewHelper implements ViewHelperInterface {
     }
 
     render(routeKey: string, data: { [key: string]: any }): string {
+        if (this._server.config.routes === undefined) {
+            throw new Error(`no routes defined`);
+        }
+
         let matchingRoute: RouteConfigInterface | undefined = undefined;
 
         for (const route of this._server.config.routes) {

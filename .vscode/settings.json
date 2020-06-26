@@ -7,13 +7,17 @@
     "eslint.format.enable": true,
     "eslint.run": "onSave",
     "files.exclude": {
+        "**/.npmignore": true,
+        "**/.npmrc": true,
         "**/node_modules/": true,
         "packages/**/*.d.ts": true,
-        "packages/**/*.js": true,
-        "**/.npmignore": true,
-        "**/.npmrc": true
+        "packages/**/*.js": true
     },
     "javascript.implicitProjectConfig.experimentalDecorators": true,
     "jestrunner.configPath": "jest-config-vscode.js",
+    "jestrunner.runOptions": [
+        "--no-cache",
+        "--detectOpenHandles"
+    ],
     "npm.enableScriptExplorer": true
 }

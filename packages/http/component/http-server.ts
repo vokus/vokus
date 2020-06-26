@@ -64,7 +64,7 @@ export class HttpServer {
         );
 
         if (Environment.isInContextTest()) {
-            this._config.port = 5000;
+            this._config.port = 3000;
         }
 
         this._server.listen(this._config.port);

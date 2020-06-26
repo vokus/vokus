@@ -14,7 +14,7 @@ afterAll(async () => {
     expect(await FileSystem.isDirectory(pathToTestDir)).toBe(false);
 });
 
-describe('FileSystem', () => {
+describe('file-system', () => {
     test('appendFile', async () => {
         const testPath = path.join(pathToTestDir, 'append-file');
 
@@ -156,6 +156,22 @@ describe('FileSystem', () => {
         expect(await FileSystem.isSymlinkToDirectory(symlinkPath)).toBe(false);
         await FileSystem.symlink(sourcePath, symlinkPath);
         expect(await FileSystem.isSymlinkToDirectory(symlinkPath)).toBe(true);
+    });
+
+    test('listFiles', async () => {
+        const sourcePath = path.join(pathToTestDir, '/list-files/');
+
+        const path1 = path.join(sourcePath, 'test.test');
+        const path2 = path.join(sourcePath, 'test', 'test1.test');
+        const path3 = path.join(sourcePath, 'test', 'test2.test');
+
+        await FileSystem.ensureFileExists(path1);
+        await FileSystem.ensureFileExists(path2);
+        await FileSystem.ensureFileExists(path3);
+
+        await FileSystem.ensureDirectoryExists(sourcePath);
+
+        expect((await FileSystem.listFiles(sourcePath)).length).toBe(3);
     });
 
     test('readDirectory', async () => {

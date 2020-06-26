@@ -108,6 +108,23 @@ export class FileSystem {
         }
     }
 
+    // TODO: optimize and use readDirectory
+    static async listFiles(path: string): Promise<string[]> {
+        let files: string[] = [];
+
+        for (const entry of await this.readDirectory(path)) {
+            const pathOfEntry = nodePath.join(path, entry);
+
+            if (await this.isDirectory(pathOfEntry)) {
+                files = files.concat(await this.listFiles(pathOfEntry));
+            } else {
+                files.push(pathOfEntry);
+            }
+        }
+
+        return files;
+    }
+
     static async readDirectory(path: string): Promise<string[]> {
         return nodeFs.promises.readdir(path, 'utf8');
     }
@@ -162,21 +179,5 @@ export class FileSystem {
 
     static writeFileSync(path: string, data: string): void {
         return nodeFs.writeFileSync(path, data, 'utf8');
-    }
-
-    static async listFiles(path: string, deep = true): Promise<string[]> {
-        let files: string[] = [];
-
-        for (const entry of await this.readDirectory(path)) {
-            const pathOfEntry = nodePath.join(path, entry);
-
-            if (deep && (await this.isDirectory(pathOfEntry))) {
-                files = files.concat(await this.listFiles(pathOfEntry));
-            } else if (await this.isFile(pathOfEntry)) {
-                files.push(pathOfEntry);
-            }
-        }
-
-        return files;
     }
 }
