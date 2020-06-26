@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { CmsExample } from '../component/cms-example';
 import { ObjectManager } from '@vokus/dependency-injection';
 
