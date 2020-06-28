@@ -4,7 +4,9 @@ process.env.TEST_DECORATOR_STRING = 'test';
 process.env.TEST_INVALID_NUMBER_2 = 'test';
 process.env.TEST_INVALID_STRING_3 = 'any other string';
 
-import { Environment, EnvironmentVariable, EnvironmentVariableInterface } from '../index';
+import { Environment } from './environment';
+import { EnvironmentVariable } from '../decorator/environment-variable';
+import { EnvironmentVariableInterface } from '../interface/environment-variable';
 import { FileSystem } from '@vokus/file-system';
 import { StringUtil } from '@vokus/util';
 

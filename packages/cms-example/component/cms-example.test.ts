@@ -1,4 +1,4 @@
-import { CmsExample } from '../index';
+import { CmsExample } from './cms-example';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 test('cms', async () => {

@@ -1,4 +1,4 @@
-import { StringUtil } from '../index';
+import { StringUtil } from './string';
 
 describe('string-util', () => {
     test('camelize', () => {

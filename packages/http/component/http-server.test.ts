@@ -1,7 +1,7 @@
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { HttpClient } from './http-client';
-import { HttpServer } from '..';
+import { HttpServer } from './http-server';
 import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 

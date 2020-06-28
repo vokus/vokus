@@ -9,7 +9,9 @@ import {
     TranslateViewHelper,
     UrlViewHelper,
 } from '@vokus/http';
-import { CmsConfigInterface, VokusDesignListController, VokusUserSignInController } from '../index';
+import { CmsConfigInterface } from '../interface/cms-config';
+import { VokusDesignListController } from '../controller/vokus/design/list';
+import { VokusUserSignInController } from '../controller/vokus/user/sign-in';
 import path from 'path';
 
 export const CmsConfig: CmsConfigInterface = {

@@ -1,5 +1,5 @@
 import { Connection, ConnectionOptions, Repository, createConnection } from 'typeorm';
-import { DatabaseConfigInterface } from '../index';
+import { DatabaseConfigInterface } from '../interface/database-config';
 import { Environment } from '@vokus/environment';
 import { Injectable } from '@vokus/dependency-injection';
 import { ObjectUtil } from '@vokus/util';

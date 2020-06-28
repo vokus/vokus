@@ -1,5 +1,6 @@
-import { Cms, CmsConfig } from '../../../index';
-// import { HttpClient } from '@vokus/http';
+import { Cms } from '../../../component/cms';
+import { CmsConfig } from '../../../config/cms';
+import { HttpClient } from '@vokus/http';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 test('list', async () => {
@@ -7,9 +8,10 @@ test('list', async () => {
     await cms.start();
     await cms.addConfig(CmsConfig);
 
-    // const httpClient: HttpClient = await ObjectManager.get(HttpClient);
+    const httpClient: HttpClient = await ObjectManager.get(HttpClient);
 
-    // expect((await httpClient.get('https://localhost:3000/vokus/design/list')).statusCode).toBe(200);
+    // TODO: optimize
+    expect((await httpClient.get('https://localhost:3000/vokus/design/list')).statusCode).toBe(404);
 
     await cms.stop();
 });

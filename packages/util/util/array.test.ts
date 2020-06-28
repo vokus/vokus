@@ -1,4 +1,4 @@
-import { ArrayUtil } from '../index';
+import { ArrayUtil } from './array';
 
 describe('array-util', () => {
     test('sortByBeforeAndAfter with valid data', async () => {

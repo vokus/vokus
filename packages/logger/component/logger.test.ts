@@ -1,6 +1,6 @@
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { Logger } from '../index';
+import { Logger } from './logger';
 import { ObjectManager } from '@vokus/dependency-injection';
 import path from 'path';
 

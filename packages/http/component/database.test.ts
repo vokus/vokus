@@ -1,4 +1,4 @@
-import { Database } from '../index';
+import { Database } from './database';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 test('database', async () => {
