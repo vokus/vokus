@@ -1,4 +1,4 @@
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
 import { Logger } from '../component/logger';
 import { MiddlewareInterface } from '../interface/middleware';
 import { Request } from '../core/request';

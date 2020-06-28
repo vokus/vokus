@@ -1,6 +1,7 @@
 import * as nodePath from 'path';
-import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import { FileSystem } from '@vokus/file-system';
+import { Injectable } from '../decorator/injectable';
+import { ObjectManager } from './object-manager';
 import { ObjectUtil } from '@vokus/util';
 import { ViewConfigInterface } from '../interface/view-config';
 import { ViewHelperInterface } from '../interface/view-helper';

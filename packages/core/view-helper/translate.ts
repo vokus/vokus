@@ -1,4 +1,4 @@
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
 import { ViewHelperInterface } from '../interface/view-helper';
 
 @Injectable()

@@ -1,11 +1,18 @@
-import * as nodePath from 'path';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
-import { Injectable } from '@vokus/dependency-injection';
-import { LogEntity } from '../entity/log.entity';
+import { Injectable } from '../decorator/injectable';
+import { Log } from '../entity/log';
+import { LogRepository } from '../repository/log';
+import nodePath from 'path';
 
 @Injectable()
 export class Logger {
+    protected _logRepository: LogRepository;
+
+    constructor(logRepository: LogRepository) {
+        this._logRepository = logRepository;
+    }
+
     async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }
@@ -61,12 +68,19 @@ export class Logger {
         // remove line breaks from message
         message = message.replace(/(\r?\n|\r)/gm, ' ');
 
-        const log = new LogEntity(code, date, contextType, contextKey, message);
+        const log = new Log(code, date, contextType, contextKey, message);
 
-        await this._writeLog(log);
+        await this._writeToFileSystem(log);
+        await this._writeToDatabase(log);
     }
 
-    protected async _writeLog(log: LogEntity): Promise<void> {
+    private async _writeToDatabase(log: Log): Promise<boolean> {
+        await this._logRepository.save(log);
+
+        return true;
+    }
+
+    protected async _writeToFileSystem(log: Log): Promise<void> {
         const logFilePaths = [
             nodePath.join(Environment.projectPath, 'var', Environment.context, 'log', log.level + '.log'),
         ];

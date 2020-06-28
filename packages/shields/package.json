@@ -12,7 +12,6 @@
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/core": "^0.0.8",
-        "@vokus/dependency-injection": "^0.0.8",
         "@vokus/environment": "^0.0.8",
         "@vokus/file-system": "^0.0.8"
     },

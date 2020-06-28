@@ -2,7 +2,7 @@ import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { HttpClient } from './http-client';
 import { HttpServer } from './http-server';
-import { ObjectManager } from '@vokus/dependency-injection';
+import { ObjectManager } from './object-manager';
 import path from 'path';
 
 beforeAll(async () => {

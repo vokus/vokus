@@ -12,8 +12,7 @@
     "types": "index.d.ts",
     "bin": "./bin/cms-example.js",
     "dependencies": {
-        "@vokus/cms": "^0.0.8",
-        "@vokus/dependency-injection": "^0.0.8"
+        "@vokus/cms": "^0.0.8"
     },
     "publishConfig": {
         "access": "public"

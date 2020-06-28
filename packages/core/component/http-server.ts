@@ -1,13 +1,14 @@
 import { ArrayUtil, ObjectUtil } from '@vokus/util';
-import { Injectable, ObjectManager } from '@vokus/dependency-injection';
 import express, { Application } from 'express';
 import { ControllerInterface } from '../interface/controller';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { HttpConfigInterface } from '../interface/http-config';
+import { Injectable } from '../decorator/injectable';
 import { Logger } from './logger';
 import { MiddlewareConfigInterface } from '../interface/middleware-config';
 import { MiddlewareInterface } from '../interface/middleware';
+import { ObjectManager } from './object-manager';
 import { RouteMiddleware } from '../middleware/route';
 import { StaticMiddleware } from '../middleware/static';
 import { View } from './view';

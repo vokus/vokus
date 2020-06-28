@@ -1,5 +1,5 @@
 import { HttpServer } from '../component/http-server';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
 import { RouteConfigInterface } from '../interface/route-config';
 import { ViewHelperInterface } from '../interface/view-helper';
 

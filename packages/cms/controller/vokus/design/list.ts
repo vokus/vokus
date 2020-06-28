@@ -1,5 +1,4 @@
-import { ControllerInterface, Request, Response } from '@vokus/core';
-import { Injectable } from '@vokus/dependency-injection';
+import { ControllerInterface, Injectable, Request, Response } from '@vokus/core';
 
 @Injectable()
 export class VokusDesignListController implements ControllerInterface {

@@ -1,5 +1,5 @@
 import https, { RequestOptions } from 'https';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
 
 @Injectable()
 export class HttpClient {

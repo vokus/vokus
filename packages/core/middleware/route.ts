@@ -1,5 +1,5 @@
 import { ControllerInterface } from '../interface/controller';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
 import { MiddlewareInterface } from '../interface/middleware';
 import { Request } from '../core/request';
 import { Response } from '../core/response';

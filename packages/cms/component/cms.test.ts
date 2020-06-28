@@ -1,7 +1,6 @@
+import { HttpClient, ObjectManager } from '@vokus/core';
 import { Cms } from './cms';
 import { CmsConfig } from '../config/cms';
-import { HttpClient } from '@vokus/core';
-import { ObjectManager } from '@vokus/dependency-injection';
 
 test('cms', async () => {
     const cms: Cms = await ObjectManager.get(Cms);

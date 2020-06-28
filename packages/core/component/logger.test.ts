@@ -1,7 +1,7 @@
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { Logger } from './logger';
-import { ObjectManager } from '@vokus/dependency-injection';
+import { ObjectManager } from './object-manager';
 import path from 'path';
 
 const pathToLogDir = path.join(Environment.projectPath, 'var', Environment.context, 'log');
@@ -15,20 +15,7 @@ afterAll(async () => {
 });
 
 test('logger', async () => {
-    let logger: Logger = new Logger();
-
-    await Promise.all([
-        logger.alert('alert message'),
-        logger.critical('critical message'),
-        logger.debug('debug message'),
-        logger.emergency('emergency message'),
-        logger.error('error message'),
-        logger.info('info message'),
-        logger.notice('notice message'),
-        logger.warning('warning message'),
-    ]);
-
-    logger = await ObjectManager.get(Logger);
+    const logger: Logger = await ObjectManager.get(Logger);
 
     await Promise.all([
         logger.alert('alert message'),

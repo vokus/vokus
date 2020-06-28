@@ -1,7 +1,9 @@
 import { Connection, ConnectionOptions, Repository, createConnection } from 'typeorm';
 import { DatabaseConfigInterface } from '../interface/database-config';
 import { Environment } from '@vokus/environment';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
+import { Log } from '../entity/log';
+import { Logger } from './logger';
 import { ObjectUtil } from '@vokus/util';
 import path from 'path';
 
@@ -10,11 +12,14 @@ export class Database {
     protected _config: DatabaseConfigInterface;
     protected _connected = false;
     protected _connection: Connection;
+    protected _logger: Logger;
 
-    constructor() {
+    constructor(logger: Logger) {
+        this._logger = logger;
+
         this._config = {
             database: path.join(Environment.projectPath, 'var/database/database.sqlite'),
-            entities: [],
+            entities: [Log],
             type: 'sqlite',
         };
     }
@@ -55,10 +60,10 @@ export class Database {
         this._connection = await createConnection(options);
 
         if (null === this._connection) {
-            // await this._logger.critical(`can not connect to db "${this._config.database}"`);
+            await this._logger.critical(`can not connect to db "${this._config.database}"`);
         } else {
             this._connected = true;
-            // await this._logger.notice(`connected to db "${this._config.database}"`);
+            await this._logger.notice(`connected to db "${this._config.database}"`);
         }
     }
 

@@ -1,5 +1,5 @@
 import { Database } from './database';
-import { ObjectManager } from '@vokus/dependency-injection';
+import { ObjectManager } from './object-manager';
 
 test('database', async () => {
     const database: Database = await ObjectManager.get(Database);

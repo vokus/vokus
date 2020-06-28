@@ -1,5 +1,5 @@
 import { Environment } from '@vokus/environment';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '../decorator/injectable';
 import { ViewHelperInterface } from '../interface/view-helper';
 import path from 'path';
 
