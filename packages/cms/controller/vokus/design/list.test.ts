@@ -4,8 +4,10 @@ import { CmsConfig } from '../../../config/cms';
 
 test('list', async () => {
     const cms: Cms = await ObjectManager.get(Cms);
-    await cms.start();
+
     await cms.addConfig(CmsConfig);
+
+    await cms.start();
 
     const httpClient: HttpClient = await ObjectManager.get(HttpClient);
 

@@ -3,6 +3,7 @@ import { FileSystem } from '@vokus/file-system';
 import { HttpClient } from './http-client';
 import { HttpServer } from './http-server';
 import { ObjectManager } from './object-manager';
+import { RouteMiddleware } from '../middleware/route';
 import path from 'path';
 
 beforeAll(async () => {
@@ -31,6 +32,8 @@ describe('http-server', () => {
     test('listening', async () => {
         const httpServer: HttpServer = await ObjectManager.get(HttpServer);
 
+        httpServer.addConfig({ port: 3000 });
+
         expect(httpServer.listening).toBe(false);
 
         await httpServer.start();
@@ -42,6 +45,16 @@ describe('http-server', () => {
 
     test('http-server', async () => {
         const httpServer: HttpServer = await ObjectManager.get(HttpServer);
+
+        await httpServer.addConfig({
+            middlewares: [
+                {
+                    key: 'route',
+                    middleware: RouteMiddleware,
+                },
+            ],
+            port: 3000,
+        });
 
         await httpServer.start();
 

@@ -64,10 +64,6 @@ export class HttpServer {
             this._express,
         );
 
-        if (Environment.isInContextTest()) {
-            this._config.port = 3000;
-        }
-
         this._server.listen(this._config.port);
 
         await this._logger.notice(`started with port ${this._config.port}`);
@@ -111,19 +107,16 @@ export class HttpServer {
             return;
         }
 
-        this._config.middlewares = await ArrayUtil.sortByBeforeAndAfter(this._config.middlewares);
+        const middlewareConfigurations: MiddlewareConfigInterface[] = await ArrayUtil.sortByBeforeAndAfter(
+            this._config.middlewares,
+        );
 
-        if (undefined === this._config.middlewares) {
-            return;
-        }
-
-        for (const middlewareConfig of this._config.middlewares) {
+        for (const middlewareConfig of middlewareConfigurations) {
             if (
                 middlewareConfig.middleware === RouteMiddleware ||
                 RouteMiddleware.isPrototypeOf(middlewareConfig.middleware)
             ) {
                 await this._processRoutes(middlewareConfig);
-
                 continue;
             }
 
@@ -137,7 +130,6 @@ export class HttpServer {
                     staticMiddleware.path = publicPath;
                     this._express.use(staticMiddleware.handle.bind(staticMiddleware));
                 }
-
                 continue;
             }
 
