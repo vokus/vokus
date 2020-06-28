@@ -1,6 +1,6 @@
 import { Cms } from '@vokus/cms';
 import { CmsExampleConfig } from '../config/cms-example';
-import { Injectable } from '@vokus/dependency-injection';
+import { Injectable } from '@vokus/core';
 
 @Injectable()
 export class CmsExample {

@@ -11,7 +11,7 @@ import path from 'path';
 export class Database {
     protected _config: DatabaseConfigInterface;
     protected _connected = false;
-    protected _connection: Connection;
+    protected _connection: Connection | undefined;
     protected _logger: Logger;
 
     constructor(logger: Logger) {
@@ -59,10 +59,10 @@ export class Database {
 
         this._connection = await createConnection(options);
 
-        if (null === this._connection) {
+        if (!(this._connection instanceof Connection)) {
+            this._connection = undefined;
             await this._logger.critical(`can not connect to db "${this._config.database}"`);
         } else {
-            this._connected = true;
             await this._logger.notice(`connected to db "${this._config.database}"`);
         }
     }
@@ -71,13 +71,22 @@ export class Database {
         return this._connected;
     }
 
-    getRepository(type: any): Repository<any> {
-        return this._connection.getRepository(type);
+    async getRepository(repository: any): Promise<any | undefined> {
+        if (undefined === this._connection) {
+            return undefined;
+        }
+        return this._connection.getCustomRepository(repository);
     }
 
-    async drop(): Promise<void> {
+    async drop(): Promise<boolean> {
+        if (undefined === this._connection) {
+            return false;
+        }
+
         await this._connection.dropDatabase();
         await this._connection.synchronize();
+
+        return true;
     }
 
     async stop(): Promise<boolean> {

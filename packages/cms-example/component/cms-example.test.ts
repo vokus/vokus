@@ -1,5 +1,5 @@
 import { CmsExample } from './cms-example';
-import { ObjectManager } from '@vokus/dependency-injection';
+import { ObjectManager } from '@vokus/core';
 
 test('cms', async () => {
     const cmsExample: CmsExample = await ObjectManager.get(CmsExample);

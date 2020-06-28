@@ -2,17 +2,10 @@ import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { Injectable } from '../decorator/injectable';
 import { Log } from '../entity/log';
-import { LogRepository } from '../repository/log';
 import nodePath from 'path';
 
 @Injectable()
 export class Logger {
-    protected _logRepository: LogRepository;
-
-    constructor(logRepository: LogRepository) {
-        this._logRepository = logRepository;
-    }
-
     async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }
@@ -75,7 +68,7 @@ export class Logger {
     }
 
     private async _writeToDatabase(log: Log): Promise<boolean> {
-        await this._logRepository.save(log);
+        // await this._logRepository.save(log);
 
         return true;
     }

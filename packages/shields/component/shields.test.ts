@@ -1,4 +1,4 @@
-import { ObjectManager } from '@vokus/dependency-injection';
+import { ObjectManager } from '@vokus/core';
 import { Shields } from './shields';
 
 test('shields', async () => {
