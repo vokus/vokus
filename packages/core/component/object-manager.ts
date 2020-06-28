@@ -85,8 +85,6 @@ export class ObjectManager {
             return meta.instance;
         }
 
-        meta.instantiatedBy = instantiatedByMeta;
-
         const children = Reflect.getMetadata('design:paramtypes', meta.function) || [];
 
         const instancesToInject = [];
@@ -95,13 +93,8 @@ export class ObjectManager {
             instancesToInject.push(await this.createInstance(await this.getMeta(childFunction), meta));
         }
 
-        // instantiate repository
-        if (Repository.prototype.isPrototypeOf(meta.function.prototype)) {
-            meta.instance = getCustomRepository(meta.function);
-        } else {
-            meta.instance = new meta.function(...instancesToInject);
-        }
-
+        meta.instance = new meta.function(...instancesToInject);
+        meta.instantiatedBy = instantiatedByMeta;
         meta.instance.__meta = meta;
 
         return meta.instance;

@@ -86,15 +86,15 @@ export class Logger {
 
         const logRepository: LogRepository = await database.getRepository(LogRepository);
 
-        if (undefined !== logRepository) {
-            for (const log of this._queueForDatabase) {
-                await Promise.all([logRepository.save(log)]);
-            }
+        const log = this._queueForDatabase.shift();
 
-            this._queueForDatabase = [];
-
+        if (log === undefined) {
             return;
         }
+
+        await logRepository.save(log);
+
+        await this._writeToDatabase();
     }
 
     protected async _writeToFileSystem(log: Log): Promise<void> {

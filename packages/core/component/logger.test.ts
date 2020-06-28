@@ -16,7 +16,20 @@ afterAll(async () => {
 });
 
 test('logger', async () => {
-    const logger: Logger = await ObjectManager.get(Logger);
+    let logger: Logger = new Logger();
+
+    await Promise.all([
+        logger.alert('alert message'),
+        logger.critical('critical message'),
+        logger.debug('debug message'),
+        logger.emergency('emergency message'),
+        logger.error('error message'),
+        logger.info('info message'),
+        logger.notice('notice message'),
+        logger.warning('warning message'),
+    ]);
+
+    logger = await ObjectManager.get(Logger);
 
     await Promise.all([
         logger.alert('alert message'),
@@ -53,7 +66,7 @@ test('logger', async () => {
     ]);
 
     const database: Database = await ObjectManager.get(Database);
-    database.start();
+    await database.start();
 
     await Promise.all([
         logger.alert('alert message'),
@@ -66,5 +79,5 @@ test('logger', async () => {
         logger.warning('warning message'),
     ]);
 
-    database.stop();
+    await database.stop();
 });

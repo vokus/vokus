@@ -14,7 +14,7 @@ export class Log {
     @Column({ type: 'text' })
     message: string;
 
-    @Column({ type: 'varchar' })
+    @Column({ length: 40, type: 'varchar' })
     contextType: string | undefined;
 
     @Column({ type: 'varchar' })

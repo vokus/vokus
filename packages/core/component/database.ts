@@ -1,11 +1,9 @@
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { DatabaseConfigInterface } from '../interface/database-config';
-import { Environment } from '@vokus/environment';
 import { Injectable } from '../decorator/injectable';
 import { Log } from '../entity/log';
 import { Logger } from './logger';
 import { ObjectUtil } from '@vokus/util';
-import path from 'path';
 
 @Injectable()
 export class Database {
@@ -16,8 +14,9 @@ export class Database {
     constructor(logger: Logger) {
         this._logger = logger;
 
+        // default configuration use SQlite in memory database
         this._config = {
-            database: path.join(Environment.projectPath, 'var', Environment.context, 'database.sqlite'),
+            database: ':memory:',
             entities: [Log],
             type: 'sqlite',
         };
