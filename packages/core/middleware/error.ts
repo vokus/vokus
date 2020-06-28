@@ -1,5 +1,5 @@
 import { Injectable } from '@vokus/dependency-injection';
-import { Logger } from '@vokus/logger';
+import { Logger } from '../component/logger';
 import { Request } from '../core/request';
 import { Response } from '../core/response';
 

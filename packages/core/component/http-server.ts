@@ -5,7 +5,7 @@ import { ControllerInterface } from '../interface/controller';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { HttpConfigInterface } from '../interface/http-config';
-import { Logger } from '@vokus/logger';
+import { Logger } from './logger';
 import { MiddlewareConfigInterface } from '../interface/middleware-config';
 import { MiddlewareInterface } from '../interface/middleware';
 import { RouteMiddleware } from '../middleware/route';
