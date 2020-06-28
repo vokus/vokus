@@ -14,7 +14,7 @@ export class Database {
     constructor(logger: Logger) {
         this._logger = logger;
 
-        // default configuration use SQlite in memory database
+        // default configuration use sqlite memory database
         this._config = {
             database: ':memory:',
             entities: [Log],
