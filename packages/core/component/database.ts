@@ -55,7 +55,12 @@ export class Database {
             synchronize: true,
         });
 
-        this._connection = await createConnection(options);
+        try {
+            this._connection = await createConnection(options);
+        } catch (err) {
+            this._connection = undefined;
+            await this._logger.critical(String(err));
+        }
 
         if (!(this._connection instanceof Connection)) {
             this._connection = undefined;
@@ -93,6 +98,7 @@ export class Database {
         }
 
         await this._connection.close();
+        this._connection = undefined;
 
         return true;
     }

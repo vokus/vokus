@@ -10,6 +10,7 @@ import pug from 'pug';
 @Injectable()
 export class View {
     protected _config: ViewConfigInterface = {};
+    protected _viewHelpers: { [key: string]: (...args: any) => string };
     protected _templates: { [key: string]: any } = {};
 
     get config(): ViewConfigInterface {
@@ -44,14 +45,19 @@ export class View {
             locals.locale = null;
         }
 
-        locals.view = {};
+        if (this._viewHelpers === undefined) {
+            this._viewHelpers = {};
 
-        if (this._config.helpers !== undefined) {
-            for (const viewHelperConfig of this._config.helpers) {
-                const viewHelper: ViewHelperInterface = await ObjectManager.get(viewHelperConfig.helper);
-                locals.view[viewHelperConfig.key] = viewHelper.render.bind(viewHelper);
+            if (this._config.helpers !== undefined) {
+                for (const viewHelperConfig of this._config.helpers) {
+                    const viewHelper: ViewHelperInterface = await ObjectManager.get(viewHelperConfig.helper);
+
+                    this._viewHelpers[viewHelperConfig.key] = viewHelper.render.bind(viewHelper);
+                }
             }
         }
+
+        locals.view = this._viewHelpers;
 
         try {
             return callback(null, this._templates[filePath](locals, { cache: true }));
