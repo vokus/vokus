@@ -2,10 +2,14 @@ import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { Injectable } from '../decorator/injectable';
 import { Log } from '../entity/log';
+import { LogRepository } from '../repository/log';
+import { ObjectManager } from './object-manager';
 import nodePath from 'path';
 
 @Injectable()
 export class Logger {
+    protected _queueForDatabase: Log[] = [];
+
     async emergency(message: string): Promise<void> {
         await this.log(0, message);
     }
@@ -64,13 +68,33 @@ export class Logger {
         const log = new Log(code, date, contextType, contextKey, message);
 
         await this._writeToFileSystem(log);
-        await this._writeToDatabase(log);
+        await this._addLogToDatabaseQueue(log);
     }
 
-    private async _writeToDatabase(log: Log): Promise<boolean> {
-        // await this._logRepository.save(log);
+    protected async _addLogToDatabaseQueue(log: Log): Promise<void> {
+        this._queueForDatabase.push(log);
 
-        return true;
+        await this._writeToDatabase();
+    }
+
+    protected async _writeToDatabase(): Promise<void> {
+        const database = await ObjectManager.getDatabaseInstance();
+
+        if (database === undefined || database.connection === undefined) {
+            return;
+        }
+
+        const logRepository: LogRepository = await database.getRepository(LogRepository);
+
+        if (undefined !== logRepository) {
+            for (const log of this._queueForDatabase) {
+                await Promise.all([logRepository.save(log)]);
+            }
+
+            this._queueForDatabase = [];
+
+            return;
+        }
     }
 
     protected async _writeToFileSystem(log: Log): Promise<void> {

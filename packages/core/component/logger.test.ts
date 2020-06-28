@@ -1,3 +1,4 @@
+import { Database } from './database';
 import { Environment } from '@vokus/environment';
 import { FileSystem } from '@vokus/file-system';
 import { Logger } from './logger';
@@ -50,4 +51,20 @@ test('logger', async () => {
         'notice.log',
         'warning.log',
     ]);
+
+    const database: Database = await ObjectManager.get(Database);
+    database.start();
+
+    await Promise.all([
+        logger.alert('alert message'),
+        logger.critical('critical message'),
+        logger.debug('debug message'),
+        logger.emergency('emergency message'),
+        logger.error('error message'),
+        logger.info('info message'),
+        logger.notice('notice message'),
+        logger.warning('warning message'),
+    ]);
+
+    database.stop();
 });

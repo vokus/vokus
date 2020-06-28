@@ -1,4 +1,4 @@
-import { Connection, ConnectionOptions, Repository, createConnection } from 'typeorm';
+import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { DatabaseConfigInterface } from '../interface/database-config';
 import { Environment } from '@vokus/environment';
 import { Injectable } from '../decorator/injectable';
@@ -10,7 +10,6 @@ import path from 'path';
 @Injectable()
 export class Database {
     protected _config: DatabaseConfigInterface;
-    protected _connected = false;
     protected _connection: Connection | undefined;
     protected _logger: Logger;
 
@@ -18,7 +17,7 @@ export class Database {
         this._logger = logger;
 
         this._config = {
-            database: path.join(Environment.projectPath, 'var/database/database.sqlite'),
+            database: path.join(Environment.projectPath, 'var', Environment.context, 'database.sqlite'),
             entities: [Log],
             type: 'sqlite',
         };
@@ -53,7 +52,7 @@ export class Database {
                 break;
         }
 
-        Object.assign(this._config, {
+        Object.assign(options, {
             synchronize: true,
         });
 
@@ -67,8 +66,8 @@ export class Database {
         }
     }
 
-    get connected(): boolean {
-        return this._connected;
+    get connection(): Connection | undefined {
+        return this._connection;
     }
 
     async getRepository(repository: any): Promise<any | undefined> {

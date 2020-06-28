@@ -126,4 +126,17 @@ export class ObjectManager {
             }
         }
     }
+
+    static async getDatabaseInstance(): Promise<any> {
+        for (let meta of this._metaData) {
+            if (meta.replacedBy !== undefined) {
+                meta = meta.replacedBy;
+            }
+            if ('function' === typeof meta.function.prototype.getRepository && meta.instance !== undefined) {
+                return meta.instance;
+            }
+        }
+
+        return undefined;
+    }
 }
