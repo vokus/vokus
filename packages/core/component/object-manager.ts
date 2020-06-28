@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-
+import { Repository, getCustomRepository } from 'typeorm';
 import { StringUtil } from '@vokus/util';
 
 type Meta = {
@@ -69,7 +69,6 @@ export class ObjectManager {
             meta = meta.replacedBy;
         }
 
-        // create a new instance if is type of logger
         if (
             'function' === typeof meta.function.prototype.emergency &&
             'function' === typeof meta.function.prototype.alert &&
@@ -80,6 +79,7 @@ export class ObjectManager {
             'function' === typeof meta.function.prototype.info &&
             'function' === typeof meta.function.prototype.debug
         ) {
+            // create a new instance if is type of logger
             meta = Object.assign({}, meta);
         } else if (undefined !== meta.instance) {
             return meta.instance;
@@ -95,7 +95,13 @@ export class ObjectManager {
             instancesToInject.push(await this.createInstance(await this.getMeta(childFunction), meta));
         }
 
-        meta.instance = new meta.function(...instancesToInject);
+        // instantiate repository
+        if (Repository.prototype.isPrototypeOf(meta.function.prototype)) {
+            meta.instance = getCustomRepository(meta.function);
+        } else {
+            meta.instance = new meta.function(...instancesToInject);
+        }
+
         meta.instance.__meta = meta;
 
         return meta.instance;
