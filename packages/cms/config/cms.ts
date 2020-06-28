@@ -8,7 +8,7 @@ import {
     StaticMiddleware,
     TranslateViewHelper,
     UrlViewHelper,
-} from '@vokus/http';
+} from '@vokus/core';
 import { CmsConfigInterface } from '../interface/cms-config';
 import { VokusDesignListController } from '../controller/vokus/design/list';
 import { VokusUserSignInController } from '../controller/vokus/user/sign-in';

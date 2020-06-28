@@ -1,8 +1,7 @@
+import { HttpServer, View } from '@vokus/core';
 import { CmsConfigInterface } from '../interface/cms-config';
-import { HttpServer } from '@vokus/http';
 import { Injectable } from '@vokus/dependency-injection';
 import { ObjectUtil } from '@vokus/util';
-import { View } from '@vokus/http';
 
 @Injectable()
 export class Cms {

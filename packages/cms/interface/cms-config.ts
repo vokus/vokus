@@ -1,4 +1,4 @@
-import { HttpConfigInterface, ViewConfigInterface } from '@vokus/http';
+import { HttpConfigInterface, ViewConfigInterface } from '@vokus/core';
 
 export interface CmsConfigInterface {
     http?: HttpConfigInterface;

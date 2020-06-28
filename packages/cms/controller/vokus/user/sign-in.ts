@@ -1,4 +1,4 @@
-import { ControllerInterface, Request, Response } from '@vokus/http';
+import { ControllerInterface, Request, Response } from '@vokus/core';
 import { Injectable } from '@vokus/dependency-injection';
 
 @Injectable()

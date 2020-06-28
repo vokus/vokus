@@ -1,6 +1,6 @@
 import { Cms } from '../../../component/cms';
 import { CmsConfig } from '../../../config/cms';
-import { HttpClient } from '@vokus/http';
+import { HttpClient } from '@vokus/core';
 import { ObjectManager } from '@vokus/dependency-injection';
 
 test('list', async () => {
