@@ -1,4 +1,4 @@
-import { Cms } from '@vokus/cms';
+import { Cms, CmsConfig } from '@vokus/cms';
 import { CmsExampleConfig } from '../config/cms-example';
 import { Injectable } from '@vokus/core';
 
@@ -11,6 +11,7 @@ export class CmsExample {
     }
 
     async start() {
+        await this._cms.addConfig(CmsConfig);
         await this._cms.addConfig(CmsExampleConfig);
         await this._cms.start();
     }
