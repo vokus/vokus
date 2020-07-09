@@ -12,7 +12,7 @@ test('list', async () => {
     const httpClient: HttpClient = await ObjectManager.get(HttpClient);
 
     // TODO: optimize
-    expect((await httpClient.get('https://localhost:3000/vokus/design/list')).statusCode).toBe(404);
+    expect((await httpClient.get('https://localhost:3000/vokus/design/list')).statusCode).toBe(200);
 
     await cms.stop();
 });
