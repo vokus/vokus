@@ -5,10 +5,10 @@ import path from 'path';
 
 @Injectable()
 export class Shields {
-    protected httpClient: HttpClient;
+    protected _httpClient: HttpClient;
 
     constructor(httpClient: HttpClient) {
-        this.httpClient = httpClient;
+        this._httpClient = httpClient;
     }
 
     async start(): Promise<void> {
@@ -36,7 +36,7 @@ export class Shields {
                 '&style=' +
                 shield.style;
 
-            const res = await this.httpClient.get(url);
+            const res = await this._httpClient.get(url);
 
             await FileSystem.writeFile(pathToShield, res.body);
         }
