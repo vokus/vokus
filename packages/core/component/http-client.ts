@@ -3,10 +3,10 @@ import { Injectable } from '../decorator/injectable';
 
 @Injectable()
 export class HttpClient {
-    protected _options: RequestOptions = {};
+    private options: RequestOptions = {};
 
     constructor() {
-        this._options.rejectUnauthorized = false; // TODO: find better way
+        this.options.rejectUnauthorized = false; // TODO: find better way
     }
 
     async get(url: string): Promise<{ statusCode: number; body: string }> {
@@ -16,7 +16,7 @@ export class HttpClient {
             host: parsedUrl.host,
             hostname: parsedUrl.hostname,
             method: 'GET',
-            path: parsedUrl.pathname,
+            path: parsedUrl.pathname + parsedUrl.search,
             port: parsedUrl.port,
         };
 
@@ -24,7 +24,7 @@ export class HttpClient {
     }
 
     async request(options: RequestOptions): Promise<{ statusCode: number; body: string }> {
-        options = Object.assign(this._options, options);
+        options = Object.assign(this.options, options);
 
         options.protocol = 'https:';
 

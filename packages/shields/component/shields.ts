@@ -5,10 +5,10 @@ import path from 'path';
 
 @Injectable()
 export class Shields {
-    protected _httpClient: HttpClient;
+    protected httpClient: HttpClient;
 
     constructor(httpClient: HttpClient) {
-        this._httpClient = httpClient;
+        this.httpClient = httpClient;
     }
 
     async start(): Promise<void> {
@@ -26,16 +26,17 @@ export class Shields {
 
             await FileSystem.ensureFileExists(pathToShield);
 
-            const res = await this._httpClient.get(
+            const url =
                 'https://img.shields.io/static/v1?label=' +
-                    shield.label +
-                    '&message=' +
-                    shield.message +
-                    '&color=' +
-                    shield.color +
-                    '&style=' +
-                    shield.style,
-            );
+                shield.label +
+                '&message=' +
+                shield.message +
+                '&color=' +
+                shield.color +
+                '&style=' +
+                shield.style;
+
+            const res = await this.httpClient.get(url);
 
             await FileSystem.writeFile(pathToShield, res.body);
         }
