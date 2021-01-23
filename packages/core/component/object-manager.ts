@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { Repository, getCustomRepository } from 'typeorm';
 import { StringUtil } from '@vokus/util';
 
 type Meta = {
