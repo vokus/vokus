@@ -53,16 +53,6 @@ describe('file-system', () => {
         expect(FileSystem.isFileSync(testDest)).toBe(true);
     });
 
-    test('createWriteStream', async () => {
-        const testPath = path.join(pathToTestDir, 'create-write-stream');
-        const file = FileSystem.createWriteStream(testPath);
-
-        file.write('hello');
-        file.end();
-
-        expect(await FileSystem.readFile(testPath)).toBe('hello');
-    });
-
     test('ensureDirectoryExists', async () => {
         const testPath = path.join(pathToTestDir, 'ensure-directory-exists');
 

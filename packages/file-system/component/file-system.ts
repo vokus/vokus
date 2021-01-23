@@ -10,10 +10,6 @@ export class FileSystem {
         return nodeFs.appendFileSync(path, data, 'utf8');
     }
 
-    static createWriteStream(path: string): nodeFs.WriteStream {
-        return nodeFs.createWriteStream(path);
-    }
-
     static copyFileSync(src: string, dest: string, flags?: number): void {
         this.ensureFileExistsSync(dest);
         return nodeFs.copyFileSync(src, dest, flags);
