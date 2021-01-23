@@ -13,11 +13,10 @@
         "packages/**/*.d.ts": true,
         "packages/**/*.js": true
     },
-    "javascript.implicitProjectConfig.experimentalDecorators": true,
     "jestrunner.configPath": "jest-config-vscode.js",
     "jestrunner.runOptions": [
         "--no-cache",
         "--detectOpenHandles"
     ],
-    "npm.enableScriptExplorer": true
+    "js/ts.implicitProjectConfig.experimentalDecorators": true
 }
