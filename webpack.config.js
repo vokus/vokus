@@ -2,7 +2,7 @@ const autoprefixer = require('autoprefixer');
 
 module.exports = {
     // entry: ['.packages/ui/scss/site.scss', './app.js'],
-    entry: ['./packages/cms/scss/cms.scss'],
+    entry: ['./packages/app/scss/app.scss'],
     mode: 'production',
     module: {
         rules: [
@@ -12,18 +12,19 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: './packages/cms/public/assets/cms/css/cms.css',
+                            name: './packages/app/public/assets/app/css/app.css',
                             path: __dirname,
                         },
                     },
                     { loader: 'extract-loader' },
                     { loader: 'css-loader' },
+                    /* TODO: fix
                     {
                         loader: 'postcss-loader',
                         options: {
                             plugins: () => [autoprefixer()],
                         },
-                    },
+                    },*/
                     {
                         loader: 'sass-loader',
                         options: {
@@ -42,7 +43,7 @@ module.exports = {
             },
             {
                 loader: 'babel-loader',
-                query: {
+                options: {
                     presets: ['@babel/preset-env'],
                 },
                 test: /\.js$/,
@@ -50,7 +51,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: './packages/cms/public/assets/cms/js/cms.js',
+        filename: './packages/app/public/assets/app/js/app.js',
         path: __dirname,
     },
 };

@@ -1,17 +1,17 @@
 import { HttpClient, ObjectManager } from '@vokus/core';
-import { Cms } from './cms';
-import { CmsConfig } from '../config/cms';
+import { App } from './app';
+import { AppConfig } from '../config/app';
 
-test('cms', async () => {
-    const cms: Cms = await ObjectManager.get(Cms);
+test('app', async () => {
+    const app: App = await ObjectManager.get(App);
 
-    await cms.addConfig(CmsConfig);
-    await cms.start();
+    await app.addConfig(AppConfig);
+    await app.start();
 
     const httpClient: HttpClient = await ObjectManager.get(HttpClient);
 
     expect((await httpClient.get('https://localhost:3000/')).statusCode).toBe(404);
     expect((await httpClient.get('https://localhost:3000/vokus/user/sign-in')).statusCode).toBe(200);
 
-    await cms.stop();
+    await app.stop();
 });

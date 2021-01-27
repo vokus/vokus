@@ -1,19 +1,18 @@
 {
-    "name": "@vokus/cms-example",
+    "name": "@vokus/app",
     "version": "0.0.9",
-    "description": "@vokus/cms-example",
+    "description": "@vokus/app",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/cms-example"
+        "directory": "packages/app"
     },
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
-    "bin": "./bin/cms-example.js",
     "dependencies": {
-        "@vokus/cms": "^0.0.9",
-        "@vokus/core": "^0.0.9"
+        "@vokus/core": "^0.0.9",
+        "@vokus/util": "^0.0.9"
     },
     "publishConfig": {
         "access": "public"

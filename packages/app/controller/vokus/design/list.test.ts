@@ -1,18 +1,18 @@
 import { HttpClient, ObjectManager } from '@vokus/core';
-import { Cms } from '../../../component/cms';
-import { CmsConfig } from '../../../config/cms';
+import { App } from '../../../component/app';
+import { AppConfig } from '../../../config/app';
 
 test('list', async () => {
-    const cms: Cms = await ObjectManager.get(Cms);
+    const app: App = await ObjectManager.get(App);
 
-    await cms.addConfig(CmsConfig);
+    await app.addConfig(AppConfig);
 
-    await cms.start();
+    await app.start();
 
     const httpClient: HttpClient = await ObjectManager.get(HttpClient);
 
     // TODO: optimize
     expect((await httpClient.get('https://localhost:3000/vokus/design/list')).statusCode).toBe(200);
 
-    await cms.stop();
+    await app.stop();
 });

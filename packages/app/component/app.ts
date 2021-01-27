@@ -1,19 +1,19 @@
 import { HttpServer, Injectable, View } from '@vokus/core';
-import { CmsConfigInterface } from '../interface/cms-config';
+import { AppConfigInterface } from '../interface/app-config';
 import { ObjectUtil } from '@vokus/util';
 
 @Injectable()
-export class Cms {
+export class App {
     protected _httpServer: HttpServer;
     protected _view: View;
-    protected _config: CmsConfigInterface = {};
+    protected _config: AppConfigInterface = {};
 
     constructor(httpServer: HttpServer, view: View) {
         this._httpServer = httpServer;
         this._view = view;
     }
 
-    async addConfig(config: CmsConfigInterface): Promise<void> {
+    async addConfig(config: AppConfigInterface): Promise<void> {
         await ObjectUtil.merge(this._config, config);
     }
 

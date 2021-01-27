@@ -1,6 +1,6 @@
 import { HttpConfigInterface, ViewConfigInterface } from '@vokus/core';
 
-export interface CmsConfigInterface {
+export interface AppConfigInterface {
     http?: HttpConfigInterface;
     view?: ViewConfigInterface;
 }
