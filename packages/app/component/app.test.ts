@@ -5,6 +5,9 @@ import { AppConfig } from '../config/app';
 test('app', async () => {
     const app: App = await ObjectManager.get(App);
 
+    await app.start();
+    await app.stop();
+
     await app.addConfig(AppConfig);
     await app.start();
 
