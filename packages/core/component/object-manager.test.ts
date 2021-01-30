@@ -1,5 +1,3 @@
-// TODO: optimize
-
 import { Injectable } from '../decorator/injectable';
 import { ObjectManager } from './object-manager';
 
@@ -56,6 +54,20 @@ class TestLogger {
 
     async debug(message: string): Promise<void> {
         message;
+    }
+}
+
+@Injectable()
+class Database1 {
+    getRepository() {
+        return null;
+    }
+}
+
+@Injectable()
+class Database2 extends Database1 {
+    getRepository() {
+        return null;
     }
 }
 
@@ -128,4 +140,8 @@ test('container', async () => {
     expect(test4Component.test1Component instanceof Test3Component).toBe(true);
 
     expect(test4Component.test1Route.test1Config instanceof Test3Config).toBe(true);
+
+    await ObjectManager.getDatabaseInstance();
+    await ObjectManager.get(Database2);
+    await ObjectManager.getDatabaseInstance();
 });
