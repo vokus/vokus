@@ -19,7 +19,7 @@
         "mysql": "2.18.1",
         "pug": "3.0.0",
         "sqlite3": "5.0.1",
-        "typeorm": "0.2.30"
+        "typeorm": "0.2.31"
     },
     "devDependencies": {
         "@types/cookie-parser": "1.4.2",
