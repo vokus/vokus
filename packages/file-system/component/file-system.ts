@@ -20,11 +20,11 @@ export class FileSystem {
         return nodeFs.promises.copyFile(src, dest, flags);
     }
 
-    static async ensureDirectoryExists(path: string): Promise<string> {
+    static async ensureDirectoryExists(path: string): Promise<string | undefined> {
         return nodeFs.promises.mkdir(path, { recursive: true });
     }
 
-    static ensureDirectoryExistsSync(path: string): string {
+    static ensureDirectoryExistsSync(path: string): string | undefined {
         return nodeFs.mkdirSync(path, { recursive: true });
     }
 
