@@ -28,14 +28,12 @@ module.exports = {
                     {
                         loader: 'sass-loader',
                         options: {
-                            // Prefer Dart Sass
                             implementation: require('sass'),
-
                             sassOptions: {
                                 includePaths: ['./node_modules'],
                             },
 
-                            // See https://github.com/webpack-contrib/sass-loader/issues/804
+                            // see https://github.com/webpack-contrib/sass-loader/issues/804
                             webpackImporter: false,
                         },
                     },
