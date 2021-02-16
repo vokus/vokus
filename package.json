@@ -45,6 +45,6 @@
         "webpack-cli": "4.5.0"
     },
     "engines": {
-        "node": ">= 15.7"
+        "node": ">= 15.8"
     }
 }
