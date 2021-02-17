@@ -11,7 +11,7 @@
         "**/.npmrc": true,
         "**/node_modules/": true,
         "packages/**/*.d.ts": true,
-        "packages/**/*.js": true
+        //"packages/**/*.js": true,
     },
     "jestrunner.configPath": "jest-config-vscode.js",
     "jestrunner.runOptions": [

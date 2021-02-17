@@ -1,0 +1,63 @@
+.form-group {
+
+    position: relative;
+    width:100%;
+    margin-bottom:30px;
+
+    label {
+        padding-left: 6px;
+        font-size: 12px;
+    }
+
+    input {
+        box-sizing: border-box;
+        line-height: 30px;
+        background: $color-light-grey;
+        border: 1px solid rgba($color-dark-blue, 0.2);
+        outline: none;
+        color: $color-dark-grey;
+        padding: 5px;
+        height: 30px;
+        width: 100%;
+        border-radius: 2px;
+
+        &.has-error {
+            border: 1px solid rgba($color-red, 1);
+        }
+    }
+
+    input:focus {
+        width: 100%;
+        border: 1px solid rgba($color-dark-blue, 0.5);
+
+        &::placeholder {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+    }
+
+    input::placeholder {
+        color: rgba($color-dark-grey, 0.5);
+    }
+}
+
+button[type="submit"] {
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    outline: none;
+    color: $color-white;
+    background: $color-pink;
+    line-height: 40px;
+    width:100%;
+    cursor: pointer;
+    border-radius: 2px;
+    text-shadow: 0px 1px 3px rgba(#000000,0.6);
+    margin-bottom: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: $color-orange;
+    transition: all 0.5s ease;
+}

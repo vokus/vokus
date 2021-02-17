@@ -2,6 +2,7 @@
 **/*.env
 node_modules/
 *.log
+/packages/app/public/assets/**/*
 /packages/**/*.css
 /packages/**/*.js
 /packages/**/*.d.ts

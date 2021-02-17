@@ -1,0 +1,113 @@
+.typecast-toolbar-left {
+    min-width: 220px;
+    max-width: 220px;
+    height: 100%;
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0px;
+    background-color: $color-dark-blue;
+    box-shadow: inset 0px 0px 5px 0px rgba($color-black, 0.1);
+}
+.typecast-toolbar-left-brand-name {
+    width: 250px;
+    height: 56px;
+    line-height: 64px;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: $color-white;
+}
+.typecast-toolbar-left-navigation {
+    ul {
+        display: block;
+        width: 100%;
+
+        li {
+            width: 100%;
+            display: block;
+
+            &.active {
+                a {
+                    background-color: darken($color-dark-blue, 6%);
+                }
+            }
+
+            span {
+                text-transform: uppercase;
+                padding-left: 20px;
+                color: lighten($color-dark-blue, 30%);
+                font-size: 11px;
+            }
+
+            a {
+                width: 100%;
+                display: block;
+                height: 40px;
+                line-height: 40px;
+                color: $color-white;
+                padding-left: 20px;
+                font-size: 12px;
+                position: relative;
+                box-sizing: border-box;
+                text-decoration: none;
+                cursor: pointer;
+                &:hover {
+                    background-color: darken($color-dark-blue, 6%);
+                }
+            }
+        }
+    }
+
+    ul {
+        > li {
+            > ul {
+                > li.has-children {
+                    ul {
+                        display: none;
+                    }
+
+                    &.open {
+                        ul {
+                            display: block;
+
+                            li {
+                                a {
+                                    background-color: darken($color-dark-blue, 3%);
+                                    &:hover {
+                                        background-color: darken($color-dark-blue, 6%);
+                                    }
+                                }
+
+                                &.active {
+                                    a {
+                                        background-color: darken($color-dark-blue, 6%);
+                                    }
+                                }
+                            }
+                        }
+
+                        > a {
+                            &:before {
+                                content: '\f077';
+                            }
+                        }
+                    }
+
+                    > a {
+                        &:before {
+                            position: absolute;
+                            right: 20px;
+                            top: 2px;
+                            content: '\f078';
+                            font-family: 'Font Awesome 5 Free';
+                            display: inline-block;
+                            font-size: 12px;
+                            font-weight: 900;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

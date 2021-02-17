@@ -1,0 +1,23 @@
+.table-wrapper {
+    width: 100%;
+    overflow-x: scroll;
+    margin: 0px 0px 20px 0px;
+}
+table {
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-collapse: collapse;
+    padding: 0px;
+}
+th,
+td {
+    border: 1px solid darken($color-white, 10%);
+    padding: 10px 10px 10px 10px;
+}
+tr {
+    background-color: darken($color-light-grey, 3%);
+}
+tr:nth-child(odd) {
+    background-color: $color-light-grey;
+}

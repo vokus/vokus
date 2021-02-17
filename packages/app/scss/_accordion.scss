@@ -1,0 +1,58 @@
+.accordion {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+}
+.accordion-header {
+    border: 1px solid darken($color-white, 10%);
+    background-color: $color-light-grey;
+    padding: 20px 10px 20px 10px;
+    cursor: pointer;
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+
+    &:before {
+        position: absolute;
+        top: 4px;
+        right: 0px;
+        width: 56px;
+        height: 56px;
+        font-size: 20px;
+        line-height: 56px;
+        text-align: center;
+        display: block;
+        content: '\f078';
+        font-weight: 900;
+        font-family: 'Font Awesome 5 Free';
+        color: $color-dark-blue;
+    }
+}
+.accordion-element {
+    &.open {
+        .accordion-header {
+            &:before {
+                content: '\f077';
+            }
+        }
+        .accordion-body {
+            display: block;
+        }
+    }
+    margin-bottom: 4px;
+}
+.accordion-header > * {
+    margin: 0px;
+    padding: 0px;
+}
+.accordion-body {
+    display: none;
+    border: 1px solid darken($color-white, 10%);
+    border-top: none;
+    background-color: $color-light-grey;
+    padding: 20px 10px 20px 10px;
+}
+.accordion-body > :last-child {
+    padding: 0px;
+    margin: 0px;
+}

@@ -1,0 +1,39 @@
+.typecast-toolbar-top {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 56px;
+    background-color: $color-light-grey;
+    border-bottom: 1px solid darken($color-white, 10%);
+    //background: linear-gradient(135deg, lighten($color-blue, 5%) 0%, darken($color-blue, 5%) 100%);
+}
+.typecast-toolbar-top-left {
+    float: left;
+    padding-left: 250px;
+}
+.typecast-toolbar-top-right {
+    float: right;
+}
+.typecast-toolbar-top-right-sign-out {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    display: inline-block;
+
+    &:before {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+        line-height: 56px;
+        text-align: center;
+        display: block;
+        content: '\f2f5';
+        font-weight: 900;
+        font-family: 'Font Awesome 5 Free';
+        color: $color-dark-blue;
+    }
+}

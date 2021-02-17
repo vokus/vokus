@@ -1,0 +1,30 @@
+.typecast-page-panel {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    position: fixed;
+    background: linear-gradient(135deg, lighten($color-dark-blue, 10%) 0%, darken($color-dark-blue, 10%) 100%);
+
+    .typecast-panel {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 360px;
+        border-radius: 2px;
+        background-color: $color-white;
+        box-shadow: 0 10px 40px 0 rgba($color-black, 0.05), 0 2px 8px 0 rgba($color-black, 0.07);
+    }
+
+    .typecast-panel-content {
+        padding: 30px 30px 10px 30px;
+    }
+
+    .typecast-panel-footer {
+        padding: 20px 30px 20px 30px;
+        font-size: 12px;
+        border-top: 1px solid rgba($color-dark-blue, 0.2);
+        text-decoration: none;
+        display: block;
+    }
+}
