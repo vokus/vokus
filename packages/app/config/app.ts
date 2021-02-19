@@ -49,7 +49,7 @@ export const AppConfig: AppConfigInterface = {
             },
         ],
         port: 3000,
-        publicPaths: [path.join(__dirname, '../public')],
+        publicPath: path.resolve(__dirname, 'public'),
         routes: [
             {
                 controller: VokusDesignListController,
@@ -81,5 +81,36 @@ export const AppConfig: AppConfigInterface = {
             },
         ],
         paths: [path.join(__dirname, '../view/template')],
+    },
+    webpack: {
+        configs: [
+            {
+                entry: [path.resolve(__dirname, '../assets/js/app.ts')],
+                mode: 'production',
+                module: {
+                    rules: [
+                        {
+                            test: /\.scss$/,
+                            use: ['style-loader', 'css-loader', 'sass-loader'],
+                        },
+                        {
+                            test: /\.woff2$/,
+                            use: {
+                                loader: 'file-loader',
+                                options: {
+                                    include: path.resolve(__dirname, '../assets/font'),
+                                    name: '[name].[ext]',
+                                    outputPath: './font/',
+                                },
+                            },
+                        },
+                    ],
+                },
+                output: {
+                    filename: './js/app.js',
+                    path: path.resolve(__dirname, '../public/assets/app'),
+                },
+            },
+        ],
     },
 };

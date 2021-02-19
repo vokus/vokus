@@ -32,7 +32,8 @@ class UpdateIndexFiles {
                     filePath.endsWith('.test.ts') ||
                     'index.ts' === filePath ||
                     filePath.startsWith('node_modules/') ||
-                    filePath.startsWith('bin/')
+                    filePath.startsWith('bin/') ||
+                    filePath.startsWith('assets/')
                 ) {
                     continue;
                 }

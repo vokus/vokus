@@ -123,13 +123,11 @@ export class HttpServer {
             if (
                 (middlewareConfig.middleware === StaticMiddleware ||
                     StaticMiddleware.isPrototypeOf(middlewareConfig.middleware)) &&
-                undefined !== this._config.publicPaths
+                undefined !== this._config.publicPath
             ) {
-                for (const publicPath of this._config.publicPaths) {
-                    const staticMiddleware: StaticMiddleware = new middlewareConfig.middleware();
-                    staticMiddleware.path = publicPath;
-                    this._express.use(staticMiddleware.handle.bind(staticMiddleware));
-                }
+                const staticMiddleware: StaticMiddleware = new middlewareConfig.middleware();
+                staticMiddleware.path = this._config.publicPath;
+                this._express.use(staticMiddleware.handle.bind(staticMiddleware));
                 continue;
             }
 
