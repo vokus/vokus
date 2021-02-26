@@ -46,7 +46,12 @@ export class Asset {
             },
         };
 
-        webpack(config);
+        webpack(config, (err, stats) => {
+            if (err || (undefined !== stats && stats.hasErrors())) {
+                // TODO: handle errors
+                console.log(err);
+            }
+        });
     }
 
     async start(): Promise<void> {
