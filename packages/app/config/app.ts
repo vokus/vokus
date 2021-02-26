@@ -15,6 +15,14 @@ import { VokusUserSignInController } from '../controller/vokus/user/sign-in';
 import path from 'path';
 
 export const AppConfig: AppConfigInterface = {
+    asset: {
+        paths: [
+            {
+                key: 'app',
+                path: path.join(__dirname, '../asset'),
+            },
+        ],
+    },
     http: {
         middlewares: [
             {
@@ -81,36 +89,5 @@ export const AppConfig: AppConfigInterface = {
             },
         ],
         paths: [path.join(__dirname, '../view/template')],
-    },
-    webpack: {
-        configs: [
-            {
-                entry: [path.resolve(__dirname, '../assets/js/app.ts')],
-                mode: 'production',
-                module: {
-                    rules: [
-                        {
-                            test: /\.scss$/,
-                            use: ['style-loader', 'css-loader', 'sass-loader'],
-                        },
-                        {
-                            test: /\.woff2$/,
-                            use: {
-                                loader: 'file-loader',
-                                options: {
-                                    include: path.resolve(__dirname, '../assets/font'),
-                                    name: '[name].[ext]',
-                                    outputPath: './font/',
-                                },
-                            },
-                        },
-                    ],
-                },
-                output: {
-                    filename: './js/app.js',
-                    path: path.resolve(__dirname, '../public/assets/app'),
-                },
-            },
-        ],
     },
 };

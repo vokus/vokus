@@ -6,6 +6,6 @@ import path from 'path';
 @Injectable()
 export class AssetViewHelper implements ViewHelperInterface {
     render(src: string): string {
-        return path.join('/assets/', src) + '?' + Environment.buildDate.getTime();
+        return path.join('/asset/', src) + '?' + Environment.buildDate.getTime();
     }
 }
