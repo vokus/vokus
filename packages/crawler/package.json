@@ -1,20 +1,17 @@
 {
-    "name": "@vokus/dev",
+    "name": "@vokus/crawler",
     "version": "0.0.10",
-    "description": "@vokus/dev",
+    "description": "@vokus/crawler",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/dev"
+        "directory": "packages/crawler"
     },
     "license": "MIT",
     "main": "index.js",
     "types": "index.d.ts",
-    "dependencies": {
-        "@vokus/environment": "^0.0.10",
-        "@vokus/file-system": "^0.0.10",
-        "npm-check-updates": "11.1.10"
-    },
+    "bin": "./bin/crawler.js",
+    "dependencies": {},
     "publishConfig": {
         "access": "public"
     },
