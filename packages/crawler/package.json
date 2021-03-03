@@ -11,7 +11,12 @@
     "main": "index.js",
     "types": "index.d.ts",
     "bin": "./bin/crawler.js",
-    "dependencies": {},
+    "dependencies": {
+        "@types/chalk": "2.2.0",
+        "@types/simplecrawler": "1.1.1",
+        "chalk": "4.1.0",
+        "simplecrawler": "1.1.9"
+    },
     "publishConfig": {
         "access": "public"
     },

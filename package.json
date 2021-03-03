@@ -4,6 +4,7 @@
     "scripts": {
         "app-example": "ts-node ./packages/app-example/bin/app-example.ts",
         "bootstrap": "lerna bootstrap",
+        "crawler": "ts-node ./packages/crawler/bin/crawler",
         "lint": "eslint '*/**/*.ts' --fix",
         "publish": "npm run setup && npm run update-packages && npm run update-index-files && npm run lint && npm run test && npm run tsc && lerna publish && npm run setup",
         "setup": "npm install && npm run bootstrap && ts-node ./packages/dev/bin/clean && npm run bootstrap && npm run webpack",
