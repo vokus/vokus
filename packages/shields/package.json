@@ -1,6 +1,6 @@
 {
     "name": "@vokus/shields",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "description": "@vokus/shields",
     "repository": {
         "type": "git",
@@ -11,9 +11,9 @@
     "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/core": "^0.0.11",
-        "@vokus/environment": "^0.0.11",
-        "@vokus/file-system": "^0.0.11"
+        "@vokus/core": "^0.0.12",
+        "@vokus/environment": "^0.0.12",
+        "@vokus/file-system": "^0.0.12"
     },
     "publishConfig": {
         "access": "public"
