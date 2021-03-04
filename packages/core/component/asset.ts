@@ -48,7 +48,6 @@ export class Asset {
 
         return new Promise<void>((resolve, reject) => {
             webpack(config, (err, stats) => {
-                
                 resolve();
 
                 if (err || (undefined !== stats && stats.hasErrors())) {
