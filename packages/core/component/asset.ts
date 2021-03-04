@@ -17,7 +17,7 @@ export class Asset {
         await ObjectUtil.merge(this._config, config);
     }
 
-    async webpack(key: string, path: string) {
+    protected async webpack(key: string, path: string) {
         const config: webpack.Configuration = {
             entry: [nodePath.resolve(path, 'js/app.ts')],
             mode: 'production',
@@ -46,11 +46,17 @@ export class Asset {
             },
         };
 
-        webpack(config, (err, stats) => {
-            if (err || (undefined !== stats && stats.hasErrors())) {
-                // TODO: handle errors
-                console.log(err);
-            }
+        return new Promise<void>((resolve, reject) => {
+            webpack(config, (err, stats) => {
+                
+                resolve();
+
+                if (err || (undefined !== stats && stats.hasErrors())) {
+                    // TODO: handle errors
+                    // console.log(err);
+                    reject(err);
+                }
+            });
         });
     }
 
