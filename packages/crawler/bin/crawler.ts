@@ -5,11 +5,6 @@ import chalk from 'chalk';
 import crawler from 'simplecrawler';
 import url from 'url';
 
-if ('string' !== typeof process.argv[2]) {
-    console.log(chalk.red('Please enter a valid url as command line parameter'));
-    process.exit();
-}
-
 try {
     new url.URL(process.argv[2]);
 } catch (err) {
@@ -72,7 +67,6 @@ c.on('fetcherror', function (queueItem) {
 });
 
 c.on('complete', () => {
-    console.log('');
     console.log(chalk.green(counter + ' resources completed'));
 });
 
