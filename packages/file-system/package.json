@@ -8,7 +8,6 @@
         "directory": "packages/file-system"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "publishConfig": {
         "access": "public"

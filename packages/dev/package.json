@@ -8,12 +8,11 @@
         "directory": "packages/dev"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/environment": "^0.0.14",
         "@vokus/file-system": "^0.0.14",
-        "npm-check-updates": "11.1.10"
+        "npm-check-updates": "11.5.11"
     },
     "publishConfig": {
         "access": "public"

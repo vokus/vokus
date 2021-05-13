@@ -25,10 +25,11 @@ class UpdatePackages {
             const pathToNpmrc = path.join(this.packagesPath, name, '.npmrc');
             const packageJson = JSON.parse(await FileSystem.readFile(pathToPackageJson));
 
+            delete packageJson.main;
+
             packageJson.name = '@vokus/' + name;
             packageJson.description = '@vokus/' + name;
             packageJson.license = 'MIT';
-            packageJson.main = 'index.js';
             packageJson.types = 'index.d.ts';
             packageJson.publishConfig = {
                 access: 'public',

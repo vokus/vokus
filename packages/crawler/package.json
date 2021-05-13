@@ -8,11 +8,10 @@
         "directory": "packages/crawler"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "bin": "./bin/crawler.js",
     "dependencies": {
-        "chalk": "4.1.0",
+        "chalk": "4.1.1",
         "simplecrawler": "1.1.9"
     },
     "devDependencies": {

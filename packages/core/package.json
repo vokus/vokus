@@ -8,7 +8,6 @@
         "directory": "packages/core"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/environment": "^0.0.14",
@@ -19,7 +18,7 @@
         "mysql": "2.18.1",
         "pug": "3.0.2",
         "sqlite3": "5.0.2",
-        "typeorm": "0.2.31"
+        "typeorm": "0.2.32"
     },
     "devDependencies": {
         "@types/cookie-parser": "1.4.2",

@@ -8,7 +8,6 @@
         "directory": "packages/util"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
         "transliteration": "2.2.0"

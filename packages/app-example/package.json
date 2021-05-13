@@ -8,7 +8,6 @@
         "directory": "packages/app-example"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "bin": "./bin/app-example.js",
     "dependencies": {

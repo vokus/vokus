@@ -8,7 +8,6 @@
         "directory": "packages/app"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/core": "^0.0.14",

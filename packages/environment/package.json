@@ -8,12 +8,11 @@
         "directory": "packages/environment"
     },
     "license": "MIT",
-    "main": "index.js",
     "types": "index.d.ts",
     "dependencies": {
         "@vokus/file-system": "^0.0.14",
         "@vokus/util": "^0.0.14",
-        "dotenv": "8.2.0"
+        "dotenv": "9.0.2"
     },
     "publishConfig": {
         "access": "public"
