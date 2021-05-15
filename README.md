@@ -1,3 +1,7 @@
+<p align="center" width="100%">
+    <img width="200" src="./doc/logo.png"> 
+</p>
+
 # vokus
 
 [![coverage: 90%](./shields/coverage.svg?sanitize=true)](https://github.com/vokus/vokus)
