@@ -1,6 +1,6 @@
 {
     "name": "@vokus/shields",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "@vokus/shields",
     "repository": {
         "type": "git",
@@ -10,9 +10,9 @@
     "license": "MIT",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/core": "^0.0.15",
-        "@vokus/environment": "^0.0.15",
-        "@vokus/file-system": "^0.0.15"
+        "@vokus/core": "^0.0.16",
+        "@vokus/environment": "^0.0.16",
+        "@vokus/file-system": "^0.0.16"
     },
     "publishConfig": {
         "access": "public"

@@ -1,6 +1,6 @@
 {
     "name": "@vokus/environment",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "@vokus/environment",
     "repository": {
         "type": "git",
@@ -10,8 +10,8 @@
     "license": "MIT",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/file-system": "^0.0.15",
-        "@vokus/util": "^0.0.15",
+        "@vokus/file-system": "^0.0.16",
+        "@vokus/util": "^0.0.16",
         "dotenv": "^9.0.2"
     },
     "publishConfig": {

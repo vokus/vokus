@@ -1,6 +1,6 @@
 {
     "name": "@vokus/app-example",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "@vokus/app-example",
     "repository": {
         "type": "git",
@@ -11,8 +11,8 @@
     "types": "index.d.ts",
     "bin": "./bin/app-example.js",
     "dependencies": {
-        "@vokus/app": "^0.0.15",
-        "@vokus/core": "^0.0.15"
+        "@vokus/app": "^0.0.16",
+        "@vokus/core": "^0.0.16"
     },
     "publishConfig": {
         "access": "public"
