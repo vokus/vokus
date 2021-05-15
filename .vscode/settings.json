@@ -7,14 +7,13 @@
     "eslint.format.enable": true,
     "eslint.run": "onSave",
     "files.exclude": {
-        "**/node_modules/": true,
-        //"packages/**/*.d.ts": true,
-        //"packages/**/*.js": true,
+        "**/node_modules/": true
     },
     "jestrunner.configPath": "jest-config-vscode.js",
     "jestrunner.runOptions": [
         "--no-cache",
         "--detectOpenHandles"
     ],
-    "js/ts.implicitProjectConfig.experimentalDecorators": true
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }
