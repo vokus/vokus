@@ -2,7 +2,7 @@
     <img width="200" src="./doc/logo.png"> 
 </p>
 
-# vokus
+# <span style="color:#F8AF2C">v</span><span style="color:#44AD9F">o</span><span style="color:#FA6135">k</span><span style="color:#44AD9F">u</span><span style="color:#F8AF2C">s</span>
 
 [![coverage: 90%](./shields/coverage.svg?sanitize=true)](https://github.com/vokus/vokus)
 [![linter: eslint](./shields/linter.svg?sanitize=true)](https://github.com/vokus/vokus)
