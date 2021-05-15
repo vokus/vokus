@@ -7,8 +7,6 @@
     "eslint.format.enable": true,
     "eslint.run": "onSave",
     "files.exclude": {
-        "**/.npmignore": true,
-        "**/.npmrc": true,
         "**/node_modules/": true,
         //"packages/**/*.d.ts": true,
         //"packages/**/*.js": true,
