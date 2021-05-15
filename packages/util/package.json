@@ -10,7 +10,7 @@
     "license": "MIT",
     "types": "index.d.ts",
     "dependencies": {
-        "transliteration": "2.2.0"
+        "transliteration": "^2.2.0"
     },
     "publishConfig": {
         "access": "public"
