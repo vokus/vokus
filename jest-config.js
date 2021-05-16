@@ -3,7 +3,6 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
         '<rootDir>/packages/**/*.ts',
-        '!<rootDir>/packages/dev/**/*.ts',
         '!<rootDir>/**/index.ts',
         '!<rootDir>/packages/**/bin/**/*.ts',
     ],
