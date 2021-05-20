@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+// remove warning message for NODE_TLS_REJECT_UNAUTHORIZED
+process.removeAllListeners('warning');
+
+// allow unauthorized requests
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import crawler from 'simplecrawler';
