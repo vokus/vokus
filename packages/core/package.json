@@ -1,6 +1,6 @@
 {
     "name": "@vokus/core",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "description": "@vokus/core",
     "repository": {
         "type": "git",
@@ -10,9 +10,9 @@
     "license": "MIT",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/environment": "^0.0.16",
-        "@vokus/file-system": "^0.0.16",
-        "@vokus/util": "^0.0.16",
+        "@vokus/environment": "^0.0.17",
+        "@vokus/file-system": "^0.0.17",
+        "@vokus/util": "^0.0.17",
         "cookie-parser": "^1.4.5",
         "express": "^4.17.1",
         "mysql": "^2.18.1",

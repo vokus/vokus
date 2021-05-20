@@ -1,6 +1,6 @@
 {
     "name": "@vokus/app",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "description": "@vokus/app",
     "repository": {
         "type": "git",
@@ -10,8 +10,8 @@
     "license": "MIT",
     "types": "index.d.ts",
     "dependencies": {
-        "@vokus/core": "^0.0.16",
-        "@vokus/util": "^0.0.16"
+        "@vokus/core": "^0.0.17",
+        "@vokus/util": "^0.0.17"
     },
     "publishConfig": {
         "access": "public"
