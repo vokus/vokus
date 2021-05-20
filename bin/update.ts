@@ -19,20 +19,20 @@ class Update {
         const entries = await FileSystem.readDirectory(packagesPath);
 
         for (const entry of entries) {
-            const pathOfEntry = path.join(packagesPath, entry);
+            const fullPath = path.join(packagesPath, entry);
 
-            if (!(await FileSystem.isDirectory(pathOfEntry))) {
+            if (!(await FileSystem.isDirectory(fullPath))) {
                 continue;
             }
 
-            const fileList = await FileSystem.listFiles(pathOfEntry);
-            const pathToIndexFile = path.join(pathOfEntry, 'index.ts');
+            const fileList = await FileSystem.listFiles(fullPath);
+            const pathToIndexFile = path.join(fullPath, 'index.ts');
 
             await FileSystem.ensureFileExists(pathToIndexFile);
             await FileSystem.writeFile(pathToIndexFile, '');
 
             for (let filePath of fileList) {
-                filePath = filePath.replace(pathOfEntry + '/', '');
+                filePath = filePath.replace(fullPath + '/', '');
 
                 if (
                     !filePath.endsWith('.ts') ||
@@ -58,10 +58,14 @@ class Update {
     }
 
     static async updatePackages(): Promise<void> {
-        await ncu.run({
-            packageFile: path.join(Environment.projectPath, 'package.json'),
-            upgrade: true,
-        });
+        const updatePromises = [];
+
+        updatePromises.push(
+            ncu.run({
+                packageFile: path.join(Environment.projectPath, 'package.json'),
+                upgrade: true,
+            }),
+        );
 
         for (const name of await FileSystem.readDirectory(this.packagesPath)) {
             // prevent using path segements like .DS_Store
@@ -91,10 +95,12 @@ class Update {
 
             await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
-            await ncu.run({
-                packageFile: pathToPackageJson,
-                upgrade: true,
-            });
+            updatePromises.push(
+                ncu.run({
+                    packageFile: pathToPackageJson,
+                    upgrade: true,
+                }),
+            );
 
             const npmignoreContent =
                 '# ignore the .scss files' +
@@ -116,6 +122,8 @@ class Update {
 
             await FileSystem.writeFile(pathToNpmrc, npmrcContent);
         }
+
+        await Promise.all(updatePromises);
     }
 }
 

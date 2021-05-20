@@ -7,17 +7,18 @@ import path from 'path';
 class Clean {
     static async run(): Promise<void> {
         await Promise.all([
-            this.cleanDirectory(path.join(Environment.projectPath, 'packages')),
-            this.cleanDirectory(path.join(Environment.projectPath, 'var')),
+            this.clean(path.join(Environment.projectPath, 'packages')),
+            this.clean(path.join(Environment.projectPath, 'var')),
+            FileSystem.remove(path.join(Environment.projectPath, 'public')),
         ]);
     }
 
-    protected static async cleanDirectory(directory: string): Promise<void> {
+    protected static async clean(directory: string): Promise<void> {
         if (!(await FileSystem.isDirectory(directory))) {
             return;
         }
 
-        let entries = await FileSystem.readDirectory(directory);
+        const entries = await FileSystem.readDirectory(directory);
 
         for (const entry of entries) {
             const fullPath = path.join(directory, entry);
@@ -27,7 +28,7 @@ class Clean {
             }
 
             if (await FileSystem.isDirectory(fullPath)) {
-                await this.cleanDirectory(fullPath);
+                await this.clean(fullPath);
                 continue;
             }
 
@@ -35,19 +36,12 @@ class Clean {
                 continue;
             }
 
-            if (
-                fullPath.endsWith('.css') ||
-                fullPath.endsWith('.js') ||
-                fullPath.endsWith('.d.ts') ||
-                fullPath.endsWith('.log')
-            ) {
+            if (['.css', '.js', '.d.ts', '.log'].some((ext) => fullPath.endsWith(ext))) {
                 await FileSystem.remove(fullPath);
             }
         }
 
-        entries = await FileSystem.readDirectory(directory);
-
-        if (0 === entries.length) {
+        if (0 === (await FileSystem.readDirectory(directory)).length) {
             await FileSystem.remove(directory);
         }
     }
