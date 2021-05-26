@@ -35,6 +35,7 @@ class Doc {
                     'node_modules' === typeDirectory ||
                     'bin' === typeDirectory ||
                     'asset' === typeDirectory ||
+                    'interface' === typeDirectory ||
                     'view' === typeDirectory
                 ) {
                     continue;
@@ -56,9 +57,25 @@ class Doc {
                             }
                             const from = line.replace("';", '').split(" from '").pop();
 
-                            if ('string' === typeof from && !from.startsWith('.') && !from.startsWith('@vokus/')) {
+                            if ('string' !== typeof from) {
+                                continue;
+                            }
+
+                            if (
+                                !from.startsWith('.') &&
+                                !from.startsWith('@vokus/') &&
+                                'path' !== from &&
+                                'fs' !== from &&
+                                'https' !== from
+                            ) {
                                 external.push(tab + tab + from);
                                 relations.push(tab + key + '-->' + from);
+                            } else if (
+                                from.startsWith('.') &&
+                                !from.includes('/interface/') &&
+                                !from.includes('/decorator/')
+                            ) {
+                                relations.push(tab + key + '-->' + path.join(packageDirectory, typeDirectory, from));
                             }
                         }
                     }
