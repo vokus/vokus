@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { Environment } from '@vokus/environment';
-import { FileSystem } from '@vokus/file-system';
+import { Environment } from '../packages/environment';
+import { FileSystem } from '../packages/file-system/index';
 import path from 'path';
 
 class Clean {

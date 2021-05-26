@@ -1,0 +1,139 @@
+graph TD
+    subgraph packages/app [app]
+        subgraph app/component [component]
+            app/component/app(app)
+        end
+        subgraph app/config [config]
+            app/config/app(app)
+        end
+        subgraph app/interface [interface]
+            app/interface/app-config(app-config)
+        end
+    end
+    subgraph packages/app-example [app-example]
+        subgraph app-example/component [component]
+            app-example/component/app-example(app-example)
+        end
+        subgraph app-example/config [config]
+            app-example/config/app-example(app-example)
+        end
+        subgraph app-example/controller [controller]
+            app-example/controller/home(home)
+        end
+    end
+    subgraph packages/core [core]
+        subgraph core/component [component]
+            core/component/asset(asset)
+            core/component/database(database)
+            core/component/http-client(http-client)
+            core/component/http-server(http-server)
+            core/component/logger(logger)
+            core/component/object-manager(object-manager)
+            core/component/view(view)
+        end
+        subgraph core/core [core]
+            core/core/request(request)
+            core/core/response(response)
+        end
+        subgraph core/decorator [decorator]
+            core/decorator/injectable(injectable)
+        end
+        subgraph core/entity [entity]
+            core/entity/log(log)
+        end
+        subgraph core/interface [interface]
+            core/interface/asset-config(asset-config)
+            core/interface/controller(controller)
+            core/interface/database-config(database-config)
+            core/interface/http-config(http-config)
+            core/interface/middleware-config(middleware-config)
+            core/interface/middleware(middleware)
+            core/interface/route-config(route-config)
+            core/interface/view-config(view-config)
+            core/interface/view-helper-config(view-helper-config)
+            core/interface/view-helper(view-helper)
+        end
+        subgraph core/middleware [middleware]
+            core/middleware/access-logger(access-logger)
+            core/middleware/cookie-parser(cookie-parser)
+            core/middleware/error(error)
+            core/middleware/not-found(not-found)
+            core/middleware/route(route)
+            core/middleware/static(static)
+        end
+        subgraph core/repository [repository]
+            core/repository/log(log)
+        end
+        subgraph core/view-helper [view-helper]
+            core/view-helper/asset(asset)
+            core/view-helper/translate(translate)
+            core/view-helper/url(url)
+        end
+    end
+    subgraph packages/crawler [crawler]
+    end
+    subgraph packages/environment [environment]
+        subgraph environment/component [component]
+            environment/component/environment(environment)
+        end
+        subgraph environment/decorator [decorator]
+            environment/decorator/environment-variable(environment-variable)
+        end
+        subgraph environment/interface [interface]
+            environment/interface/environment-variable(environment-variable)
+        end
+    end
+    subgraph packages/file-system [file-system]
+        subgraph file-system/component [component]
+            file-system/component/file-system(file-system)
+        end
+    end
+    subgraph packages/shields [shields]
+        subgraph shields/component [component]
+            shields/component/shields(shields)
+        end
+    end
+    subgraph packages/util [util]
+        subgraph util/util [util]
+            util/util/array(array)
+            util/util/object(object)
+            util/util/string(string)
+        end
+    end
+    subgraph node_modules
+        path
+        webpack
+        typeorm
+        https
+        express
+        pug
+        cookie-parser
+        dotenv
+        fs
+        transliteration
+    end
+    app/config/app-->path
+    app-example/config/app-example-->path
+    core/component/asset-->path
+    core/component/asset-->webpack
+    core/component/database-->typeorm
+    core/component/http-client-->https
+    core/component/http-server-->express
+    core/component/http-server-->https
+    core/component/http-server-->path
+    core/component/logger-->path
+    core/component/view-->path
+    core/component/view-->pug
+    core/core/request-->express
+    core/core/response-->express
+    core/entity/log-->typeorm
+    core/middleware/cookie-parser-->cookie-parser
+    core/middleware/static-->express
+    core/repository/log-->typeorm
+    core/view-helper/asset-->path
+    environment/component/environment-->dotenv
+    environment/component/environment-->path
+    file-system/component/file-system-->fs
+    file-system/component/file-system-->path
+    shields/component/shields-->path
+    util/util/string-->transliteration

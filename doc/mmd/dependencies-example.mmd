@@ -1,0 +1,22 @@
+graph TD
+    subgraph packages/app [app]
+        subgraph packages/app/component [component]
+            packages/app/component/app(app)
+        end
+    end
+    subgraph packages/core [core]
+        subgraph packages/core/component [component]
+            packages/core/component/asset(asset)
+        end
+        subgraph packages/core/util [util]
+            packages/core/component/asadf(assadfset)
+        end
+    end
+    subgraph packages/util [util]
+        subgraph packages/util/util [util]
+            packages/util/util/array(array)
+            packages/util/util/object(object)
+            packages/util/util/string(string)
+        end
+    end
+    packages/core/component/asset --> packages/util/util/array
