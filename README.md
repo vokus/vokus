@@ -4,11 +4,12 @@
 
 # vokus
 
-[![coverage: 90%](./shields/coverage.svg?sanitize=true)](https://github.com/vokus/vokus)
-[![linter: eslint](./shields/linter.svg?sanitize=true)](https://github.com/vokus/vokus)
-[![code style: prettier](./shields/code-style.svg?sanitize=true)](https://github.com/vokus/vokus)
+[![coverage: 90%](./doc/shields/coverage.svg?sanitize=true)](https://github.com/vokus/vokus) [![linter: eslint](./doc/shields/linter.svg?sanitize=true)](https://github.com/vokus/vokus) [![code style: prettier](./doc/shields/code-style.svg?sanitize=true)](https://github.com/vokus/vokus)
 
 vokus is a nodejs framework written in typescript for web and console applications and a set of reusable components.
+
+## Package Overview
+<img src="./doc/mmd/package-dependencies.png"> 
 
 ## TODO:
 
@@ -16,6 +17,3 @@ vokus is a nodejs framework written in typescript for web and console applicatio
 * add eslint sort interface vars
 * check problem with 443 port using in tests
 * add packages graph with marmaid
-
-## Package Dependencies
-<img src="./doc/mmd/package-dependencies.png"> 

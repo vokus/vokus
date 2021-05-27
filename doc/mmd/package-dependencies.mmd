@@ -11,8 +11,6 @@ graph TD
     style _vokus_environment fill:#44AD9F,stroke:#333,stroke-width:1px
     _vokus_file-system(file-system)
     style _vokus_file-system fill:#44AD9F,stroke:#333,stroke-width:1px
-    _vokus_shields(shields)
-    style _vokus_shields fill:#44AD9F,stroke:#333,stroke-width:1px
     _vokus_util(util)
     style _vokus_util fill:#44AD9F,stroke:#333,stroke-width:1px
     _vokus_app --> _vokus_core
@@ -51,9 +49,6 @@ graph TD
     _vokus_environment --> dotenv
     dotenv(dotenv)
     style dotenv fill:#F8AF2C,stroke:#333,stroke-width:1px
-    _vokus_shields --> _vokus_core
-    _vokus_shields --> _vokus_environment
-    _vokus_shields --> _vokus_file-system
     _vokus_util --> transliteration
     transliteration(transliteration)
     style transliteration fill:#F8AF2C,stroke:#333,stroke-width:1px

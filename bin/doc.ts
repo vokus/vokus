@@ -2,6 +2,7 @@
 
 import { Environment } from '../packages/environment';
 import { FileSystem } from '../packages/file-system';
+import { HttpClient } from '../packages/core';
 import { exec } from 'child_process';
 import path from 'path';
 
@@ -210,6 +211,39 @@ class Doc {
         content = content.concat(relations);
 
         await FileSystem.writeFile(pathToDependenciesMermaid, content.join('\n'));
+    }
+
+    static async shields(): Promise<void> {
+        const httpClient = new HttpClient();
+
+        const shields: {
+            key: string;
+            label: string;
+            message: string;
+            color: string;
+            style: string;
+        }[] = JSON.parse(await FileSystem.readFile(path.join(Environment.projectPath, '.shields.json')));
+
+        // request shields from shield.io and write them to shields folder
+        for (const shield of shields) {
+            const pathToShield = path.join(Environment.projectPath, 'doc/shields', shield.key + '.svg');
+
+            await FileSystem.ensureFileExists(pathToShield);
+
+            const url =
+                'https://img.shields.io/static/v1?label=' +
+                shield.label +
+                '&message=' +
+                shield.message +
+                '&color=' +
+                shield.color +
+                '&style=' +
+                shield.style;
+
+            const res = await httpClient.get(url);
+
+            await FileSystem.writeFile(pathToShield, res.body);
+        }
     }
 }
 
