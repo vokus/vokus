@@ -32,7 +32,14 @@ class Doc {
             keys.push(key);
 
             content.push(key + '(' + packageName + ')');
-            content.push('style ' + key + ' fill:#44AD9F,stroke:#333,stroke-width:1px');
+
+            let color = '#44AD9F';
+
+            if ('_vokus_core' === key) {
+                color = '#FA6135';
+            }
+
+            content.push('style ' + key + ' fill:' + color + ',stroke:#333,stroke-width:1px');
         }
 
         for (const packageName of packages) {
