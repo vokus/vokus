@@ -3,7 +3,6 @@
 import { Environment } from '../packages/environment';
 import { FileSystem } from '../packages/file-system';
 import path from 'path';
-import { Dependency } from 'webpack';
 
 class Doc {
     protected static packagesPath = path.join(Environment.projectPath, 'packages');
