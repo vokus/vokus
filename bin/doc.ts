@@ -83,7 +83,7 @@ class Doc {
                 path.join(this.mmdPath, fileName) +
                 ' -o ' +
                 path.join(this.mmdPath, fileName).replace('.mmd', '.png') +
-                ' -w 4800 -b transparent ';
+                ' -w 4800';
 
             exec(command);
         }
