@@ -13,6 +13,5 @@ vokus is a nodejs framework written in typescript for web and console applicatio
 
 ## TODO:
 
-* refactor clean and update-packages
-* add eslint sort interface vars
 * check problem with 443 port using in tests
+* integrate webpack
