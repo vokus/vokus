@@ -15,5 +15,6 @@
         "--detectOpenHandles"
     ],
     "js/ts.implicitProjectConfig.experimentalDecorators": true,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "files.autoSave": "afterDelay"
 }

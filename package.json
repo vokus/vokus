@@ -8,7 +8,7 @@
         "clean": "ts-node ./bin/clean",
         "doc": "ts-node ./bin/doc",
         "lint": "eslint '*/**/*.ts' --fix",
-        "publish": "npm run setup && npm run update && npm run lint && npm run test && npm run build && lerna publish && npm run setup",
+        "publish": "npm run setup && npm run update && npm run doc && npm run lint && npm run test && npm run build && lerna publish && npm run setup",
         "setup": "npm install && npm run clean && npm run bootstrap",
         "shields": "ts-node ./packages/shields",
         "test": "jest --config jest-config.js --detectOpenHandles",

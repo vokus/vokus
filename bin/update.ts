@@ -81,7 +81,6 @@ class Update {
             delete packageJson.main;
 
             packageJson.name = '@vokus/' + name;
-            packageJson.description = '@vokus/' + name;
             packageJson.license = 'MIT';
             packageJson.types = 'index.d.ts';
             packageJson.publishConfig = {
