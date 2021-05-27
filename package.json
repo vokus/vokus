@@ -6,7 +6,7 @@
         "bootstrap": "lerna bootstrap",
         "build": "tsc",
         "clean": "ts-node ./bin/clean",
-        "doc": "ts-node ./bin/doc && mmdc -i ./doc/mmd/dependencies.mmd -o doc/mmd/dependencies.png -w 4800",
+        "doc": "ts-node ./bin/doc",
         "lint": "eslint '*/**/*.ts' --fix",
         "publish": "npm run setup && npm run update && npm run lint && npm run test && npm run build && lerna publish && npm run setup",
         "setup": "npm install && npm run clean && npm run bootstrap",

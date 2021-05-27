@@ -17,4 +17,5 @@ vokus is a nodejs framework written in typescript for web and console applicatio
 * check problem with 443 port using in tests
 * add packages graph with marmaid
 
-<img src="./doc/mmd/dependencies.png"> 
+## Package Dependencies
+<img src="./doc/mmd/package-dependencies.png"> 

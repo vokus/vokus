@@ -2,6 +2,7 @@
 
 import { Environment } from '../packages/environment';
 import { FileSystem } from '../packages/file-system';
+import { exec } from 'child_process';
 import path from 'path';
 
 class Doc {
@@ -12,6 +13,7 @@ class Doc {
     static async run(): Promise<void> {
         // await this.buildDependenciesOverview();
         await this.buildPackageDependenciesOverview();
+        await this.buildPNGsFromMmd();
     }
 
     static async buildPackageDependenciesOverview(): Promise<void> {
@@ -68,6 +70,23 @@ class Doc {
         }
 
         await FileSystem.writeFile(path.join(this.mmdPath, 'package-dependencies.mmd'), mmdContent.join('\n'));
+    }
+
+    static async buildPNGsFromMmd(): Promise<void> {
+        for (const fileName of await FileSystem.readDirectory(this.mmdPath)) {
+            if (!fileName.endsWith('.mmd')) {
+                continue;
+            }
+
+            const command =
+                'mmdc -i ' +
+                path.join(this.mmdPath, fileName) +
+                ' -o ' +
+                path.join(this.mmdPath, fileName).replace('.mmd', '.png') +
+                ' -w 4800 -b transparent ';
+
+            exec(command);
+        }
     }
 
     private static async getMmdPackageName(packageKey: string): Promise<string> {
