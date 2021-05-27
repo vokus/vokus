@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Environment } from '../packages/environment';
-import { FileSystem } from '../packages/file-system/index';
+import { FileSystem } from '../packages/file-system';
 import path from 'path';
 
 class Clean {

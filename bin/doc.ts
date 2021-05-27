@@ -1,12 +1,85 @@
 #!/usr/bin/env node
 
 import { Environment } from '../packages/environment';
-import { FileSystem } from '../packages/file-system/index';
+import { FileSystem } from '../packages/file-system';
 import path from 'path';
+import { Dependency } from 'webpack';
 
 class Doc {
+    protected static packagesPath = path.join(Environment.projectPath, 'packages');
+    protected static mmdPath = path.join(Environment.projectPath, 'doc/mmd');
+    protected static tab = '    ';
+
     static async run(): Promise<void> {
-        await this.buildDependenciesOverview();
+        // await this.buildDependenciesOverview();
+        await this.buildPackageDependenciesOverview();
+    }
+
+    static async buildPackageDependenciesOverview(): Promise<void> {
+        const content: string[] = [];
+        const packages = await FileSystem.readDirectory(this.packagesPath);
+        const keys: string[] = [];
+
+        // create vokus packages
+        for (const packageName of packages) {
+            const key = '_vokus_' + packageName;
+
+            if (keys.includes(key)) {
+                continue;
+            }
+
+            keys.push(key);
+
+            content.push(key + '(' + packageName + ')');
+            content.push('style ' + key + ' fill:#44AD9F,stroke:#333,stroke-width:1px');
+        }
+
+        for (const packageName of packages) {
+            const packageJson = JSON.parse(
+                await FileSystem.readFile(path.join(this.packagesPath, packageName, 'package.json')),
+            );
+
+            if ('object' !== typeof packageJson.dependencies) {
+                continue;
+            }
+
+            for (const dependency of Object.keys(packageJson.dependencies)) {
+                const key = dependency.replace('@', '_').replace('/', '_');
+
+                content.push('_vokus_' + packageName + ' --> ' + key);
+
+                if (keys.includes(key)) {
+                    continue;
+                }
+
+                keys.push(key);
+
+                if (dependency.startsWith('_vokus_')) {
+                    continue;
+                }
+
+                content.push(key + '(' + dependency + ')');
+                content.push('style ' + key + ' fill:#F8AF2C,stroke:#333,stroke-width:1px');
+            }
+        }
+        const mmdContent = ['graph TD'];
+
+        for (const line of content) {
+            mmdContent.push(this.tab + line);
+        }
+
+        await FileSystem.writeFile(path.join(this.mmdPath, 'package-dependencies.mmd'), mmdContent.join('\n'));
+    }
+
+    private static async getMmdPackageName(packageKey: string): Promise<string> {
+        const simpleName = packageKey.replace('@vokus/', '');
+        packageKey = packageKey.replace('@', '_').replace('/', '_');
+
+        if (packageKey.startsWith('_vokus_')) {
+            return packageKey + '([' + simpleName + '])';
+        }
+
+        return packageKey + '[[' + simpleName + ']]';
     }
 
     static async buildDependenciesOverview(): Promise<void> {

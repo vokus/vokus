@@ -1,0 +1,59 @@
+graph TD
+    _vokus_app(app)
+    style _vokus_app fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_app-example(app-example)
+    style _vokus_app-example fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_core(core)
+    style _vokus_core fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_crawler(crawler)
+    style _vokus_crawler fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_environment(environment)
+    style _vokus_environment fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_file-system(file-system)
+    style _vokus_file-system fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_shields(shields)
+    style _vokus_shields fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_util(util)
+    style _vokus_util fill:#44AD9F,stroke:#333,stroke-width:1px
+    _vokus_app --> _vokus_core
+    _vokus_app --> _vokus_util
+    _vokus_app-example --> _vokus_app
+    _vokus_app-example --> _vokus_core
+    _vokus_core --> _vokus_environment
+    _vokus_core --> _vokus_file-system
+    _vokus_core --> _vokus_util
+    _vokus_core --> cookie-parser
+    cookie-parser(cookie-parser)
+    style cookie-parser fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_core --> express
+    express(express)
+    style express fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_core --> mysql
+    mysql(mysql)
+    style mysql fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_core --> pug
+    pug(pug)
+    style pug fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_core --> sqlite3
+    sqlite3(sqlite3)
+    style sqlite3 fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_core --> typeorm
+    typeorm(typeorm)
+    style typeorm fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_crawler --> chalk
+    chalk(chalk)
+    style chalk fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_crawler --> simplecrawler
+    simplecrawler(simplecrawler)
+    style simplecrawler fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_environment --> _vokus_file-system
+    _vokus_environment --> _vokus_util
+    _vokus_environment --> dotenv
+    dotenv(dotenv)
+    style dotenv fill:#F8AF2C,stroke:#333,stroke-width:1px
+    _vokus_shields --> _vokus_core
+    _vokus_shields --> _vokus_environment
+    _vokus_shields --> _vokus_file-system
+    _vokus_util --> transliteration
+    transliteration(transliteration)
+    style transliteration fill:#F8AF2C,stroke:#333,stroke-width:1px
