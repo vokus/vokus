@@ -2,6 +2,7 @@
 **/*.env
 node_modules/
 *.log
+/doc/jest.json
 /public/
 /packages/**/*.css
 /packages/**/*.js

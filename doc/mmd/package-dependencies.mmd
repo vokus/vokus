@@ -1,18 +1,137 @@
-graph TD
-    _vokus_app(app)
-    style _vokus_app fill:#44AD9F,stroke:#333,stroke-width:1px
-    _vokus_app-example(app-example)
-    style _vokus_app-example fill:#44AD9F,stroke:#333,stroke-width:1px
-    _vokus_core(core)
-    style _vokus_core fill:#FA6135,stroke:#333,stroke-width:1px
-    _vokus_crawler(crawler)
-    style _vokus_crawler fill:#44AD9F,stroke:#333,stroke-width:1px
-    _vokus_environment(environment)
-    style _vokus_environment fill:#44AD9F,stroke:#333,stroke-width:1px
-    _vokus_file-system(file-system)
-    style _vokus_file-system fill:#44AD9F,stroke:#333,stroke-width:1px
-    _vokus_util(util)
-    style _vokus_util fill:#44AD9F,stroke:#333,stroke-width:1px
+flowchart TD
+    subgraph _vokus_app [app]
+            style packages/app/component/app fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/app/component [component]
+            packages/app/component/app(app)
+        end
+        style packages/app/component fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+            style packages/app/config/app fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/app/config [config]
+            packages/app/config/app(app)
+        end
+        style packages/app/config fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+    end
+    style _vokus_app fill:#44AD9F,stroke:#30796F,stroke-width:1px
+    subgraph _vokus_app-example [app-example]
+            style packages/app-example/component/app-example fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/app-example/component [component]
+            packages/app-example/component/app-example(app-example)
+        end
+        style packages/app-example/component fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+            style packages/app-example/config/app-example fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/app-example/config [config]
+            packages/app-example/config/app-example(app-example)
+        end
+        style packages/app-example/config fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+            style packages/app-example/controller/home fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/app-example/controller [controller]
+            packages/app-example/controller/home(home)
+        end
+        style packages/app-example/controller fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+    end
+    style _vokus_app-example fill:#44AD9F,stroke:#30796F,stroke-width:1px
+    subgraph _vokus_core [core]
+            style packages/core/component/asset fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/component/database fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/component/http-client fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/component/http-server fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/component/logger fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/component/object-manager fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/component/view fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/component [component]
+            packages/core/component/asset(asset)
+            packages/core/component/database(database)
+            packages/core/component/http-client(http-client)
+            packages/core/component/http-server(http-server)
+            packages/core/component/logger(logger)
+            packages/core/component/object-manager(object-manager)
+            packages/core/component/view(view)
+        end
+        style packages/core/component fill:#FB7853,stroke:#CF3205,stroke-width:1px
+            style packages/core/core/request fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/core/response fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/core [core]
+            packages/core/core/request(request)
+            packages/core/core/response(response)
+        end
+        style packages/core/core fill:#FB7853,stroke:#CF3205,stroke-width:1px
+            style packages/core/decorator/injectable fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/decorator [decorator]
+            packages/core/decorator/injectable(injectable)
+        end
+        style packages/core/decorator fill:#FB7853,stroke:#CF3205,stroke-width:1px
+            style packages/core/entity/log fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/entity [entity]
+            packages/core/entity/log(log)
+        end
+        style packages/core/entity fill:#FB7853,stroke:#CF3205,stroke-width:1px
+            style packages/core/middleware/access-logger fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/middleware/cookie-parser fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/middleware/error fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/middleware/not-found fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/middleware/route fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/middleware/static fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/middleware [middleware]
+            packages/core/middleware/access-logger(access-logger)
+            packages/core/middleware/cookie-parser(cookie-parser)
+            packages/core/middleware/error(error)
+            packages/core/middleware/not-found(not-found)
+            packages/core/middleware/route(route)
+            packages/core/middleware/static(static)
+        end
+        style packages/core/middleware fill:#FB7853,stroke:#CF3205,stroke-width:1px
+            style packages/core/repository/log fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/repository [repository]
+            packages/core/repository/log(log)
+        end
+        style packages/core/repository fill:#FB7853,stroke:#CF3205,stroke-width:1px
+            style packages/core/view-helper/asset fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/view-helper/translate fill:#FA6135,stroke:#CF3205,stroke-width:1px
+            style packages/core/view-helper/url fill:#FA6135,stroke:#CF3205,stroke-width:1px
+        subgraph packages/core/view-helper [view-helper]
+            packages/core/view-helper/asset(asset)
+            packages/core/view-helper/translate(translate)
+            packages/core/view-helper/url(url)
+        end
+        style packages/core/view-helper fill:#FB7853,stroke:#CF3205,stroke-width:1px
+    end
+    style _vokus_core fill:#FA6135,stroke:#CF3205,stroke-width:1px
+    subgraph _vokus_crawler [crawler]
+    end
+    style _vokus_crawler fill:#44AD9F,stroke:#30796F,stroke-width:1px
+    subgraph _vokus_environment [environment]
+            style packages/environment/component/environment fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/environment/component [component]
+            packages/environment/component/environment(environment)
+        end
+        style packages/environment/component fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+            style packages/environment/decorator/environment-variable fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/environment/decorator [decorator]
+            packages/environment/decorator/environment-variable(environment-variable)
+        end
+        style packages/environment/decorator fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+    end
+    style _vokus_environment fill:#44AD9F,stroke:#30796F,stroke-width:1px
+    subgraph _vokus_file-system [file-system]
+            style packages/file-system/component/file-system fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/file-system/component [component]
+            packages/file-system/component/file-system(file-system)
+        end
+        style packages/file-system/component fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+    end
+    style _vokus_file-system fill:#44AD9F,stroke:#30796F,stroke-width:1px
+    subgraph _vokus_util [util]
+            style packages/util/util/array fill:#44AD9F,stroke:#30796F,stroke-width:1px
+            style packages/util/util/object fill:#44AD9F,stroke:#30796F,stroke-width:1px
+            style packages/util/util/string fill:#44AD9F,stroke:#30796F,stroke-width:1px
+        subgraph packages/util/util [util]
+            packages/util/util/array(array)
+            packages/util/util/object(object)
+            packages/util/util/string(string)
+        end
+        style packages/util/util fill:#4FBAAC,stroke:#30796F,stroke-width:1px
+    end
+    style _vokus_util fill:#44AD9F,stroke:#30796F,stroke-width:1px
     _vokus_app --> _vokus_core
     _vokus_app --> _vokus_util
     _vokus_app-example --> _vokus_app

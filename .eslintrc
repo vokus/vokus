@@ -26,7 +26,6 @@
     "rules": {
         "no-console": "error",
         "sort-imports": "error",
-        "sort-keys": "error",
         "yoda": [
             "error",
             "always"

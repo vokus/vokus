@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-    <img width="200" src="./doc/logo.png"> 
+    <img width="200" src="./doc/img/logo.png"> 
 </p>
 
 # vokus
