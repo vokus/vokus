@@ -11,11 +11,11 @@
     "types": "index.d.ts",
     "bin": "./bin/crawler.js",
     "dependencies": {
-        "chalk": "4.1.1",
+        "chalk": "4.1.2",
         "simplecrawler": "1.1.9"
     },
     "devDependencies": {
-        "@types/simplecrawler": "1.1.1"
+        "@types/simplecrawler": "1.1.2"
     },
     "publishConfig": {
         "access": "public"

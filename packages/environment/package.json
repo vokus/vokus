@@ -12,7 +12,7 @@
     "dependencies": {
         "@vokus/file-system": "^0.0.17",
         "@vokus/util": "^0.0.17",
-        "dotenv": "^9.0.2"
+        "dotenv": "^10.0.0"
     },
     "publishConfig": {
         "access": "public"
