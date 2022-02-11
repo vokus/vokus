@@ -112,7 +112,7 @@ test('container', async () => {
 
     try {
         await ObjectManager.get(Test5Component);
-    } catch (e) {
+    } catch (e: any) {
         error = e;
     }
 

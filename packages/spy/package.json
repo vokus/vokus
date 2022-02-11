@@ -1,19 +1,14 @@
 {
-    "name": "@vokus/environment",
+    "name": "@vokus/spy",
     "version": "0.0.17",
-    "description": "@vokus/environment",
+    "description": "@vokus/spy",
     "repository": {
         "type": "git",
         "url": "https://github.com/vokus/vokus",
-        "directory": "packages/environment"
+        "directory": "packages/spy"
     },
     "license": "MIT",
     "types": "index.d.ts",
-    "dependencies": {
-        "@vokus/file-system": "^0.0.17",
-        "@vokus/util": "^0.0.17",
-        "dotenv": "^16.0.0"
-    },
     "publishConfig": {
         "access": "public"
     },
