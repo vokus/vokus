@@ -5,7 +5,9 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "module": "commonjs",
-        "sourceMap": false,
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
         "strict": true,
         "target": "es2021"
     },

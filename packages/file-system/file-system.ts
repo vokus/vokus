@@ -104,7 +104,6 @@ export class FileSystem {
         }
     }
 
-    // TODO: optimize and use readDirectory
     static async listFiles(path: string): Promise<string[]> {
         let files: string[] = [];
 
