@@ -1,3 +1,2 @@
-export * from './util/array';
-export * from './util/object';
-export * from './util/string';
+export * from './object';
+export * from './string';

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { Environment } from '../packages/environment';
 import { FileSystem } from '../packages/file-system';
 import ncu from 'npm-check-updates';
 import path from 'path';
@@ -14,7 +13,7 @@ class Update {
     }
 
     static async updateIndexFiles(): Promise<void> {
-        const packagesPath = path.join(Environment.projectPath, 'packages');
+        const packagesPath = path.join(process.cwd(), 'packages');
 
         const entries = await FileSystem.readDirectory(packagesPath);
 
@@ -61,8 +60,8 @@ class Update {
         const updatePromises = [];
 
         updatePromises.push(
-            ncu.run({
-                packageFile: path.join(Environment.projectPath, 'package.json'),
+            ncu({
+                packageFile: path.join(process.cwd(), 'package.json'),
                 upgrade: true,
             }),
         );
@@ -95,7 +94,7 @@ class Update {
             await FileSystem.writeFile(pathToPackageJson, JSON.stringify(packageJson, null, 4) + '\n');
 
             updatePromises.push(
-                ncu.run({
+                ncu({
                     packageFile: pathToPackageJson,
                     upgrade: true,
                 }),

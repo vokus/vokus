@@ -1,0 +1,4 @@
+{
+    "*.{ts}": "eslint --ignore-path .gitignore",
+    "*.{json,md,yml,yaml}": "prettier --ignore-path .gitignore --check"
+}

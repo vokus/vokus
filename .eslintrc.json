@@ -1,0 +1,26 @@
+{
+    "root": true,
+    "ignorePatterns": ["node_modules"],
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": "tsconfig.json",
+                "sourceType": "module"
+            },
+            "env": {
+                "node": true
+            },
+            "plugins": ["@typescript-eslint/eslint-plugin", "unused-imports"],
+            "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+            "rules": {
+                "no-console": "error",
+                "sort-imports": "error",
+                "yoda": ["error", "always"],
+                "require-await": "error",
+                "@typescript-eslint/explicit-function-return-type": ["error"]
+            }
+        }
+    ]
+}

@@ -1,7 +1,6 @@
 {
     "recommendations": [
         "bierner.markdown-preview-github-styles",
-        "coenraads.bracket-pair-colorizer-2",
         "dbaeumer.vscode-eslint",
         "eamodio.gitlens",
         "editorconfig.editorconfig",

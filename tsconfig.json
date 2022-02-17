@@ -1,20 +1,13 @@
 {
     "compilerOptions": {
-        "sourceMap": false,
-        "target": "es2020",
-        "module": "commonjs",
         "declaration": true,
-        "strict": true,
-        "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "strictPropertyInitialization": false,
         "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "sourceMap": false,
+        "strict": true,
+        "target": "es2021"
     },
-    "include": [
-        "packages/**/*",
-    ],
-    "exclude": [
-        "node_modules",
-        "**/*.test.ts"
-    ]
+    "exclude": ["node_modules"]
 }

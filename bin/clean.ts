@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 
-import { Environment } from '../packages/environment';
 import { FileSystem } from '../packages/file-system';
 import path from 'path';
 
 class Clean {
     static async run(): Promise<void> {
         await Promise.all([
-            this.clean(path.join(Environment.projectPath, 'packages')),
-            this.clean(path.join(Environment.projectPath, 'var')),
-            FileSystem.remove(path.join(Environment.projectPath, 'public')),
+            this.clean(path.join(process.cwd(), 'packages')),
+            FileSystem.remove(path.join(process.cwd(), 'public')),
         ]);
     }
 

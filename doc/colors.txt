@@ -1,5 +1,0 @@
-#0D2E41 - dark blue
-#00798A 
-#44AD9F - green
-#F8AF2C - yellow
-#FA6135 - red

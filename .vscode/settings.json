@@ -1,20 +1,26 @@
 {
+    "[scss]": {
+        "editor.formatOnSave": false
+    },
+    "[typescript]": {
+        "editor.formatOnSave": false
+    },
+    "editor.bracketPairColorization.enabled": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "editor.rulers": [
-        100
-    ],
-    "eslint.alwaysShowStatus": true,
-    "eslint.format.enable": true,
-    "eslint.run": "onSave",
+    "editor.guides.bracketPairs": "active",
+    "eslint.options": {
+        "ignorePath": "./.gitignore"
+    },
+    "files.autoSave": "afterDelay",
     "files.exclude": {
         "**/node_modules/": true
     },
-    "jestrunner.configPath": "jest-config-vscode.js",
-    "jestrunner.runOptions": [
-        "--no-cache",
-        "--detectOpenHandles"
-    ],
-    "js/ts.implicitProjectConfig.experimentalDecorators": true,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-    "files.autoSave": "afterDelay"
+    "jestrunner.codeLensSelector": "**/*.{test,e2e-test}.{ts}",
+    "jestrunner.configPath": "jest-runner.config.ts",
+    "jestrunner.runOptions": ["--no-cache"],
+    "js/ts.implicitProjectConfig.experimentalDecorators": true
 }
