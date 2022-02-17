@@ -3,7 +3,7 @@ import type { Config } from '@jest/types';
 const config: Config.InitialOptions = {
     bail: true,
     collectCoverage: true,
-    collectCoverageFrom: ['<rootDir>/packages/**/*.ts', '!<rootDir>/**/index.ts'],
+    collectCoverageFrom: ['packages/**/*.ts', '!**/index.ts', '!packages/**/bin/**/*.ts'],
     coverageReporters: ['text'],
     coverageThreshold: {
         global: {
@@ -13,13 +13,14 @@ const config: Config.InitialOptions = {
             statements: 100,
         },
     },
+    errorOnDeprecated: true,
     moduleFileExtensions: ['js', 'ts'],
     testEnvironment: 'node',
+    testRegex: ['.*\\.test\\.ts$'],
     testTimeout: 30000,
     transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
     },
-    roots: ['<rootDir>/packages'],
 };
 
 export default config;
