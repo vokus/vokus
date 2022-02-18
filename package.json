@@ -8,7 +8,7 @@
         "lint": "npm run eslint && npm run prettier",
         "prepare": "husky install",
         "prettier": "prettier --ignore-path .gitignore --check \"**/*.{json,md,yml,yaml}\"",
-        "publish": "npm run setup && npm run update && npm run lint && npm run test && npm run build && lerna version --conventional-commits && lerna publish from-package && npm run setup",
+        "publish": "npm run setup && npm run lint && npm run test && npm run build && lerna version patch --conventional-commits && lerna publish from-package && npm run setup",
         "setup": "npm install && npm run clean && lerna bootstrap",
         "test": "jest",
         "update": "ts-node ./bin/update && sort-package-json 'package.json' 'packages/*/package.json'"
